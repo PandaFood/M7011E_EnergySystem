@@ -46,7 +46,7 @@ class WindTurbine {
      * @param {number} windSpeed 
      */
     calcPower(windSpeed) {
-        let distribution = gaussian(this.minOptimalSpeed / 2, this.minOptimalSpeed / 4);
+        let distribution = gaussian(this.minOptimalSpeed / 2 + this.minSpeed/2, this.minOptimalSpeed / 4 + this.minSpeed/2);
         let sigmoid = distribution.cdf(windSpeed);
 
         return sigmoid * this.powerCoeff;
