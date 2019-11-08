@@ -2,22 +2,16 @@ let WindTurbine = require("./windturbine");
 
 Simulator = {
     
-    test: function(wind, startWind){
-        console.log(wind.generatePower());
+    test: function(wind){
+        wind.generatePower();
+        wind.logStatus();
     },
     startSimulator: function(){
         // let windSpeed = this.generateStartWind();
 
-        let windT = WindTurbine;
-        windT.windSpeed = windT.generateStartWind();
-        let windT2  = WindTurbine;
-        windT2.windSpeed = windT.generateStartWind();
-        
-
+        let windT = new WindTurbine(1);
 
         setInterval(Simulator.test, 1000, windT);
-        setInterval(Simulator.test, 1000, windT2);
-
     }
 };
 
