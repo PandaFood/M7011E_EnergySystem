@@ -1,12 +1,12 @@
-let WindTurbine = require("./windturbine");
+const WindTurbine = require('./windturbine');
 
 Simulator = {
-    
-    startSimulator: function(){
-        let windT = new WindTurbine(1);
 
-        setInterval(windT.runSimulator, windT.pollTime, windT);
-    }
+	startSimulator: function() {
+		const windT = new WindTurbine(1);
+
+		setInterval(windT.runSimulator, windT.pollTime, windT);
+	},
 };
 
 
