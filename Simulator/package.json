@@ -5,8 +5,10 @@
   "scripts": {
     "watch": "nodemon ./bin/www"
   },
-  "nodemonConfig" :{
-    "ignore": ["public/*"]
+  "nodemonConfig": {
+    "ignore": [
+      "public/*"
+    ]
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

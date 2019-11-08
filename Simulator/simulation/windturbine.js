@@ -37,7 +37,12 @@ class WindTurbine {
         }
     }
     logStatus() {
-        console.log(this.id + ": " + this.power + "W --" + this.windSpeed + "m/s");
+        console.log(this.id + ": " + this.power.toFixed(2) + "W -- " + this.windSpeed.toFixed(2) + "m/s");
+    }
+
+    runSimulator(self){
+        self.generatePower();
+        self.logStatus();
     }
 }
 
