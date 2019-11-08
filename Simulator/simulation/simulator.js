@@ -5,7 +5,7 @@ Simulator = {
     startSimulator: function(){
         let windT = new WindTurbine(1);
 
-        setInterval(windT.runSimulator, 1000, windT);
+        setInterval(windT.runSimulator, windT.pollTime, windT);
     }
 };
 
