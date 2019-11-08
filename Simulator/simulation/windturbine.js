@@ -45,8 +45,11 @@ class WindTurbine {
      * http://www.wind-power-program.com/wind_statistics.htm
      * @param {number} windSpeed 
      */
-    calcPower(windSpeed) {
-        let distribution = gaussian(this.minOptimalSpeed / 2 + this.minSpeed/2, this.minOptimalSpeed / 4 + this.minSpeed/2);
+    calcPowerCoeff(windSpeed) {
+        let mean = this.minOptimalSpeed / 2 + this.minSpeed/2;
+        let variance = this.minOptimalSpeed / 4 + this.minSpeed/2;
+
+        let distribution = gaussian(mean, variance);
         let sigmoid = distribution.cdf(windSpeed);
 
         return sigmoid * this.powerCoeff;
@@ -63,7 +66,7 @@ class WindTurbine {
         let deltaTime = (currentTime - this.timestamp) / 1000; // time since last poll in s
 
         if (this.windSpeed > this.minSpeed && this.windSpeed < this.maxSpeed) {
-            this.power = this.windSpeed * this.calcPower(this.windSpeed) * (deltaTime);
+            this.power = this.windSpeed * this.calcPowerCoeff(this.windSpeed) * (deltaTime);
         } else {
             this.power = 0;
         }
