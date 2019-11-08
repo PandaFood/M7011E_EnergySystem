@@ -3,9 +3,9 @@ version: '3'
 services:
   simulator:
     build: ./Simulator
-    command: npm start
+    command: npm run watch
     volumes:
-      - ./Simulator/src:/usr/src/app/src
+      - ./Simulator:/usr/src/app/
     ports:
       - "3000:3000"
     depends_on:
@@ -13,7 +13,7 @@ services:
     environment:
       DATABASE_URL: postgres://sim@postgres/simulator
     
-  simDB
+  simDB:
     image: postgres
     environment:
       POSTGRES_USER: sim
