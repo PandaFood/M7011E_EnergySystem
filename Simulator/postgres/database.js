@@ -1,9 +1,11 @@
 const {Client} = require('pg');
+const mappingHelper = require('./object-map-helper')
 
 
 const client = new Client();
 
-module.exports.getHouse = async function() {
+module.exports.getHouse = async function(id) {
+	if(id)
 	await client.connect();
 	client.query('SELECT NOW() as now', (err, res) => {
 		if (err) {
