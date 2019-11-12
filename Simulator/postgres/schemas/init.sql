@@ -4,8 +4,8 @@
 --
 
 CREATE TABLE "house" (
-    name text NOT NULL,
     id uuid NOT NULL,
+    name text NOT NULL,
     adress text
 );
 
@@ -159,3 +159,4 @@ ALTER TABLE ONLY "storageevent"
 -- PostgreSQL database dump complete
 --
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

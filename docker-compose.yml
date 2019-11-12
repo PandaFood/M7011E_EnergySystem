@@ -34,6 +34,7 @@ services:
       - "5432:5432"
     volumes: 
       - ./Simulator/postgres/schemas/init.sql:/docker-entrypoint-initdb.d/10-init.sql
+      - ./Simulator/postgres/schemas/dummy_info.sql:/docker-entrypoint-initdb.d/20-init.sql
 
   postgressAdmin:
     image: dpage/pgadmin4
