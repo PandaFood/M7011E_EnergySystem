@@ -15,6 +15,17 @@ class House {
 	}
 
 	/**
+	 * Store the given energy in the battery if bellow the max capacity 
+	 * @param {number} energy 
+	 */
+	storeEnergy(energy){
+		if(this.battery + energy < this.batteryCapacity){
+			this.battery += energy;
+		}else{
+			this.battery = this.batteryCapacity;
+		}
+	}
+	/**
 	 * initialize a list of wind turbines
 	 * @param {*} idList
 	 */
