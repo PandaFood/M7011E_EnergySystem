@@ -1,4 +1,6 @@
-// const WindTurbine = require('./windturbine');
+const fs = require('fs');
+
+const WindTurbine = require('./windturbine');
 const House = require('./house');
 
 Simulator = {
@@ -9,10 +11,20 @@ Simulator = {
 	// 	setInterval(windT.runSimulator, windT.pollTime, windT);
 	// },
 
-	run: function() {
-		const house = new House();
+	runSimulation: function() {
 
-		house.run();
+		let houses = [];
+
+		var config = JSON.parse(fs.readFileSync('config/house.json', 'utf8'));
+
+		config.forEach((initValues) => {
+			houses.push(new House(initValues));
+		});
+
+
+		houses.forEach(house => {
+			house.runSimulation();
+		});
 	},
 };
 

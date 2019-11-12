@@ -1,0 +1,9 @@
+[
+    {
+        "id" : "1",
+        "windTurbines" : ["wasd-10", "asdasd-23"]
+    },{
+        "id" : "2",
+        "windTurbines" : ["wooloo-91"]
+    }
+]
