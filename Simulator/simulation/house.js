@@ -40,18 +40,16 @@ class House {
 			this.battery += power;
 		}
 
-		if(powerDiff < 0){
-			// if the power difference is less then 0 then we need to buy power
-			console.log("Buy: " + powerDiff * -1);
-			this.battery += this.buyPower();
-		}else{
-			// else we can sell the excess power we have
-			console.log("Sell: " + powerDiff);
+		return powerDiff;
 		}
+
+	buyPower(powerDiff){
+		this.battery += -powerDiff + 10;
+		console.log("Bought " + (-powerDiff + 10).toFixed(2) + "Ws");
 	}
 
-	buyPower(){
-		return 50;
+	sellPower(powerDiff){
+		console.log("Sold: " + powerDiff.toFixed(2) + "Ws");
 	}
 
 	/**
@@ -86,8 +84,14 @@ class House {
 		
 		// console.log(self.battery + " -- " + self.generatedPower + " -- " + consumption);
 		self.generatedPower -= consumption; 
-		self.calcEnergyDifference(self.generatedPower);
+		let powerDiff = self.calcEnergyDifference(self.generatedPower);
 		self.generatedPower = 0;
+
+		if(powerDiff < 0){
+			self.buyPower(powerDiff);
+		}else if(powerDiff > 0){
+			self.sellPower(powerDiff);
+		}
 
 		self.timestamp = new Date(currentTime);
 	}
