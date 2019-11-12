@@ -5,9 +5,11 @@ const mappingHelper = require('./object-map-helper')
 const client = new Client();
 
 module.exports.getHouse = async function(id) {
-	if(id)
+	const query = 'SELECT * FROM House WHERE ID = $1';
+	const values = [id];
+
 	await client.connect();
-	client.query('SELECT NOW() as now', (err, res) => {
+	client.query(query, values, (err, res) => {
 		if (err) {
 			console.log(err.stack);
 		} else {
