@@ -5,7 +5,8 @@ const Simulator = require("../simulation/simulator");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    Simulator.startSimulator();
+
+    Simulator.runSimulation();
 
     res.send('respond with a resource');
 });

@@ -114,7 +114,7 @@ class WindTurbine {
 	 *
 	 * @param {*} self
 	 */
-	runSimulator(self) {
+	runSimulation(self) {
 		self.generateWind();
 		self.generatePower();
 		self.logStatus();
