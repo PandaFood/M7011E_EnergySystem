@@ -31,15 +31,14 @@ class WindTurbine {
 
 		return distribution.ppf(Math.random());
 	}
-
+	
 	/**
      *  Generate the wind for the next poll in the simulation.
      * The generation is based on a Gaussian distribution with the poll time as variance
      * This ensures that higher times betweem polls gives a higher chanse of bigger differences in wind speed
-     * @param {number} currentWind
      */
 	generateWind() {
-		const distribution = gaussian(0, this.pollTime / 1000);
+		const distribution = gaussian(this.calcOffset(), this.pollTime / 1000);
 		let wind = this.windSpeed + distribution.ppf(Math.random());
 
 		if (wind < 0) wind = 0;
@@ -60,6 +59,29 @@ class WindTurbine {
 		const sigmoid = distribution.cdf(windSpeed);
 
 		return sigmoid * this.linearPowerCoeff;
+	}
+
+	/**
+	 * Calculate and offset for the Gaussian distribution used to generate wind.
+	 * Low wind values should give a slight higher chance of moving to higher speeds
+	 * and high wind values should have a higher chance of slowing down
+	 */
+	calcOffset(){
+		let offset = 0;
+
+		if(this.windSpeed < 5){
+			offset = 0.05;
+		}else if(this.windSpeed > 15){
+			if(this.windSpeed > 25){
+				offset = -0.05;
+			}else{
+				offset = -0.025;
+			}
+		}else{
+			offset = 0;
+		}
+
+		return offset;
 	}
 
 	/**
