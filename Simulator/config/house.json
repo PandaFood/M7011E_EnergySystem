@@ -1,9 +1,13 @@
 [
     {
         "id" : "1",
-        "windTurbines" : ["wasd-10", "asdasd-23"]
-    },{
+        "windTurbines" : ["aa-10", "bb-23"],
+        "battery": 0,
+        "batteryCapacity": 100
+    }, {
         "id" : "2",
-        "windTurbines" : ["wooloo-91"]
+        "windTurbines" : ["cc-10", "os-23"],
+        "battery": 40,
+        "batteryCapacity": 100
     }
 ]

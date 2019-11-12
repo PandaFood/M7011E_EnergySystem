@@ -1,0 +1,8 @@
+[
+    {
+        "id" : "1",
+        "windTurbines" : ["aa-10", "bb-23"],
+        "battery": 0,
+        "batteryCapacity": 100
+    }
+]
