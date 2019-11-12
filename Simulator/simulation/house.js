@@ -1,15 +1,17 @@
+const WindTurbine = require('./windturbine');
 
 /**
  */
 class House {
 	/**
-	 * @param {String} id
+	 * @param {Json} initValues
 	 */
-	constructor(id) {
-		this.id = id;
-		this.battery = 0;
-
+	constructor(initValues) {
+		this.id = initValues.id;
+		this.battery = initValues.battery;
+		this.batteryCapacity = initValues.batteryCapacity;
 		this.windTurbines = [];
+		this.initWindTurbines(initValues.windTurbines);
 	}
 
 	/**
@@ -18,13 +20,20 @@ class House {
 	 */
 	initWindTurbines(idList) {
 		idList.forEach((id) => {
-			this.windTurbines.push(new WindtTurbine(id));
+			this.windTurbines.push(new WindTurbine(id));
 		});
 	}
 
 	/**
+	 * Start the simulation for each of the wind turbines the house owns
 	 */
-	run() {
+	runSimulation() {
 		console.log('House starting');
+		this.windTurbines.forEach(turbine => {
+			setInterval(turbine.runSimulation, turbine.pollTime, turbine);
+		});
+
 	}
 };
+
+module.exports = House;
