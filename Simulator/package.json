@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "watch": "nodemon ./bin/www"
+    "watch": "nodemon ./bin/www",
+    "test": "mocha --recursive ./test"
   },
   "nodemonConfig": {
     "ignore": [
@@ -16,6 +17,10 @@
     "express": "~4.16.1",
     "morgan": "~1.9.1",
     "gaussian": "1.1.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "mocha": "^6.2.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
   }
 }
