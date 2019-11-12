@@ -110,14 +110,27 @@ class WindTurbine {
 						'Ws -- ' + this.windSpeed.toFixed(2) + 'm/s');
 	}
 
+	fireEvent(house){
+		let eventData = {
+			producerId: this.id,
+			timestamp: this.timestamp.toISOString(),
+			power: this.power,
+			windSpeed: this.windSpeed,
+		};
+
+		house.handleSimulationEvent(eventData);
+	}
+
 	/**
 	 *
 	 * @param {*} self
 	 */
-	runSimulation(self) {
+	runSimulation(self, house) {
 		self.generateWind();
 		self.generatePower();
 		self.logStatus();
+
+		self.fireEvent(house);
 	}
 }
 
