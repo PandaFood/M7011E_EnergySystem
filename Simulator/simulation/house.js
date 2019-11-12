@@ -4,7 +4,7 @@ const WindTurbine = require('./windturbine');
  */
 class House {
 	/**
-	 * @param {json} initValues
+	 * @param {JSON} initValues
 	 */
 	constructor(initValues) {
 		this.id = initValues.id;
@@ -21,27 +21,34 @@ class House {
 	}
 
 	/**
-	 * Calculate the difference in energy, store or sell excess energy and buy if the battery is empty
+	 * Fill the battery with the generated power
+	 * If the battery gets full calculate how much can be sold
+	 * If the battery gets empty calculate how much needs to be bought
 	 * @param {number} power 
+	 * @return {number} - power difference, positive implies power to sell, negative power to buy 
 	 */
 	calcEnergyDifference(power){
 		let powerDiff = 0;
 		let batteryGoal = (this.batteryCapacity * this.batteryFillPercentage);
 
+		// Calculate how much power is left to sell
 		if(this.battery <= batteryGoal && this.battery + power >= batteryGoal){
 			let diff = batteryGoal - this.battery;
 			powerDiff = power - diff;
 			this.battery = batteryGoal;
+
+		// Calculate how much power is needed to buy
 		}else if (this.battery >= 0 && this.battery + power < 0){
-			let diff = this.battery;
+			powerDiff = power - this.battery;
 			this.battery = 0;
-			powerDiff = power - diff;
+
+		// Fill the battery
 		}else{
 			this.battery += power;
 		}
 
 		return powerDiff;
-		}
+	}
 
 	buyPower(powerDiff){
 		this.battery += -powerDiff + 10;
@@ -54,7 +61,7 @@ class House {
 
 	/**
 	 * Handle an event given from a turbine
-	 * @param {json} event 
+	 * @param {JSON} event 
 	 */
 	handleSimulationEvent(event){
 		// console.log(event);
