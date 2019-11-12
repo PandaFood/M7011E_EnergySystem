@@ -1,11 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var Simulator = require("../simulator");
+const Simulator = require("../simulation/simulator");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-
     Simulator.startSimulator();
 
     res.send('respond with a resource');
