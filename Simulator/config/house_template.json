@@ -3,6 +3,8 @@
         "id" : "1",
         "windTurbines" : ["aa-10", "bb-23"],
         "battery": 0,
-        "batteryCapacity": 100
+        "batteryCapacity": 100, 
+        "batteryFillPercentage": 1,
+        "powerConsumption": 500 
     }
 ]
