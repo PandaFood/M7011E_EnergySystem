@@ -11,7 +11,7 @@ describe('House', function() {
 
 			house.buyPower(-10);
 
-			assert.equal(20, house.battery);
+			assert.equal(house.battery, 20);
 		});
 	});
 
@@ -31,8 +31,8 @@ describe('House', function() {
 			const config = JSON.parse(fs.readFileSync('config/test_house.json', 'utf8'))[0];
 			let house = new House(config);
 
-			assert.equal(0, house.calcEnergyDifference(10));
-			assert.equal(10, house.battery);
+			assert.equal(house.calcEnergyDifference(10), 0);
+			assert.equal(house.battery, 10);
 		})
 
 		it('should fill the battery to max and give back a power diff', function(){
@@ -40,8 +40,8 @@ describe('House', function() {
 			let house = new House(config);
 			house.battery = house.batteryCapacity - 5;
 
-			assert.equal(5, house.calcEnergyDifference(10));
-			assert.equal(house.batteryCapacity*house.batteryFillPercentage, house.battery);
+			assert.equal(house.calcEnergyDifference(10), 5);
+			assert.equal(house.battery, house.batteryCapacity*house.batteryFillPercentage);
 		})
 
 		it('should deplete the battery and give back a power diff', function(){
@@ -49,8 +49,8 @@ describe('House', function() {
 			let house = new House(config);
 			house.battery =  5;
 
-			assert.equal(-5, house.calcEnergyDifference(-10));
-			assert.equal(0, house.battery);
+			assert.equal(house.calcEnergyDifference(-10), -5);
+			assert.equal(house.battery, 0);
 		})
 	});
 });
