@@ -26,7 +26,7 @@ describe('Wind Turbine', function() {
 	});
 
 	describe('#generatePower()', function() {
-		it('', function() {
+		it('generated power should be 7.07', function() {
 			windTurbine = new WindTurbine(0);
 			windTurbine.windSpeed = 10;
 			windTurbine.timestamp = Date.now() - 100;
@@ -34,7 +34,7 @@ describe('Wind Turbine', function() {
 			assert.equal(windTurbine.power.toFixed(2), 7.07);
 		});
 
-		it('should be 0', function() {
+		it('speeds lower then minimum speed or higher then maximum should give 0', function() {
 			windTurbine = new WindTurbine(0);
 			windTurbine.windSpeed = windTurbine.minSpeed;
 			windTurbine.timestamp = Date.now() - 100;
