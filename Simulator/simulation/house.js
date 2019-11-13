@@ -39,7 +39,7 @@ class House {
 
 			// Calculate how much power is needed to buy
 		} else if (this.battery >= 0 && this.battery + power < 0) {
-			powerDiff = power - this.battery;
+			powerDiff = this.battery + power; // power < 0
 			this.battery = 0;
 
 			// Fill the battery
