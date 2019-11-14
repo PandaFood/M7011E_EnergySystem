@@ -10,6 +10,7 @@ class House {
 	constructor(initValues, simulator) {
 		this.simulator = simulator;
 		this.id = initValues.id;
+		this.pollTime = initValues.pollTime;
 		this.battery = initValues.battery;
 		this.batteryCapacity = initValues.batteryCapacity;
 		this.batteryFillPercentage = initValues.batteryFillPercentage;
@@ -67,59 +68,59 @@ class House {
 	}
 
 	/**
-	 * Handle an event given from a turbine
-	 * @param {JSON} event
-	 */
-	handleSimulationEvent(event) {
-		// console.log(event);
-		this.generatedPower += event.power;
-	}
-
-	/**
 	 * initialize a list of wind turbines
 	 * @param {*} idList
 	 */
 	initWindTurbines(idList) {
 		idList.forEach((id) => {
-			this.windTurbines.push(new WindTurbine(id));
+			this.windTurbines.push(new WindTurbine(id, this.pollTime));
 		});
 	}
 
 	/**
 	 * Simulates the consumption of energy in a house and
 	 * how much energy that the house can sell or needs to buy
-	 * @param {House} self
+	 * @param {number} deltaTime
 	 */
-	consumePower(self) {
-		const currentTime = Date.now();
-		const deltaTime = (currentTime - self.timestamp) / 1000; // time since last poll in s
-
-		const consumption = self.powerConsumption * deltaTime;
+	consumePower(deltaTime) {
+		const consumption = this.powerConsumption * deltaTime;
 
 		// console.log(self.battery + ' -- ' + self.generatedPower + ' -- ' + consumption);
-		self.generatedPower -= consumption;
-		const powerDiff = self.calcEnergyDifference(self.generatedPower);
-		self.generatedPower = 0;
+		this.generatedPower -= consumption;
+		const powerDiff = this.calcEnergyDifference(this.generatedPower);
+		this.generatedPower = 0;
 
 		if (powerDiff < 0) {
-			self.buyPower(powerDiff);
+			this.buyPower(powerDiff);
 		} else if (powerDiff > 0) {
-			self.sellPower(powerDiff);
+			this.sellPower(powerDiff);
 		}
-
-		self.timestamp = new Date(currentTime);
 	}
 
 	/**
-	 * Start the simulation for each of the wind turbines the house owns
+	 * Gathers power from the wind turbines
+	 * @param {number} deltaTime
 	 */
-	runSimulation() {
-		console.log('House starting');
+	fetchPower(deltaTime) {
 		this.windTurbines.forEach((turbine) => {
-			setInterval(turbine.runSimulation, turbine.pollTime, turbine, this);
+			const polledData = turbine.runSimulation(deltaTime);
+			console.log(polledData);
+			this.generatedPower += polledData.power;
 		});
+	}
 
-		setInterval(this.consumePower, 1000, this);
+	/**
+	 * Runs a step in the simulation, calculating the delta time from the last poll
+	 * Fetching and consuming power
+	 * @param {House} self
+	 */
+	runSimulation(self) {
+		const currentTime = Date.now();
+		const deltaTime = (currentTime - self.timestamp)/1000;
+		self.fetchPower(deltaTime);
+		self.consumePower(deltaTime);
+		console.log(self.battery);
+		self.timestamp = new Date(currentTime);
 	}
 };
 

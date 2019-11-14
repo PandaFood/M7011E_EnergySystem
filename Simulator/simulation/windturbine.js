@@ -7,14 +7,15 @@ class WindTurbine {
 	/**
      *
      * @param {*} id
+     * @param {*} pollTime
      */
-	constructor(id) {
+	constructor(id, pollTime) {
 		this.id = id;
 		this.windSpeed = this.generateStartWind();
 		this.power = 0; // power in Ws
 
 		this.timestamp = Date.now();
-		this.pollTime = 100; // how often the collection of data should be done
+		this.pollTime = pollTime; // how often the collection of data should be done
 
 		this.linearPowerCoeff = 10;
 		this.maxSpeed = 25.0; // maximum wind speed the turbine can work in
@@ -88,18 +89,14 @@ class WindTurbine {
 	/**
      * Calculates how much power has generated since last poll
      * If wind speed is less then a low bound or higher then a high bound no energy is generated
+	 * @param {number} deltaTime
      */
-	generatePower() {
-		const currentTime = Date.now();
-		const deltaTime = (currentTime - this.timestamp) / 1000; // time since last poll in s
-
+	generatePower(deltaTime) {
 		if (this.windSpeed > this.minSpeed && this.windSpeed < this.maxSpeed) {
 			this.power = this.windSpeed * this.calcPowerCoeff(this.windSpeed) * (deltaTime);
 		} else {
 			this.power = 0;
 		}
-
-		this.timestamp = new Date(currentTime);
 	}
 
 	/**
@@ -112,31 +109,21 @@ class WindTurbine {
 	}
 
 	/**
-	 * Sends an event to the house
-	 * @param {House} house
+	 *@param {number} deltaTime
+	 *@return {number}
 	 */
-	fireEvent(house) {
-		const eventData = {
-			producerId: this.id,
-			timestamp: this.timestamp.toISOString(),
+	runSimulation(deltaTime) {
+		this.generateWind(deltaTime);
+		this.generatePower(deltaTime);
+
+		const pollData = {
+			id: this.id,
 			power: this.power,
 			windSpeed: this.windSpeed,
+			status: 'up',
 		};
 
-		house.handleSimulationEvent(eventData);
-	}
-
-	/**
-	 *
-	 * @param {WindTurbine} self
-	 * @param {House} house
-	 */
-	runSimulation(self, house) {
-		self.generateWind();
-		self.generatePower();
-		self.logStatus();
-
-		self.fireEvent(house);
+		return pollData;
 	}
 }
 

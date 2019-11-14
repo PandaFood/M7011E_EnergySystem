@@ -12,7 +12,7 @@ Simulator = {
 	 * @return {number}
 	 */
 	sellPower: function(powerNeed) {
-		power -= powerNeed;
+		this.power -= powerNeed;
 
 		// TODO: buy power from a power plant if needed
 		return powerNeed;
@@ -38,7 +38,7 @@ Simulator = {
 		this.initHouses();
 
 		this.houses.forEach((house) => {
-			house.runSimulation();
+			setInterval(house.runSimulation, house.pollTime, house);
 		});
 	},
 };
