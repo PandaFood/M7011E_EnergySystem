@@ -29,8 +29,7 @@ describe('Wind Turbine', function() {
 		it('generated power should be 7.07', function() {
 			windTurbine = new WindTurbine(0);
 			windTurbine.windSpeed = 10;
-			windTurbine.timestamp = Date.now() - 100;
-			windTurbine.generatePower();
+			windTurbine.generatePower(0.1);
 			assert.equal(windTurbine.power.toFixed(2), 7.07);
 		});
 
