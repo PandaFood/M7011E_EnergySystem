@@ -69,11 +69,11 @@ class House {
 
 	/**
 	 * initialize a list of wind turbines
-	 * @param {*} idList
+	 * @param {JSON} windTurbines
 	 */
-	initWindTurbines(idList) {
-		idList.forEach((id) => {
-			this.windTurbines.push(new WindTurbine(id, this.pollTime));
+	initWindTurbines(windTurbines) {
+		windTurbines.forEach((turbine) => {
+			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords, this.pollTime));
 		});
 	}
 

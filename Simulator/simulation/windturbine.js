@@ -6,11 +6,13 @@ const gaussian = require('gaussian');
 class WindTurbine {
 	/**
      *
-     * @param {*} id
-     * @param {*} pollTime
+     * @param {String} id
+     * @param {[String,String]} coords
+     * @param {number} pollTime
      */
-	constructor(id, pollTime) {
+	constructor(id, coords, pollTime) {
 		this.id = id;
+		this.coords = coords;
 		this.windSpeed = this.generateStartWind();
 		this.power = 0; // power in Ws
 
@@ -121,6 +123,7 @@ class WindTurbine {
 			power: this.power,
 			windSpeed: this.windSpeed,
 			status: 'up',
+			coords: this.coords,
 		};
 
 		return pollData;
