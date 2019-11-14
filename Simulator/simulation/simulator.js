@@ -2,8 +2,10 @@ const fs = require('fs');
 const House = require('./house');
 
 Simulator = {
-	runSimulation: function() {
-		const houses = [];
+	price: 0,
+	power: 0,
+	houses: [],
+
 		const config = JSON.parse(fs.readFileSync('config/house.json', 'utf8'));
 
 		config.forEach((initValues) => {
