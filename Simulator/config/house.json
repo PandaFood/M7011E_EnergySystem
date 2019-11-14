@@ -10,7 +10,25 @@
         "battery": 0,
         "batteryCapacity": 100,
         "batteryFillPercentage": 1,
-        "powerConsumption": 10,
+        "powerConsumption": 30,
+        "pollTime": 100
+    },
+    {
+        "id" : "hushus-12",
+        "windTurbines" : [
+            {
+                "id": "aa-10",
+                "coords": ["65.5848", "22.1567"]
+            },
+            {
+                "id": "abb-15",
+                "coords": ["63.3121", "21.3122"]
+            }
+        ],
+        "battery": 0,
+        "batteryCapacity": 150,
+        "batteryFillPercentage": 1,
+        "powerConsumption": 50,
         "pollTime": 100
     }
 ]

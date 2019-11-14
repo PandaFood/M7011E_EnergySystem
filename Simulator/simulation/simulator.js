@@ -27,7 +27,7 @@ Simulator = {
 	},
 
 	initHouses: function(configPath) {
-		const config = JSON.parse(fs.readFileSync('config/house.json', 'utf8'));
+		const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 		config.forEach((initValues) => {
 			this.houses.push(new House(initValues, this));
@@ -35,7 +35,7 @@ Simulator = {
 	},
 
 	runSimulation: function() {
-		this.initHouses();
+		this.initHouses('config/house.json');
 
 		this.houses.forEach((house) => {
 			setInterval(house.runSimulation, house.pollTime, house);
