@@ -31,7 +31,7 @@ class WindTurbine {
 
 		return distribution.ppf(Math.random());
 	}
-	
+
 	/**
      *  Generate the wind for the next poll in the simulation.
      * The generation is based on a Gaussian distribution with the poll time as variance
@@ -65,19 +65,20 @@ class WindTurbine {
 	 * Calculate and offset for the Gaussian distribution used to generate wind.
 	 * Low wind values should give a slight higher chance of moving to higher speeds
 	 * and high wind values should have a higher chance of slowing down
+	 * @return {number}
 	 */
-	calcOffset(){
+	calcOffset() {
 		let offset = 0;
 
-		if(this.windSpeed < 5){
+		if (this.windSpeed < 5) {
 			offset = 0.05;
-		}else if(this.windSpeed > 15){
-			if(this.windSpeed > 25){
+		} else if (this.windSpeed > 15) {
+			if (this.windSpeed > 25) {
 				offset = -0.05;
-			}else{
+			} else {
 				offset = -0.025;
 			}
-		}else{
+		} else {
 			offset = 0;
 		}
 
@@ -111,13 +112,31 @@ class WindTurbine {
 	}
 
 	/**
-	 *
-	 * @param {*} self
+	 * Sends an event to the house
+	 * @param {House} house
 	 */
-	runSimulator(self) {
+	fireEvent(house) {
+		const eventData = {
+			producerId: this.id,
+			timestamp: this.timestamp.toISOString(),
+			power: this.power,
+			windSpeed: this.windSpeed,
+		};
+
+		house.handleSimulationEvent(eventData);
+	}
+
+	/**
+	 *
+	 * @param {WindTurbine} self
+	 * @param {House} house
+	 */
+	runSimulation(self, house) {
 		self.generateWind();
 		self.generatePower();
 		self.logStatus();
+
+		self.fireEvent(house);
 	}
 }
 
