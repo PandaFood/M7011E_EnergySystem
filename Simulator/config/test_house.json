@@ -1,10 +1,16 @@
 [
     {
         "id" : "test_house",
-        "windTurbines" : ["test-10"],
+        "windTurbines" : [
+            {
+                "id": "test-11",
+                "coords": ["65.5848", "22.1567"]
+            }
+        ],
         "battery": 0,
         "batteryCapacity": 100,
         "batteryFillPercentage": 1,
-        "powerConsumption": 50
+        "powerConsumption": 50,
+        "pollTime": 100
     }
 ]
