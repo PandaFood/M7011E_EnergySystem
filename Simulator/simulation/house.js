@@ -5,8 +5,10 @@ const WindTurbine = require('./windturbine');
 class House {
 	/**
 	 * @param {JSON} initValues
+	 * @param {JSON} simulator
 	 */
-	constructor(initValues) {
+	constructor(initValues, simulator) {
+		this.simulator = simulator;
 		this.id = initValues.id;
 		this.battery = initValues.battery;
 		this.batteryCapacity = initValues.batteryCapacity;
@@ -54,15 +56,14 @@ class House {
 	 * @param {number} powerDiff
 	 */
 	buyPower(powerDiff) {
-		this.battery += -powerDiff + 10;
-		console.log('Bought ' + (-powerDiff + 10).toFixed(2) + 'Ws');
+		this.battery += this.simulator.sellPower(-powerDiff);
 	}
 
 	/**
 	 * @param {number} powerDiff
 	 */
 	sellPower(powerDiff) {
-		console.log('Sold: ' + powerDiff.toFixed(2) + 'Ws');
+		this.simulator.buyPower(powerDiff);
 	}
 
 	/**
