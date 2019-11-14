@@ -114,7 +114,7 @@ class House {
 	 */
 	runSimulation(self) {
 		const currentTime = Date.now();
-		const deltaTime = (currentTime - self.timestamp)/1000;
+		const deltaTime = (currentTime - self.timestamp) / 1000;
 		self.fetchPower(deltaTime);
 		self.consumePower(deltaTime);
 		self.timestamp = new Date(currentTime);

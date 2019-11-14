@@ -18,7 +18,7 @@ Simulator = {
 		this.powerLoss += powerNeed;
 
 		// prevent negative values until buying from a coal plant is possible
-		if (this.power <0) this.power = 0;
+		if (this.power < 0) this.power = 0;
 
 		// TODO: buy power from a power plant if needed
 		return powerNeed;
@@ -50,9 +50,9 @@ Simulator = {
 		setInterval(this.calcPrice, 1000, this);
 	},
 	calcPrice: function(self) {
-		const cd = 10 ** 6;	// Coeff for demand variable
-		const cs = 1;		// Coeff for supply variable
-		self.price = cd/self.power + cs*self.powerLoss;
+		const cd = 10 ** 6; // Coeff for demand variable
+		const cs = 1; // Coeff for supply variable
+		self.price = cd / self.power + cs * self.powerLoss;
 
 		// console.log('Power: ' + self.power.toFixed(2) + ' -- Price: ' + \
 		// 				self.price.toFixed(2)+' -- Loss: '+self.powerLoss.toFixed(2));
