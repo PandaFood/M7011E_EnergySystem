@@ -85,7 +85,6 @@ class House {
 	consumePower(deltaTime) {
 		const consumption = this.powerConsumption * deltaTime;
 
-		// console.log(self.battery + ' -- ' + self.generatedPower + ' -- ' + consumption);
 		this.generatedPower -= consumption;
 		const powerDiff = this.calcEnergyDifference(this.generatedPower);
 		this.generatedPower = 0;
@@ -104,7 +103,6 @@ class House {
 	fetchPower(deltaTime) {
 		this.windTurbines.forEach((turbine) => {
 			const polledData = turbine.runSimulation(deltaTime);
-			console.log(polledData);
 			this.generatedPower += polledData.power;
 		});
 	}
@@ -119,7 +117,6 @@ class House {
 		const deltaTime = (currentTime - self.timestamp)/1000;
 		self.fetchPower(deltaTime);
 		self.consumePower(deltaTime);
-		console.log(self.battery);
 		self.timestamp = new Date(currentTime);
 	}
 };
