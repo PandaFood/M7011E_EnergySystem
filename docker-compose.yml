@@ -8,15 +8,47 @@ services:
              npm run watch"
     volumes:
       - ./Simulator:/usr/src/app/
-    ports:
+    networks:
+      - simulatorNet
+    ports:  
       - "3000:3000"
     depends_on:
       - simDB
     environment:
-      DATABASE_URL: postgres://sim@postgres/simulator
+      PGHOST: simDB
+      PGUSER: sim
+      PGPASSWORD: password
+      PGDATABASE: simulator
     
   simDB:
     image: postgres
     environment:
       POSTGRES_USER: sim
       POSTGRES_DB: simulator
+      POSTGRES_PASSWORD: password
+    networks: 
+      simulatorNet:
+        aliases: 
+          - "simDB"
+    ports:
+      - "5432:5432"
+    volumes: 
+      - ./Simulator/postgres/schemas/init.sql:/docker-entrypoint-initdb.d/10-init.sql
+      - ./Simulator/postgres/schemas/dummy_info.sql:/docker-entrypoint-initdb.d/20-init.sql
+
+  postgressAdmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - simDB
+    links: 
+      - simDB
+    networks:
+      - simulatorNet
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "3001:80"
+
+networks: 
+  simulatorNet:
