@@ -30,7 +30,7 @@ class WindTurbine {
      * @return {number} random gaussian distributed number
      */
 	generateStartWind() {
-		const distribution = gaussian(6.0, 4);
+		const distribution = gaussian(8.0, 2);
 
 		return distribution.ppf(Math.random());
 	}
@@ -74,12 +74,12 @@ class WindTurbine {
 		let offset = 0;
 
 		if (this.windSpeed < 5) {
-			offset = 0.05;
+			offset = 0.075;
 		} else if (this.windSpeed > 15) {
 			if (this.windSpeed > 25) {
-				offset = -0.05;
+				offset = -0.075;
 			} else {
-				offset = -0.025;
+				offset = -0.05;
 			}
 		} else {
 			offset = 0;
