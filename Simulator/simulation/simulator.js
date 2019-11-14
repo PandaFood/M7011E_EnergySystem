@@ -40,6 +40,11 @@ Simulator = {
 		this.houses.forEach((house) => {
 			setInterval(house.runSimulation, house.pollTime, house);
 		});
+
+		setInterval(this.watchSimulation, 1000, this);
+	},
+	watchSimulation: function(self) {
+		console.log('Power: ' + self.power + ' -- Price: ' + self.price);
 	},
 };
 
