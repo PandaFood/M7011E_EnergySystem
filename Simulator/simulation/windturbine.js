@@ -21,8 +21,9 @@ class WindTurbine {
 
 		this.linearPowerCoeff = 10;
 		this.maxSpeed = 25.0; // maximum wind speed the turbine can work in
-		this.minSpeed = 3.5; // minimum wind peed the turbine works in
+		this.minSpeed = 3.0; // minimum wind peed the turbine works in
 		this.minOptimalSpeed = 14.0; // minimum wind speed of which the turbines produces maximum power
+		this.status = 'up';
 	}
 
 	/**
@@ -109,22 +110,48 @@ class WindTurbine {
 		console.log(date + ' - ' + this.id + ': ' + (this.power).toFixed(2) +
 			'Ws -- ' + this.windSpeed.toFixed(2) + 'm/s');
 	}
+	/**
+	 * Calculates a random number, if it is below a threshold and the turbine is up
+	 * then set the status to down and set a Timeout for when it should be up and running again
+	 */
+	simulateBreakdown() {
+		const ran = Math.random();
+
+		// values gathered by experimenting,trying to get results between 3000 and 5000 ms
+		const distribution = gaussian(4000, 5 * 10 ** 5);
+		const timeoutLength = distribution.ppf(Math.random());
+		if (ran < 0.005 && this.status == 'up') {
+			this.status = 'down';
+			setTimeout(function(self) {
+				self.status = 'up';
+			}, timeoutLength, this);
+		}
+	};
 
 	/**
 	 *@param {number} deltaTime
 	 *@return {number}
 	 */
 	runSimulation(deltaTime) {
-		this.generateWind(deltaTime);
-		this.generatePower(deltaTime);
+		this.simulateBreakdown();
 
 		const pollData = {
 			id: this.id,
 			power: this.power,
 			windSpeed: this.windSpeed,
-			status: 'up',
+			status: this.status,
 			coords: this.coords,
 		};
+
+		if (this.status == 'up') {
+			this.generateWind(deltaTime);
+			this.generatePower(deltaTime);
+		} else {
+			pollData.power = 0;
+			pollData.windSpeed = 0;
+		}
+
+		// console.log(pollData);
 
 		return pollData;
 	}
