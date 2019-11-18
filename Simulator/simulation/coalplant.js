@@ -40,7 +40,7 @@ CoalPlant = {
 		if (this.status == 'up') {
 			this.producedPower += this.productionSpeed * deltaTime;
 		}
-		console.log(this.producedPower);
+		// console.log(this.producedPower);
 	},
 
 };
