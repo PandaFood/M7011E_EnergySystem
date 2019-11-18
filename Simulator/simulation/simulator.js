@@ -1,5 +1,6 @@
 const fs = require('fs');
 const House = require('./house');
+const CoalPlant = require('./coalplant');
 
 Simulator = {
 	price: 0,
@@ -18,8 +19,9 @@ Simulator = {
 		this.powerLoss += powerNeed;
 
 		// prevent negative values until buying from a coal plant is possible
-		if (this.power < 0) this.power = 0;
-
+		if (this.power <= 0) {
+			this.power += CoalPlant.sellPower(100);
+		}
 		// TODO: buy power from a power plant if needed
 		return powerNeed;
 	},
@@ -49,6 +51,8 @@ Simulator = {
 		self.houses.forEach((house) => {
 			house.runSimulation(deltaTime);
 		});
+
+		CoalPlant.runPlant(deltaTime);
 
 		self.calcPrice();
 	},
