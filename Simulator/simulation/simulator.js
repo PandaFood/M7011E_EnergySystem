@@ -41,24 +41,28 @@ Simulator = {
 		});
 	},
 
+	simulationLoop: function(self) {
+		self.houses.forEach((house) => {
+			house.runSimulation();
+		});
+
+		self.calcPrice();
+	},
+
 	runSimulation: function() {
 		this.initHouses('config/house.json');
 
-		this.houses.forEach((house) => {
-			setInterval(house.runSimulation, house.pollTime, house);
-		});
-		setInterval(this.calcPrice, 1000, this);
+		setInterval(this.simulationLoop, 1000, this);
 	},
-	calcPrice: function(self) {
+	calcPrice: function() {
 		const cd = 10 ** 6; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
-		self.price = cd / self.power + cs * self.powerLoss;
+		this.price = cd / this.power + cs * this.powerLoss;
 
-		// console.log('Power: ' + self.power.toFixed(2) + ' -- Price: ' + \
-		// 				self.price.toFixed(2)+' -- Loss: '+self.powerLoss.toFixed(2));
+		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
+		// 				this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
 
-		self.powerLoss = 0;
-		self.powerGain = 0;
+		this.powerLoss = 0;
 	},
 };
 
