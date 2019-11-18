@@ -110,13 +110,11 @@ class House {
 	/**
 	 * Runs a step in the simulation, calculating the delta time from the last poll
 	 * Fetching and consuming power
+	 * @param {number} deltaTime
 	 */
-	runSimulation() {
-		const currentTime = Date.now();
-		const deltaTime = (currentTime - this.timestamp) / 1000;
+	runSimulation(deltaTime) {
 		this.fetchPower(deltaTime);
 		this.consumePower(deltaTime);
-		this.timestamp = new Date(currentTime);
 	}
 };
 

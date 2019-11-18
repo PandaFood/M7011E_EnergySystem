@@ -7,7 +7,7 @@ Simulator = {
 	houses: [],
 	powerGain: 0,
 	powerLoss: 0,
-
+	timestamp: Date.now(),
 	/**
 	 * Sell power to a house
 	 * @param {number} powerNeed
@@ -42,8 +42,12 @@ Simulator = {
 	},
 
 	simulationLoop: function(self) {
+		const currentTime = Date.now();
+		const deltaTime = (currentTime - self.timestamp) / 1000;
+		self.timestamp = new Date(currentTime);
+
 		self.houses.forEach((house) => {
-			house.runSimulation();
+			house.runSimulation(deltaTime);
 		});
 
 		self.calcPrice();
