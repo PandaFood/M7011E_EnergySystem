@@ -1,0 +1,79 @@
+swagger: "2.0"
+info:
+  description: "This is the API for Green Lean Electrics"
+  version: "0.0.1"
+  title: "GLE API"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "https"
+- "http"
+definitions:
+  House:
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      adress:
+        type: "string"
+  HouseInput:
+    properties:
+      name:
+        type: "string"
+      adress:
+        type: "string"
+
+paths:
+  /api/house:
+    get:
+      tags:
+        - "House"
+      description: "Returns all houses"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "An array of houses"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/House'
+    post:
+      summary: "Add a new house"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/HouseInput"
+      responses:
+        400:
+          description: "Invalid input supplied"
+        405:
+          description: "Validation exception"
+      
+
+  /api/house/{houseID}:
+    get:
+      tags:
+        - House
+      description: Returns all houses
+      produces:
+        - application/json
+      parameters:
+      - name: "houseID"
+        in: "path"
+        description: "ID of house to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: A house object
+          schema:
+            $ref: '#/definitions/House'

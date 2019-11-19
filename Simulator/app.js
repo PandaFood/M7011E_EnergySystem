@@ -3,31 +3,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const apiRouter = require('./routes/api');
-const swaggerJSDoc = require('swagger-jsdoc');
+const apiRouter = require('./api/api');
 const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api/swagger/swagger.yaml');
 
 
 const app = express();
-
-// swagger definition
-const swaggerDefinition = {
-	info: {
-		title: 'Green Lean Electrics API',
-		version: '0.0.1',
-		description: 'Green Lean Electrics API for reaching their electric data.',
-	},
-	host: 'localhost:3000',
-	basePath: '/',
-};
-
-const options = {
-	swaggerDefinition: swaggerDefinition,
-	apis: ['./routes/*.js'],
-};
-
-// initialize swagger-jsdoc
-const swaggerSpec = swaggerJSDoc(options);
 
 
 app.use(logger('dev'));
@@ -37,11 +19,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.get('/swagger.json', function(req, res) {
-	res.setHeader('Content-Type', 'application/json');
-	res.send(swaggerSpec);
-});
+app.use('/', swaggerUi.serve);
+app.get('/', swaggerUi.setup(swaggerDocument));
 
 
 module.exports = app;
