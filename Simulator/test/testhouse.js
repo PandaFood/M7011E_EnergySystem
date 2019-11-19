@@ -2,16 +2,18 @@ const assert = require('assert');
 const fs = require('fs');
 
 const House = require('../simulation/house');
+const Simulator = require('../simulation/simulator');
+
 
 describe('House', function() {
 	describe('#buyPower()', function() {
 		it('should be equal to 20', function() {
 			const config = JSON.parse(fs.readFileSync('config/test_house.json', 'utf8'))[0];
-			const house = new House(config);
+			const house = new House(config, Simulator);
 
 			house.buyPower(-10);
 
-			assert.equal(house.battery, 20);
+			assert.equal(house.battery, 10);
 		});
 	});
 
