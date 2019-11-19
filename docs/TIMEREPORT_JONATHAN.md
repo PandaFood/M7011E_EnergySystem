@@ -9,3 +9,6 @@ Date | Time spent | Feature
 19-11-11 | 4h | Create script for DB-schema and connecting with docker
 19-11-11 | 3h | Database querys from API
 19-11-12 | 1h | Database querys
+19-11-14 | 3h | Setup basic swagger
+19-11-14 | 2h | Refactor api
+19-11-19 | 2h | Change swagger from jsdoc to yaml based
