@@ -13,9 +13,9 @@ const app = express();
 // swagger definition
 const swaggerDefinition = {
 	info: {
-		title: 'Node Swagger API',
-		version: '1.0.0',
-		description: 'Demonstrating how to describe a RESTful API with Swagger',
+		title: 'Green Lean Electrics API',
+		version: '0.0.1',
+		description: 'Green Lean Electrics API for reaching their electric data.',
 	},
 	host: 'localhost:3000',
 	basePath: '/',
@@ -42,7 +42,6 @@ app.get('/swagger.json', function(req, res) {
 	res.setHeader('Content-Type', 'application/json');
 	res.send(swaggerSpec);
 });
-
 
 
 module.exports = app;

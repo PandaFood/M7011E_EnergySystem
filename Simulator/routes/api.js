@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const Simulator = require('../simulation/simulator');
 const Database = require('./../postgres/database');
 
 
@@ -23,7 +22,6 @@ const Database = require('./../postgres/database');
  *      properties:
  *          name:
  *              type: string
- *          
  */
 
 
@@ -67,26 +65,6 @@ router.get('/house', function(req, res, next) {
 	Database.getHouses()
 		.then((v) => res.json(v.rows))
 		.catch((err) => console.log(err));
-});
-
-/**
- * @swagger
- * /api/resource:
- *   get:
- *     tags:
- *       - Puppies
- *     description: Returns all puppies
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: An array of puppies
- *         schema:
- *           $ref: '#/definitions/Puppy'
- */
-router.get('/resource', function(req, res, next) {
-
-	res.json('respond with a resource');
 });
 
 module.exports = router;
