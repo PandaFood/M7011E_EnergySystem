@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Simulator = require('../simulation/simulator');
+const Database = require('./../postgres/database');
 
 
 /**
@@ -9,14 +10,15 @@ const Simulator = require('../simulation/simulator');
  * definitions:
  *   House:
  *     properties:
+ *       id:
+ *         type: uuid
  *       name:
  *         type: string
- *       breed:
+ *       adress:
  *         type: string
- *       age:
- *         type: integer
- *       sex:
- *         type: string
+ *       Windturbines:
+ *         type: Windturbine
+ * 
  *   Windturbine:
  *      properties:
  *          name:
@@ -24,6 +26,48 @@ const Simulator = require('../simulation/simulator');
  *          
  */
 
+
+/**
+ * @swagger
+ * /api/house/{houseID}:
+ *   get:
+ *     tags:
+ *       - House
+ *     description: Returns all houses
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of houses
+ *         schema:
+ *           $ref: '#/definitions/House'
+ */
+router.get('/house/:houseid', function(req, res, next) {
+	Database.getHouse(req.params.houseid)
+		.then((v) => res.json(v.rows))
+		.catch((err) => console.log(err));
+});
+
+/**
+ * @swagger
+ * /api/houses:
+ *   get:
+ *     tags:
+ *       - House
+ *     description: Returns all houses
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of houses
+ *         schema:
+ *           $ref: '#/definitions/House'
+ */
+router.get('/house', function(req, res, next) {
+	Database.getHouses()
+		.then((v) => res.json(v.rows))
+		.catch((err) => console.log(err));
+});
 
 /**
  * @swagger
@@ -41,7 +85,6 @@ const Simulator = require('../simulation/simulator');
  *           $ref: '#/definitions/Puppy'
  */
 router.get('/resource', function(req, res, next) {
-	//Simulator.runSimulation();
 
 	res.json('respond with a resource');
 });

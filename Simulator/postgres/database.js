@@ -1,50 +1,29 @@
-const {Client} = require('pg');
+const {Pool} = require('pg');
 
-const client = new Client();
+const client = new Pool();
+client.connect();
 
-module.exports.getHouses = async function(callback) {
+module.exports.getHouses = async function() {
 	const query = 'SELECT * FROM House';
 
-	await client.connect();
-	client.query(query, (err, res) => {
-		if (err) {
-			console.log(err.stack);
-		} else {
-			callback( res.rows );
-		}
-		client.end();
-	});
+	const response = await client.query(query);
+	return response;
 };
-
 
 module.exports.getHouse = async function(id) {
 	const query = 'SELECT * FROM House WHERE ID = $1';
 	const values = [id];
 
-	await client.connect();
-	client.query(query, values, (err, res) => {
-		if (err) {
-			console.log(err.stack);
-		} else {
-			return res.rows[0];
-		}
-		client.end();
-	});
+	const response = await client.query(query, values);
+	return response;
 };
 
 module.exports.addHouse = async function(name, adress) {
 	const query = 'INSERT INTO house VALUES(uuid_generate_v4(), $2, $3)';
 	const values = [name, adress];
 
-	await client.connect();
-	client.query(query, values, (err, res) => {
-		if (err) {
-			console.log(err.stack);
-		} else {
-			console.log(res.rows);
-		}
-		client.end();
-	});
+	const response = await client.query(query, values);
+	return response;
 };
 
 
