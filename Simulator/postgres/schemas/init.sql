@@ -6,6 +6,7 @@
 CREATE TABLE "house" (
     id uuid NOT NULL,
     name text NOT NULL,
+    consumption int NOT NULL,
     adress text
 );
 
@@ -132,7 +133,7 @@ ALTER TABLE ONLY "producer"
 --
 
 ALTER TABLE ONLY "storage"
-    ADD CONSTRAINT "Owner_fk" FOREIGN KEY ("ID") REFERENCES "house"(id);
+    ADD CONSTRAINT "owner_fk" FOREIGN KEY ("Owner") REFERENCES "house"(id);
 
 
 --
