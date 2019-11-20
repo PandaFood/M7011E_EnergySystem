@@ -19,9 +19,13 @@ const Database = {
 		return response;
 	},
 
-	addHouse: async function(name, adress) {
-		const query = 'INSERT INTO house VALUES(uuid_generate_v4(), $2, $3)';
-		const values = [name, adress];
+	addHouse: async function(name, adress, consumption) {
+		const query = 'INSERT INTO House VALUES(uuid_generate_v4(), $1, $2, $3)';
+		const values = [name, adress, consumption];
+
+		const response = await client.query(query, values);
+		return response;
+	},
 
 		const response = await client.query(query, values);
 		return response;
