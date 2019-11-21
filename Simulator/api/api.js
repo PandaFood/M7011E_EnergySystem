@@ -31,7 +31,8 @@ router
 		const owner = req.query.houseId;
 		const maxCapacity = req.query.maxCapacity;
 		const currentCapacity = req.query.currentCapacity;
-		Database.addStorage(owner, maxCapacity, currentCapacity)
+		const fillPercentage = req.query.fillPercentage;
+		Database.addStorage(owner, maxCapacity, currentCapacity, fillPercentage)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	})

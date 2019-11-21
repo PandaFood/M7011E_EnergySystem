@@ -26,9 +26,9 @@ const Database = {
 		const response = await client.query(query, values);
 		return response;
 	},
-	addStorage: async function(owner, maxCapacity, currentCapacity) {
-		const query = 'INSERT INTO Storage VALUES(uuid_generate_v4(), $1, $2, $3)';
-		const values = [owner, maxCapacity, currentCapacity];
+	addStorage: async function(owner, maxCapacity, currentCapacity, fillPercentage) {
+		const query = 'INSERT INTO Storage VALUES(uuid_generate_v4(), $1, $2, $3, $4)';
+		const values = [owner, maxCapacity, currentCapacity, fillPercentage];
 
 		const response = await client.query(query, values);
 		return response;

@@ -52,7 +52,8 @@ CREATE TABLE "storage" (
     "ID" uuid NOT NULL,
     "Owner" uuid NOT NULL,
     "MaxCapacity" bigint NOT NULL,
-    "CurrentCapacity" bigint NOT NULL
+    "CurrentCapacity" bigint NOT NULL,
+    "FillPercentage" float NOT NULL
 );
 
 
