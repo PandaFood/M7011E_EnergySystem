@@ -1,6 +1,6 @@
-const fs = require('fs');
 const House = require('./house');
 const CoalPlant = require('./coalplant');
+const Database = require('../postgres/database');
 
 Simulator = {
 	price: 0,
@@ -22,7 +22,6 @@ Simulator = {
 		if (this.power <= 0) {
 			this.power += CoalPlant.sellPower(100);
 		}
-		// TODO: buy power from a power plant if needed
 		return powerNeed;
 	},
 
@@ -35,11 +34,12 @@ Simulator = {
 		this.powerGain += power;
 	},
 
-	initHouses: function(configPath) {
-		const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+	initHouses: async function() {
+		const houses = await Database.getHouses();
+		houses.rows.forEach(async (house) => {
+			const batteries = await Database.getStorages(house.id);
 
-		config.forEach((initValues) => {
-			this.houses.push(new House(initValues, this));
+			this.houses.push(new House(house, batteries.rows, this));
 		});
 	},
 
@@ -57,8 +57,8 @@ Simulator = {
 		self.calcPrice();
 	},
 
-	runSimulation: function() {
-		this.initHouses('config/house.json');
+	runSimulation: async function() {
+		await this.initHouses();
 
 		setInterval(this.simulationLoop, 1000, this);
 	},
