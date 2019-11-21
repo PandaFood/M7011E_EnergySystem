@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Database = require('../postgres/database');
-
+const Simulation = require('../simulation/simulator');
 
 router
 	.get('/house', function(req, res, next) {
@@ -67,4 +67,8 @@ router
 			.catch((err) => console.log(err));
 	});
 
+router
+	.get('/startSimulation', function(req, res, next) {
+		Simulation.runSimulation();
+	});
 module.exports = router;
