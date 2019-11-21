@@ -4,7 +4,8 @@ const WindTurbine = require('./windturbine');
  */
 class House {
 	/**
-	 * @param {JSON} initValues
+	 * @param {JSON} houseValues
+	 * @param {JSON} batteries
 	 * @param {JSON} simulator
 	 */
 	constructor(houseValues, batteries, simulator) {
@@ -24,9 +25,9 @@ class House {
 
 			this.batteries.push(battery);
 		});
+
 		this.windTurbines = [];
-		this.initWindTurbines(initValues.windTurbines);
-		this.powerConsumption = initValues.powerConsumption;
+		this.initWindTurbines([1]);
 
 		this.timestamp = Date.now();
 		this.generatedPower = 0;
@@ -36,37 +37,44 @@ class House {
 	 * Fill the battery with the generated power
 	 * If the battery gets full calculate how much can be sold
 	 * If the battery gets empty calculate how much needs to be bought
+	 * @param {number} battery
 	 * @param {number} power
 	 * @return {number} - power difference, positive implies power to sell, negative power to buy
 	 */
-	calcEnergyDifference(power) {
+	calcEnergyDifference(battery, power) {
 		let powerDiff = 0;
-		const batteryGoal = (this.batteryCapacity * this.batteryFillPercentage);
+		const batteryGoal = (battery.MaxCapacity * battery.FillPercentage);
 
 		// Calculate how much power is left to sell
-		if (this.battery <= batteryGoal && this.battery + power >= batteryGoal) {
-			const diff = batteryGoal - this.battery;
+		if (battery.CurrentCapacity <= batteryGoal && battery.CurrentCapacity + power >= batteryGoal) {
+			const diff = batteryGoal - battery.CurrentCapacity;
 			powerDiff = power - diff;
-			this.battery = batteryGoal;
+			battery.CurrentCapacity = batteryGoal;
 
 			// Calculate how much power is needed to buy
-		} else if (this.battery >= 0 && this.battery + power < 0) {
-			powerDiff = this.battery + power; // power < 0
-			this.battery = 0;
+		} else if (battery.CurrentCapacity + power < 0) {
+			powerDiff = battery.CurrentCapacity + power; // power < 0
+			battery.CurrentCapacity = 0;
 
 			// Fill the battery
 		} else {
-			this.battery += power;
+			battery.CurrentCapacity += power;
 		}
 
 		return powerDiff;
 	}
 
 	/**
+	 * If a list of batteries exists add power to the last battery in that list
+	 * Else just buy the precise amount that the house needs
 	 * @param {number} powerDiff
 	 */
 	buyPower(powerDiff) {
-		this.battery += this.simulator.sellPower(-powerDiff);
+		if (this.haveBattery) {
+			this.batteries[this.batteries.length-1].CurrentCapacity += this.simulator.sellPower(-powerDiff);
+		} else {
+			this.simulator.sellPower(-powerDiff);
+		}
 	}
 
 	/**
@@ -82,7 +90,7 @@ class House {
 	 */
 	initWindTurbines(windTurbines) {
 		windTurbines.forEach((turbine) => {
-			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords, this.pollTime));
+			this.windTurbines.push(new WindTurbine('wasd-12', ['11', '123'], 1000));
 		});
 	}
 
@@ -95,9 +103,18 @@ class House {
 		const consumption = this.powerConsumption * deltaTime;
 
 		this.generatedPower -= consumption;
-		const powerDiff = this.calcEnergyDifference(this.generatedPower);
-		this.generatedPower = 0;
 
+		let powerDiff = 0;
+		if (this.haveBattery) {
+			powerDiff = this.generatedPower;
+			this.batteries.forEach((battery) => {
+				powerDiff = this.calcEnergyDifference(battery, powerDiff);
+			});
+		} else {
+			powerDiff = this.generatedPower;
+		}
+
+		this.generatedPower = 0;
 		if (powerDiff < 0) {
 			this.buyPower(powerDiff);
 		} else if (powerDiff > 0) {
