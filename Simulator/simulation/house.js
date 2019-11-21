@@ -26,6 +26,7 @@ class House {
 
 			this.batteries.push(battery);
 		});
+
 		this.windTurbines = [];
 
 		windTurbines.forEach((turbine) => {
