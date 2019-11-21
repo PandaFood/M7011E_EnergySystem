@@ -7,14 +7,23 @@ class House {
 	 * @param {JSON} initValues
 	 * @param {JSON} simulator
 	 */
-	constructor(initValues, simulator) {
+	constructor(houseValues, batteries, simulator) {
 		this.simulator = simulator;
-		this.id = initValues.id;
-		this.pollTime = initValues.pollTime;
-		this.battery = initValues.battery;
-		this.batteryCapacity = initValues.batteryCapacity;
-		this.batteryFillPercentage = initValues.batteryFillPercentage;
+		this.id = houseValues.id;
+		this.powerConsumption = houseValues.consumption;
+		this.name = houseValues.name;
+		this.adress = houseValues.adress;
+		this.pollTime = 1000;
+		this.haveBattery = false;
+		this.batteries = [];
+		batteries.forEach((battery) => {
+			this.haveBattery = true;
+			battery.CurrentCapacity = parseInt(battery.CurrentCapacity);
+			battery.FillPercentage = parseFloat(battery.FillPercentage);
+			battery.MaxCapacity = parseInt(battery.MaxCapacity);
 
+			this.batteries.push(battery);
+		});
 		this.windTurbines = [];
 		this.initWindTurbines(initValues.windTurbines);
 		this.powerConsumption = initValues.powerConsumption;
