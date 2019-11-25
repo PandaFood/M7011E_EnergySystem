@@ -11,3 +11,4 @@ Date | Time spent (h) | Feature
 19-11.12 | 0.5h | Test House simulation
 19-11-14 | 4h | Simulate the power network with buying and selling power
 19-11-15 | 2h | Simulate wind turbine breakdown
+19-11-18 | 2h | Simulate a Coal Plant that can be started and stoped via the API
