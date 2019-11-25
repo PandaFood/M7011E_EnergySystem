@@ -61,6 +61,20 @@ const Database = {
 		const response = await client.query(query, values);
 		return response;
 	},
+	addProducer: async function(houseId, coord, type) {
+		const query = 'INSERT INTO Producer VALUES(uuid_generate_v4(), $1, $2, $3)';
+		const values = [houseId, type, coord];
+
+		const response = await client.query(query, values);
+		return response;
+	},
+	getProducers: async function(houseId) {
+		const query = 'SELECT * FROM producer WHERE "Owner" = $1';
+		const values = [houseId];
+
+		const response = await client.query(query, values);
+		return response;
+	},
 };
 
 module.exports = Database;

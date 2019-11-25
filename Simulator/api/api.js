@@ -69,6 +69,23 @@ router
 	});
 
 router
+	.post('/producer', function(req, res, next) {
+		const houseId = req.query.houseId;
+		const type = req.query.type;
+		const coords = req.query.coords;
+
+		Database.addProducer(houseId, coords, type)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	})
+	.get('/producer', function(req, res, next) {
+		const houseId = req.query.houseId;
+		Database.getProducers(houseId)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	});
+
+router
 	.get('/startSimulation', function(req, res, next) {
 		Simulation.runSimulation();
 	});
