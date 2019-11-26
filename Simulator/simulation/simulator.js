@@ -36,7 +36,11 @@ Simulator = {
 		this.power += power;
 		this.powerGain += power;
 	},
-
+	storeWindData(polledData) {
+		polledData.timestamp = this.timestamp;
+		// console.log(polledData);
+		Database.addProducerEvent(polledData);
+	},
 	initHouses: async function() {
 		const houses = await Database.getHouses();
 		houses.rows.forEach(async (house) => {
