@@ -20,9 +20,9 @@ class House {
 		this.batteries = [];
 		batteries.forEach((battery) => {
 			this.haveBattery = true;
-			battery.CurrentCapacity = parseInt(battery.CurrentCapacity);
-			battery.FillPercentage = parseFloat(battery.FillPercentage);
-			battery.MaxCapacity = parseInt(battery.MaxCapacity);
+			battery.currentCapacity = parseInt(battery.currentCapacity);
+			battery.fillCapacity = parseFloat(battery.fillCapacity);
+			battery.maxCapacity = parseInt(battery.maxCapacity);
 
 			this.batteries.push(battery);
 		});
@@ -30,7 +30,7 @@ class House {
 
 		windTurbines.forEach((turbine) => {
 			const tmpCoords = ['50', '50'];
-			this.windTurbines.push(new WindTurbine(turbine.ID, tmpCoords, this.pollTime));
+			this.windTurbines.push(new WindTurbine(turbine.id, tmpCoords, this.pollTime));
 		});
 
 
@@ -48,22 +48,22 @@ class House {
 	 */
 	calcEnergyDifference(battery, power) {
 		let powerDiff = 0;
-		const batteryGoal = (battery.MaxCapacity * battery.FillPercentage);
+		const batteryGoal = (battery.maxCapacity * battery.fillCapacity);
 
 		// Calculate how much power is left to sell
-		if (battery.CurrentCapacity <= batteryGoal && battery.CurrentCapacity + power >= batteryGoal) {
-			const diff = batteryGoal - battery.CurrentCapacity;
+		if (battery.currentCapacity <= batteryGoal && battery.currentCapacity + power >= batteryGoal) {
+			const diff = batteryGoal - battery.currentCapacity;
 			powerDiff = power - diff;
-			battery.CurrentCapacity = batteryGoal;
+			battery.currentCapacity = batteryGoal;
 
 			// Calculate how much power is needed to buy
-		} else if (battery.CurrentCapacity + power < 0) {
-			powerDiff = battery.CurrentCapacity + power; // power < 0
-			battery.CurrentCapacity = 0;
+		} else if (battery.currentCapacity + power < 0) {
+			powerDiff = battery.currentCapacity + power; // power < 0
+			battery.currentCapacity = 0;
 
 			// Fill the battery
 		} else {
-			battery.CurrentCapacity += power;
+			battery.currentCapacity += power;
 		}
 
 		return powerDiff;
@@ -77,7 +77,7 @@ class House {
 	buyPower(powerDiff) {
 		if (this.haveBattery) {
 			const battery = this.batteries[this.batteries.length-1];
-			battery.CurrentCapacity += this.simulator.sellPower(-powerDiff);
+			battery.currentCapacity += this.simulator.sellPower(-powerDiff);
 			this.storeBatteryData(battery);
 		} else {
 			this.simulator.sellPower(-powerDiff);
@@ -127,8 +127,8 @@ class House {
 	 */
 	storeBatteryData(battery) {
 		const batteryData = {
-			id: battery.ID,
-			currentCapacity: battery.CurrentCapacity,
+			id: battery.id,
+			currentCapacity: battery.currentCapacity,
 		};
 		this.simulator.storeBatteryData(batteryData);
 	}

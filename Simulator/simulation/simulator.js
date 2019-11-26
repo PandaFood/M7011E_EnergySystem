@@ -4,11 +4,11 @@ const Database = require('../postgres/database');
 
 Simulator = {
 	price: 0,
-	power: 1000,
+	power: 10000,
 	houses: [],
 	powerGain: 0,
 	powerLoss: 0,
-	timestamp: Date.now(),
+	timestamp: 0,
 	pollTime: 1000,
 	/**
 	 * Sell power to a house
@@ -71,7 +71,7 @@ Simulator = {
 
 	runSimulation: async function() {
 		await this.initHouses();
-
+		this.timestamp = Date.now();
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {

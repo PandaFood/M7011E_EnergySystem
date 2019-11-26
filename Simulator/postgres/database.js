@@ -12,7 +12,7 @@ const Database = {
 	},
 
 	getHouse: async function(id) {
-		const query = 'SELECT * FROM House WHERE ID = $1';
+		const query = 'SELECT * FROM House WHERE id = $1';
 		const values = [id];
 
 		const response = await client.query(query, values);
@@ -34,14 +34,14 @@ const Database = {
 		return response;
 	},
 	getStorages: async function(houseId) {
-		const query = 'SELECT * FROM storage WHERE "Owner" = $1';
+		const query = 'SELECT * FROM storage WHERE "owner" = $1';
 		const values = [houseId];
 
 		const response = await client.query(query, values);
 		return response;
 	},
 	updateStorage: async function(storageId, capacity) {
-		const query = 'UPDATE Storage SET "CurrentCapacity" = $1 WHERE "ID" = $2';
+		const query = 'UPDATE Storage SET "currentCapacity" = $1 WHERE "id" = $2';
 		const values = [capacity, storageId];
 
 		const response = await client.query(query, values);
@@ -55,7 +55,7 @@ const Database = {
 		return response;
 	},
 	getStorageEvents: async function(storageId) {
-		const query = 'SELECT * FROM StorageEvent WHERE "StorageID" = $1';
+		const query = 'SELECT * FROM StorageEvent WHERE "storageId" = $1';
 		const values = [storageId];
 
 		const response = await client.query(query, values);
@@ -69,7 +69,7 @@ const Database = {
 		return response;
 	},
 	getProducers: async function(houseId) {
-		const query = 'SELECT * FROM producer WHERE "Owner" = $1';
+		const query = 'SELECT * FROM producer WHERE "owner" = $1';
 		const values = [houseId];
 
 		const response = await client.query(query, values);
@@ -83,7 +83,7 @@ const Database = {
 		return response;
 	},
 	getProducerEvents: async function(producerId) {
-		const query = 'SELECT * FROM producerevent WHERE "ProducerID" = $1';
+		const query = 'SELECT * FROM producerevent WHERE "producerId" = $1';
 		const values = [producerId];
 
 		const response = await client.query(query, values);
