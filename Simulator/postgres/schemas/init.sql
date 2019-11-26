@@ -53,8 +53,8 @@ ALTER TABLE "producerevent" OWNER TO sim;
 CREATE TABLE "storage" (
     "ID" uuid NOT NULL,
     "Owner" uuid NOT NULL,
-    "MaxCapacity" bigint NOT NULL,
-    "CurrentCapacity" bigint NOT NULL,
+    "MaxCapacity" float NOT NULL,
+    "CurrentCapacity" float NOT NULL,
     "FillPercentage" float NOT NULL
 );
 
@@ -69,7 +69,7 @@ ALTER TABLE "storage" OWNER TO sim;
 CREATE TABLE "storageevent" (
     "ID" uuid NOT NULL,
     "StorageID" uuid NOT NULL,
-    "CurrentCapacity" bigint NOT NULL,
+    "CurrentCapacity" float NOT NULL,
     "TimeStamp" timestamp with time zone NOT NULL
 );
 
