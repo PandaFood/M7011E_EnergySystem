@@ -9,6 +9,7 @@ Simulator = {
 	powerGain: 0,
 	powerLoss: 0,
 	timestamp: Date.now(),
+	pollTime: 1000,
 	/**
 	 * Sell power to a house
 	 * @param {number} powerNeed
@@ -18,9 +19,11 @@ Simulator = {
 		this.power -= powerNeed;
 		this.powerLoss += powerNeed;
 
-		// prevent negative values until buying from a coal plant is possible
-		if (this.power <= 0) {
+		if (this.power <= 0 && CoalPlant.getStatus() == 'up') {
 			this.power += CoalPlant.sellPower(100);
+		} else if (this.power <= 0) {
+			this.power = 0;
+			return 0;
 		}
 		return powerNeed;
 	},
@@ -38,8 +41,9 @@ Simulator = {
 		const houses = await Database.getHouses();
 		houses.rows.forEach(async (house) => {
 			const batteries = await Database.getStorages(house.id);
+			const windTurbines = await Database.getProducers(house.id);
 
-			this.houses.push(new House(house, batteries.rows, this));
+			this.houses.push(new House(house, windTurbines.rows, batteries.rows, this));
 		});
 	},
 
@@ -60,15 +64,15 @@ Simulator = {
 	runSimulation: async function() {
 		await this.initHouses();
 
-		setInterval(this.simulationLoop, 1000, this);
+		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
 		const cd = 10 ** 6; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
 		this.price = cd / this.power + cs * this.powerLoss;
 
-		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
-		// 				this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
+		console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
+						this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
 
 		this.powerLoss = 0;
 	},
