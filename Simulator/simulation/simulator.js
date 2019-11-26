@@ -38,8 +38,12 @@ Simulator = {
 	},
 	storeWindData(polledData) {
 		polledData.timestamp = this.timestamp;
-		// console.log(polledData);
 		Database.addProducerEvent(polledData);
+	},
+	storeBatteryData(batteryData) {
+		batteryData.timestamp = this.timestamp;
+		Database.addStorageEvent(batteryData);
+		Database.updateStorage(batteryData.id, batteryData.currentCapacity);
 	},
 	initHouses: async function() {
 		const houses = await Database.getHouses();

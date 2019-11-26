@@ -76,7 +76,9 @@ class House {
 	 */
 	buyPower(powerDiff) {
 		if (this.haveBattery) {
-			this.batteries[this.batteries.length-1].CurrentCapacity += this.simulator.sellPower(-powerDiff);
+			const battery = this.batteries[this.batteries.length-1];
+			battery.CurrentCapacity += this.simulator.sellPower(-powerDiff);
+			this.storeBatteryData(battery);
 		} else {
 			this.simulator.sellPower(-powerDiff);
 		}
@@ -104,6 +106,8 @@ class House {
 			powerDiff = this.generatedPower;
 			this.batteries.forEach((battery) => {
 				powerDiff = this.calcEnergyDifference(battery, powerDiff);
+
+				this.storeBatteryData(battery);
 			});
 		} else {
 			powerDiff = this.generatedPower;
@@ -115,6 +119,18 @@ class House {
 		} else if (powerDiff > 0) {
 			this.sellPower(powerDiff);
 		}
+	}
+
+	/**
+	 *
+	 * @param {JSON} battery
+	 */
+	storeBatteryData(battery) {
+		const batteryData = {
+			id: battery.ID,
+			currentCapacity: battery.CurrentCapacity,
+		};
+		this.simulator.storeBatteryData(batteryData);
 	}
 
 	/**
