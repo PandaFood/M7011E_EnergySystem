@@ -37,7 +37,9 @@ CREATE TABLE "producerevent" (
     "ID" uuid NOT NULL,
     "ProducerID" uuid NOT NULL,
     "Timestamp" timestamp with time zone NOT NULL,
-    "EnergyProduced" bigint NOT NULL
+    "Status" text NOT NULL, 
+    "EnergyProduced" float NOT NULL,
+    "WindSpeed" float NOT NULL
 );
 
 
