@@ -94,6 +94,14 @@ router
 	});
 
 router
+	.get('/producerEvent', function(req, res, next) {
+		const producerId = req.query.producerId;
+		Database.getProducerEvents(producerId)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	});
+
+router
 	.get('/startSimulation', function(req, res, next) {
 		Simulation.runSimulation();
 	});
