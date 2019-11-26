@@ -98,7 +98,8 @@ class WindTurbine {
 	 */
 	generatePower(deltaTime) {
 		if (this.windSpeed > this.minSpeed && this.windSpeed < this.maxSpeed) {
-			this.power = this.windSpeed * this.calcPowerCoeff(this.windSpeed) * (deltaTime);
+			const powerCoeff = this.calcPowerCoeff(this.windSpeed);
+			this.power = powerCoeff * (deltaTime);
 		} else {
 			this.power = 0;
 		}
@@ -119,7 +120,7 @@ class WindTurbine {
 	simulateBreakdown() {
 		const ran = Math.random();
 		// The threshold where a turbines breaks, higher speeds gives a higher risk of breaking
-		const threshold = 0.0001 * this.windSpeed;
+		const threshold = 0.00025 * this.windSpeed;
 
 		if (ran < threshold && this.status == 'up') {
 			this.status = 'down';
