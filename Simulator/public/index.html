@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<title>Perlin noise</title>
+<style>
+.centerbox {
+  /* flexbox, por favor */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0; padding: 0;
+}
+body, html { width: 100%; height: 100%; padding: 0; margin: 0; }
+canvas {
+  /* border-radius: 30px;  Border radiuses don't seem to work with putImageData */
+  box-shadow: 0 0 10px #777;
+  width: 1024px;
+  height: 768px;
+}
+body {
+  background-color: #eee;
+}
+</style>
+<div class='centerbox'><canvas></canvas></div>
+<script src='noise.js'></script>
+<script>
+
+    let noiseMap = [];
+    var canvas = document.getElementsByTagName('canvas')[0];
+    size = 200;
+    var ctx = canvas.getContext('2d');
+    var image = ctx.createImageData(size, size);
+    var data = image.data;
+    
+    let freqs = [1/200, 1/125, 1/30];
+    let stuff = [0.7, 0.20, 0.10];
+
+    noise.seed(Math.random());
+
+    function updateWindMap(){
+        let time = Date.now()
+        
+
+        noise.seed(Math.random());
+
+        // console.log(sin1*sin2*sin3);
+        for (var y = 0; y < size; y++) {
+            
+            for (var x = 0; x < size; x++) {
+                let sin1 = Math.sin((time+y+x)*1/20000+34000);
+                let sin2 = Math.sin((time+y+x)*1/11000+12000);
+                let sin3 = Math.sin((time+y+x)*1/6500+5000);
+                let sin4 = Math.sin((time+y+x)*1/2100);
+
+                let tmp_noise = (noise.simplex2(x*1/100, y*1/100))*0.1;
+                const rand = ((0.4*sin1+0.3*sin2+0.2*sin3+0.1*sin4)*0.45)+tmp_noise;
+                
+                noiseValue = noiseMap[y][x] + rand; 
+
+                var cell = (x + y * size) * 4;
+                data[cell] = data[cell + 1] = data[cell + 2] = noiseValue*256;
+                data[cell + 3] = 255;
+            }
+        }
+    }
+
+    function generateWindMap(){
+        noiseMap = [];
+        
+        for (var y = 0; y < size; y++) {
+            noiseMap.push([])
+            for (var x = 0; x < size; x++) {
+                noiseMap[y].push(0);
+                
+                for(let i = 0; i < freqs.length; i++){
+                    noiseMap[y][x] += (noise.simplex2(x*freqs[i], y*freqs[i])+1)/2*stuff[i];
+                }
+                
+                var cell = (x + y * size) * 4;
+                data[cell] = data[cell + 1] = data[cell + 2] = noiseMap[y][x]*256;
+                data[cell + 3] = 255;
+            }
+        }
+            
+            
+    }
+            
+ctx.fillColor = 'black';
+
+generateWindMap();
+ctx.putImageData(image, 0, 0);
+
+
+setInterval(() => {
+    updateWindMap();
+
+    ctx.putImageData(image, 0, 0);
+}, 1000);
+
+
+
+</script>
+
