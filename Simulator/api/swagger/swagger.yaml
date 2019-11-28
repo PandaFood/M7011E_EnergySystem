@@ -23,12 +23,77 @@ definitions:
         type: "string"
       adress:
         type: "string"
+  HouseId:
+    properties:
+      houseId:
+        type: "string"
+  StorageId:
+    properties:
+      storageId:
+        type: "string"
+  Storage:
+    properties:
+      id:
+        type: "string"
+      houseId:
+        type: "string"
+      maxCapacity:
+        type: "float"
+      currentCapacity:
+        type: "float"
+      fillPercentage:
+        type: "float"
+  StorageUpdate:
+    properties:
+      storageId:
+        type: "string"
+      currentCapacity:
+        type: "float"
+  StorageEvent:
+    properties:
+      id:
+        type: "string"
+      storageId:
+        type: "string"
+      currentCapacity:
+        type: "float"
+      timestamp:
+        type: "timestamp"
+
+  Producer:
+    properties:
+      id:
+        type: "string"
+      houseId:
+        type: "string"
+      type:
+        type: "string"
+      coord:
+        type: "array"
+    
+  ProducerEvent:
+    properties:
+      id:
+        type: "string"
+      producerId:
+        type: "string"
+      status:
+        type: "string"
+      power:
+        type: "float"
+      windSpeed:
+        type: "float"
+      timestamp:
+        type: "timestamp"
+
+
 
 paths:
   /api/house:
     get:
       tags:
         - "House"
+      summary: "Returns all houses"
       description: "Returns all houses"
       produces:
         - "application/json"
@@ -40,8 +105,10 @@ paths:
             items:
               $ref: '#/definitions/House'
     post:
+      tags:
+        - House
       summary: "Add a new house"
-      description: ""
+      description: "Add a new house"
       consumes:
       - "application/json"
       produces:
@@ -63,7 +130,7 @@ paths:
     get:
       tags:
         - House
-      description: Returns all houses
+      description: Returns house with given id
       produces:
         - application/json
       parameters:
@@ -77,3 +144,178 @@ paths:
           description: A house object
           schema:
             $ref: '#/definitions/House'
+  /api/storage:
+    get:
+      tags:
+        - "Storage"
+      summary: "Returns all storages belonging to a house"
+      description: "Returns all storages belonging to a house"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/HouseId"
+      responses:
+        200:
+          description: "An array of storages"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Storage'
+    post:
+      tags:
+        - "Storage"
+      summary: "Add a new storage to a house"
+      description: "Add a new storage to a house"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Storage"
+      responses:
+        400:
+          description: "Invalid input supplied"
+        405:
+          description: "Validation exception"
+  /api/storage/update:
+    post:
+      tags:
+        - "Storage"
+      summary: "Update a storage with new values"
+      description: "Update a storage with new values"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/StorageUpdate"
+      responses:
+        400:
+          description: "Invalid input supplied"
+        405:
+          description: "Validation exception"
+  /api/storage/storageEvent:
+    get:
+      tags:
+        - "Storage"
+      summary: "Returns all storage events belonging to a storage"
+      description: "Returns all storage events belonging to a storage"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/storageId"
+      responses:
+        200:
+          description: "An array of storage events"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/StorageEvent'
+    post:
+      tags:
+        - "Storage"
+      summary: "Add a new storage event to a storage"
+      description: "Add a new storage event to a storage"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/StorageEvent"
+      responses:
+        400:
+          description: "Invalid input supplied"
+        405:
+          description: "Validation exception"    
+  
+  /api/producer:
+    get:
+      tags:
+        - "Producer"
+      summary: "Returns all producers belonging to a house"
+      description: "Returns all producers belonging to a house"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/HouseId"
+      responses:
+        200:
+          description: "An array of storages"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Storage'
+    post:
+      tags:
+        - "Producer"
+      summary: "Add a new producer to a house"
+      description: "Add a new producer to a house"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Producer"
+      responses:
+        400:
+          description: "Invalid input supplied"
+        405:
+          description: "Validation exception"
+
+  /api/producer/producerEvent:
+    get:
+      tags:
+        - "Producer"
+      summary: "Returns all producer events belonging to a producer"
+      description: "Returns all producer events belonging to a producer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ProducerId"
+      responses:
+        200:
+          description: "An array of storage events"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/StorageEvent'
