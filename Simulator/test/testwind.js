@@ -30,7 +30,7 @@ describe('Wind Turbine', function() {
 			windTurbine = new WindTurbine(0);
 			windTurbine.windSpeed = 10;
 			windTurbine.generatePower(0.1);
-			assert.equal(windTurbine.power.toFixed(2), 7.22);
+			assert.equal(windTurbine.power.toFixed(2), 0.72);
 		});
 
 		it('speeds lower then minimum speed or higher then maximum should give 0', function() {

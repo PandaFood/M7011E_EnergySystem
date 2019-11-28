@@ -1,14 +1,15 @@
-const fs = require('fs');
 const House = require('./house');
 const CoalPlant = require('./coalplant');
+const Database = require('../postgres/database');
 
 Simulator = {
 	price: 0,
-	power: 1000,
+	power: 10000,
 	houses: [],
 	powerGain: 0,
 	powerLoss: 0,
-	timestamp: Date.now(),
+	timestamp: 0,
+	pollTime: 1000,
 	/**
 	 * Sell power to a house
 	 * @param {number} powerNeed
@@ -18,11 +19,12 @@ Simulator = {
 		this.power -= powerNeed;
 		this.powerLoss += powerNeed;
 
-		// prevent negative values until buying from a coal plant is possible
-		if (this.power <= 0) {
+		if (this.power <= 0 && CoalPlant.getStatus() == 'up') {
 			this.power += CoalPlant.sellPower(100);
+		} else if (this.power <= 0) {
+			this.power = 0;
+			return 0;
 		}
-		// TODO: buy power from a power plant if needed
 		return powerNeed;
 	},
 
@@ -34,12 +36,22 @@ Simulator = {
 		this.power += power;
 		this.powerGain += power;
 	},
+	storeWindData(polledData) {
+		polledData.timestamp = this.timestamp;
+		Database.addProducerEvent(polledData);
+	},
+	storeBatteryData(batteryData) {
+		batteryData.timestamp = this.timestamp;
+		Database.addStorageEvent(batteryData);
+		Database.updateStorage(batteryData.id, batteryData.currentCapacity);
+	},
+	initHouses: async function() {
+		const houses = await Database.getHouses();
+		houses.rows.forEach(async (house) => {
+			const batteries = await Database.getStorages(house.id);
+			const windTurbines = await Database.getProducers(house.id);
 
-	initHouses: function(configPath) {
-		const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-
-		config.forEach((initValues) => {
-			this.houses.push(new House(initValues, this));
+			this.houses.push(new House(house, windTurbines.rows, batteries.rows, this));
 		});
 	},
 
@@ -57,18 +69,18 @@ Simulator = {
 		self.calcPrice();
 	},
 
-	runSimulation: function() {
-		this.initHouses('config/house.json');
-
-		setInterval(this.simulationLoop, 1000, this);
+	runSimulation: async function() {
+		await this.initHouses();
+		this.timestamp = Date.now();
+		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
 		const cd = 10 ** 6; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
 		this.price = cd / this.power + cs * this.powerLoss;
 
-		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
-		// 				this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
+		console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
+						this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
 
 		this.powerLoss = 0;
 	},

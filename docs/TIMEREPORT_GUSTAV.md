@@ -12,3 +12,5 @@ Date | Time spent (h) | Feature
 19-11-14 | 4h | Simulate the power network with buying and selling power
 19-11-15 | 2h | Simulate wind turbine breakdown
 19-11-18 | 2h | Simulate a Coal Plant that can be started and stoped via the API
+19-11-20 | 4h | Add houses and batteries to the database via the API
+19-11-25 | 6h | Write extra assignment on security
