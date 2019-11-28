@@ -12,3 +12,8 @@ Date | Time spent | Feature
 19-11-14 | 3h | Setup basic swagger
 19-11-14 | 2h | Refactor api
 19-11-19 | 2h | Change swagger from jsdoc to yaml based
+19-11-19 | 1h | Write documentation
+19-11-20 | 3h | More api building
+19-11-25 | 4h | Writing security homework
+19-11-26 | 2h | Writing security homework
+19-11-28 | 2h | Authentication
