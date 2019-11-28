@@ -29,8 +29,7 @@ class House {
 		this.windTurbines = [];
 
 		windTurbines.forEach((turbine) => {
-			const tmpCoords = ['50', '50'];
-			this.windTurbines.push(new WindTurbine(turbine.id, tmpCoords, this.pollTime));
+			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
 		});
 
 

@@ -1,4 +1,5 @@
 const gaussian = require('gaussian');
+const Noise = require('./noise');
 
 /**
  *
@@ -12,8 +13,12 @@ class WindTurbine {
 	 */
 	constructor(id, coords, pollTime) {
 		this.id = id;
+
+		coords.forEach((coord) => {
+			coord = parseInt(coord);
+		});
 		this.coords = coords;
-		this.windSpeed = this.generateStartWind();
+		this.windSpeed = Noise.noiseMap[this.coords[1]][this.coords[0]],
 		this.power = 0; // power in Ws
 
 		this.timestamp = Date.now();
@@ -36,15 +41,18 @@ class WindTurbine {
 	}
 
 	/**
-	 * Generate the wind for the next poll in the simulation.
-	 * The generation is based on a Gaussian distribution with the poll time as variance
-	 * This ensures that higher times betweem polls gives a higher chanse of bigger differences in wind speed
+	 * Get the windspeed by taking the noice on the coordinate and using it in a
+	 * function w(n) = 16(n^5 + n) + 1 giving a nice curve for modeling the windspeed
 	 */
 	generateWind() {
-		const distribution = gaussian(this.calcOffset(), this.pollTime / 1000);
-		let wind = this.windSpeed + distribution.ppf(Math.random());
-		if (wind < 0) wind = 0;
-		this.windSpeed = wind;
+		const noiseValue = Noise.noiseMap[this.coords[1]][this.coords[0]];
+
+		this.windSpeed = 16*(noiseValue**5 + noiseValue) + 1;
+		if (noiseValue < 0) {
+			this.windSpeed = 0;
+		} else if (this.noiseValue > 1) {
+			this.windSpeed = 35;
+		}
 	}
 
 	/**
@@ -141,7 +149,6 @@ class WindTurbine {
 	 */
 	runSimulation(deltaTime) {
 		this.simulateBreakdown();
-
 		const pollData = {
 			id: this.id,
 			power: this.power,
