@@ -344,10 +344,10 @@ const Noise = {
 	freqs: [1/200, 1/125, 1/30],
 	stuff: [0.7, 0.20, 0.10],
 
-	updateWindMap: function() {
+	updateWindMap: function(seedVal) {
 		const time = parseInt(Date.now()/1000);
 
-		seed(Math.random());
+		seed(seedVal);
 
 		const sin1 = Math.sin((time)*1/71+15);
 		const sin2 = Math.sin((time)*1/57+6);
@@ -364,8 +364,8 @@ const Noise = {
 		}
 	},
 
-	generateWindMap: function() {
-		seed(Math.random());
+	generateWindMap: function(seedVal) {
+		seed(seedVal);
 
 		for (let y = 0; y < this.size; y++) {
 			this.baseNoiseMap.push([]);
@@ -380,6 +380,8 @@ const Noise = {
 				}
 			}
 		}
+
+		this.noiseMap = this.baseNoiseMap;
 	},
 };
 

@@ -58,7 +58,7 @@ Simulator = {
 	},
 
 	simulationLoop: function(self) {
-		Noise.updateWindMap();
+		Noise.updateWindMap(Math.random());
 
 		const currentTime = Date.now();
 		const deltaTime = (currentTime - self.timestamp) / 1000;
@@ -76,7 +76,7 @@ Simulator = {
 	runSimulation: async function() {
 		await this.initHouses();
 		this.timestamp = Date.now();
-		Noise.generateWindMap();
+		Noise.generateWindMap(Math.random());
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
