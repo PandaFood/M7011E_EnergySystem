@@ -13,7 +13,6 @@ class WindTurbine {
 	 */
 	constructor(id, coords, pollTime) {
 		this.id = id;
-
 		coords.forEach((coord) => {
 			coord = parseInt(coord);
 		});
@@ -29,15 +28,6 @@ class WindTurbine {
 		this.minSpeed = 3.0; // minimum wind peed the turbine works in
 		this.minOptimalSpeed = 14.0; // minimum wind speed of which the turbines produces maximum power
 		this.status = 'up';
-	}
-
-	/**
-	 * Generates a starting wind speed based on a Gaussian distribution
-	 * @return {number} random gaussian distributed number
-	 */
-	generateStartWind() {
-		const distribution = gaussian(8.0, 2);
-		return distribution.ppf(Math.random());
 	}
 
 	/**
@@ -69,34 +59,6 @@ class WindTurbine {
 		const sigmoid = distribution.cdf(windSpeed);
 
 		return sigmoid * this.linearPowerCoeff;
-	}
-
-	/**
-	 * Calculate and offset for the Gaussian distribution used to generate wind.
-	 * Low wind values should give a slight higher chance of moving to higher speeds
-	 * and high wind values should have a higher chance of slowing down
-	 * @return {number}
-	 */
-	calcOffset() {
-		let offset = 0;
-
-		if (this.windSpeed < this.minSpeed * 2) {
-			if (this.windSpeed < this.minSpeed) {
-				offset = 0.15;
-			} else {
-				offset = 0.05;
-			}
-		} else if (this.windSpeed > this.minOptimalSpeed) {
-			if (this.windSpeed > this.maxSpeed) {
-				offset = -0.05;
-			} else {
-				offset = -0.015;
-			}
-		} else {
-			offset = 0;
-		}
-
-		return offset;
 	}
 
 	/**
