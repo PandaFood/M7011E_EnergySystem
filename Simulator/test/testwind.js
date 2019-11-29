@@ -1,17 +1,23 @@
 const assert = require('assert');
 const WindTurbine = require('../simulation/windturbine');
+const Noise = require('../simulation/noise');
+
 
 describe('Wind Turbine', function() {
 	describe('#generateStartWind()', function() {
 		it('should be greater than 0', function() {
-			windTurbine = new WindTurbine(0);
-			assert.ok(windTurbine.windSpeed > 0);
+			Noise.generateWindMap(1);
+			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
+			windTurbine.generateWind();
+			assert.equal(windTurbine.windSpeed.toFixed(2), 7.67);
 		});
 	});
 
 	describe('#calcPowerCoeff(windSpeed)', function() {
 		it('', function() {
-			windTurbine = new WindTurbine(0);
+			Noise.generateWindMap(1);
+
+			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.linearPowerCoeff = 1;
 			assert.equal(windTurbine.calcPowerCoeff(0).toFixed(2), 0);
 			assert.equal(windTurbine.calcPowerCoeff(3.5).toFixed(2), 0.02);
@@ -27,20 +33,20 @@ describe('Wind Turbine', function() {
 
 	describe('#generatePower()', function() {
 		it('generated power should be 7.22', function() {
-			windTurbine = new WindTurbine(0);
+			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.windSpeed = 10;
 			windTurbine.generatePower(0.1);
 			assert.equal(windTurbine.power.toFixed(2), 0.72);
 		});
 
 		it('speeds lower then minimum speed or higher then maximum should give 0', function() {
-			windTurbine = new WindTurbine(0);
+			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.windSpeed = windTurbine.minSpeed;
 			windTurbine.timestamp = Date.now() - 100;
 			windTurbine.generatePower();
 			assert.equal(windTurbine.power.toFixed(2), 0);
 
-			windTurbine = new WindTurbine(0);
+			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.windSpeed = windTurbine.minSpeed - 0.1;
 			windTurbine.timestamp = Date.now() - 100;
 			windTurbine.generatePower();
