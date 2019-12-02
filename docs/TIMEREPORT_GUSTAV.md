@@ -14,3 +14,7 @@ Date | Time spent (h) | Feature
 19-11-18 | 2h | Simulate a Coal Plant that can be started and stoped via the API
 19-11-20 | 4h | Add houses and batteries to the database via the API
 19-11-25 | 6h | Write extra assignment on security
+19-11-26 | 4h | Work on a windsimulation based on Perlin Noise
+19-11-27 | 1h | Write extra assignment on security
+19-11-27 | 0.5h | Work on a windsimulation based on Perlin Noise
+19-11-28 | 2h | Finishing WindSimulation by moving it to the backend and using it in the actual simulation

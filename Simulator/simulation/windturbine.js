@@ -1,4 +1,5 @@
 const gaussian = require('gaussian');
+const Noise = require('./noise');
 
 /**
  *
@@ -12,8 +13,11 @@ class WindTurbine {
 	 */
 	constructor(id, coords, pollTime) {
 		this.id = id;
+		coords.forEach((coord) => {
+			coord = parseInt(coord);
+		});
 		this.coords = coords;
-		this.windSpeed = this.generateStartWind();
+		this.windSpeed = Noise.noiseMap[this.coords[1]][this.coords[0]],
 		this.power = 0; // power in Ws
 
 		this.timestamp = Date.now();
@@ -27,24 +31,18 @@ class WindTurbine {
 	}
 
 	/**
-	 * Generates a starting wind speed based on a Gaussian distribution
-	 * @return {number} random gaussian distributed number
-	 */
-	generateStartWind() {
-		const distribution = gaussian(8.0, 2);
-		return distribution.ppf(Math.random());
-	}
-
-	/**
-	 * Generate the wind for the next poll in the simulation.
-	 * The generation is based on a Gaussian distribution with the poll time as variance
-	 * This ensures that higher times betweem polls gives a higher chanse of bigger differences in wind speed
+	 * Get the windspeed by taking the noice on the coordinate and using it in a
+	 * function w(n) = 16(n^5 + n) + 1 giving a nice curve for modeling the windspeed
 	 */
 	generateWind() {
-		const distribution = gaussian(this.calcOffset(), this.pollTime / 1000);
-		let wind = this.windSpeed + distribution.ppf(Math.random());
-		if (wind < 0) wind = 0;
-		this.windSpeed = wind;
+		const noiseValue = Noise.noiseMap[this.coords[1]][this.coords[0]];
+
+		this.windSpeed = 16*(noiseValue**5 + noiseValue) + 1;
+		if (noiseValue < 0) {
+			this.windSpeed = 0;
+		} else if (this.noiseValue > 1) {
+			this.windSpeed = 35;
+		}
 	}
 
 	/**
@@ -61,34 +59,6 @@ class WindTurbine {
 		const sigmoid = distribution.cdf(windSpeed);
 
 		return sigmoid * this.linearPowerCoeff;
-	}
-
-	/**
-	 * Calculate and offset for the Gaussian distribution used to generate wind.
-	 * Low wind values should give a slight higher chance of moving to higher speeds
-	 * and high wind values should have a higher chance of slowing down
-	 * @return {number}
-	 */
-	calcOffset() {
-		let offset = 0;
-
-		if (this.windSpeed < this.minSpeed * 2) {
-			if (this.windSpeed < this.minSpeed) {
-				offset = 0.15;
-			} else {
-				offset = 0.05;
-			}
-		} else if (this.windSpeed > this.minOptimalSpeed) {
-			if (this.windSpeed > this.maxSpeed) {
-				offset = -0.05;
-			} else {
-				offset = -0.015;
-			}
-		} else {
-			offset = 0;
-		}
-
-		return offset;
 	}
 
 	/**
@@ -141,7 +111,6 @@ class WindTurbine {
 	 */
 	runSimulation(deltaTime) {
 		this.simulateBreakdown();
-
 		const pollData = {
 			id: this.id,
 			power: this.power,

@@ -1,6 +1,7 @@
 const House = require('./house');
 const CoalPlant = require('./coalplant');
 const Database = require('../postgres/database');
+const Noise = require('./noise');
 
 Simulator = {
 	price: 0,
@@ -38,6 +39,7 @@ Simulator = {
 	},
 	storeWindData(polledData) {
 		polledData.timestamp = this.timestamp;
+		// console.log(polledData);
 		Database.addProducerEvent(polledData);
 	},
 	storeBatteryData(batteryData) {
@@ -56,6 +58,8 @@ Simulator = {
 	},
 
 	simulationLoop: function(self) {
+		Noise.updateWindMap(Math.random());
+
 		const currentTime = Date.now();
 		const deltaTime = (currentTime - self.timestamp) / 1000;
 		self.timestamp = new Date(currentTime);
@@ -72,6 +76,7 @@ Simulator = {
 	runSimulation: async function() {
 		await this.initHouses();
 		this.timestamp = Date.now();
+		Noise.generateWindMap(Math.random());
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
@@ -79,8 +84,8 @@ Simulator = {
 		const cs = 1; // Coeff for supply variable
 		this.price = cd / this.power + cs * this.powerLoss;
 
-		console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
-						this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
+		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
+		// this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
 
 		this.powerLoss = 0;
 	},
