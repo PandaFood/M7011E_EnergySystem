@@ -17,3 +17,9 @@ Date | Time spent | Feature
 19-11-25 | 4h | Writing security homework
 19-11-26 | 2h | Writing security homework
 19-11-28 | 2h | Authentication
+19-11-29 | 3h | Setup new dockers
+19-11-30 | 4h | Writing security homework
+19-12-02 | 4h | Authentication
+19-12-02 | 2h | Kubernetes intital deployment
+
+

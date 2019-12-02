@@ -11,17 +11,9 @@ services:
     volumes:
       - ./Prosumer:/usr/src/app/
     networks:
-      - prosumerNet
       - webNet
     ports:  
       - "3000:3000"
-    depends_on:
-      - promongo
-    links:
-      - promongo
-    environment:
-      MONGODB_USER: user
-      MONGODB_PASS: pass
 
   simulator:
     build: ./Simulator
@@ -43,6 +35,27 @@ services:
       PGUSER: sim
       PGPASSWORD: password
       PGDATABASE: simulator
+  
+  authenticator:
+    build: ./Authenticator
+    container_name: "authenticator-rest"
+    command: >
+      sh -c "npm install &&
+             npm run watch"
+    volumes:
+      - ./Authenticator:/usr/src/app/
+    networks:
+      - simulatorNet
+      - webNet
+    ports:  
+      - "3101:3000"
+    depends_on:
+      - simDB
+    environment:
+      PGHOST: authDB
+      PGUSER: auth
+      PGPASSWORD: password
+      PGDATABASE: authenticator
     
   simDB:
     image: postgres
@@ -55,8 +68,25 @@ services:
       simulatorNet:
         aliases: 
           - "simDB"
-    ports:
-      - "5432:5432"
+    #ports:
+    #  - "5432:5432"
+    volumes: 
+      - ./Simulator/postgres/schemas/init.sql:/docker-entrypoint-initdb.d/10-init.sql
+      - ./Simulator/postgres/schemas/dummy_info.sql:/docker-entrypoint-initdb.d/20-init.sql
+
+  authDB:
+    image: postgres
+    container_name: "authentication-postgressdb"
+    environment:
+      POSTGRES_USER: auth
+      POSTGRES_DB: authenticator
+      POSTGRES_PASSWORD: password
+    networks: 
+      authNet:
+        aliases: 
+          - "authDB"
+    #ports:
+    #  - "5432:5432"
     volumes: 
       - ./Simulator/postgres/schemas/init.sql:/docker-entrypoint-initdb.d/10-init.sql
       - ./Simulator/postgres/schemas/dummy_info.sql:/docker-entrypoint-initdb.d/20-init.sql
@@ -70,25 +100,14 @@ services:
       - simDB
     networks:
       - simulatorNet
+      - authNet
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: password
     ports:
       - "3001:80"
 
-  promongo:
-    image: mongo:latest
-    container_name: "prosumer-mongodb"
-    environment:
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - ./Prosumer/mongo/db:/data/db
-    ports:
-        - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
-
 networks: 
   simulatorNet:
-  prosumerNet:
+  authNet:
   webNet:

@@ -3,16 +3,6 @@
 -- Name: House; Type: TABLE; Schema: sim; owner: sim
 --
 
-CREATE TABLE "house" (
-    id uuid NOT NULL,
-    name text NOT NULL,
-    consumption int NOT NULL,
-    adress text
-);
-
-
-ALTER TABLE "house" OWNER TO sim;
-
 --
 -- TOC entry 204 (class 1259 OID 16394)
 -- Name: Producer; Type: TABLE; Schema: sim; owner: sim
@@ -81,9 +71,6 @@ ALTER TABLE "storageevent" OWNER TO sim;
 -- Name: House House_pkey; Type: CONSTRAINT; Schema: sim; owner: sim
 --
 
-ALTER TABLE ONLY "house"
-    ADD CONSTRAINT "house_pkey" PRIMARY KEY (id);
-
 
 --
 -- TOC entry 2801 (class 2606 OID 16421)
@@ -119,24 +106,6 @@ ALTER TABLE ONLY "storageevent"
 
 ALTER TABLE ONLY "storage"
     ADD CONSTRAINT "storage_pkey" PRIMARY KEY ("id");
-
-
---
--- TOC entry 2804 (class 2606 OID 16402)
--- Name: Producer owner_fk; Type: FK CONSTRAINT; Schema: sim; owner: sim
---
-
-ALTER TABLE ONLY "producer"
-    ADD CONSTRAINT "owner_fk" FOREIGN KEY ("owner") REFERENCES "house"(id) NOT VALID;
-
-
---
--- TOC entry 2805 (class 2606 OID 16412)
--- Name: Storage owner_fk; Type: FK CONSTRAINT; Schema: sim; owner: sim
---
-
-ALTER TABLE ONLY "storage"
-    ADD CONSTRAINT "owner_fk" FOREIGN KEY ("owner") REFERENCES "house"(id);
 
 
 --
