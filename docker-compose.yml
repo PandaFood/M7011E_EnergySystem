@@ -1,8 +1,31 @@
 version: '3'
  
 services:
+
+  prosumer:
+    build: ./Prosumer
+    container_name: "prosumer-web"
+    command: >
+      sh -c "npm install &&
+             npm run watch"
+    volumes:
+      - ./Prosumer:/usr/src/app/
+    networks:
+      - prosumerNet
+      - webNet
+    ports:  
+      - "3000:3000"
+    depends_on:
+      - promongo
+    links:
+      - promongo
+    environment:
+      MONGODB_USER: user
+      MONGODB_PASS: pass
+
   simulator:
     build: ./Simulator
+    container_name: "simulator-rest"
     command: >
       sh -c "npm install &&
              npm run watch"
@@ -10,6 +33,7 @@ services:
       - ./Simulator:/usr/src/app/
     networks:
       - simulatorNet
+      - webNet
     ports:  
       - "3100:3000"
     depends_on:
@@ -22,6 +46,7 @@ services:
     
   simDB:
     image: postgres
+    container_name: "simulation-postgressdb"
     environment:
       POSTGRES_USER: sim
       POSTGRES_DB: simulator
@@ -38,6 +63,7 @@ services:
 
   postgressAdmin:
     image: dpage/pgadmin4
+    container_name: "postgress-MyAdmin"
     depends_on:
       - simDB
     links: 
@@ -50,5 +76,19 @@ services:
     ports:
       - "3001:80"
 
+  promongo:
+    image: mongo:latest
+    container_name: "prosumer-mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./Prosumer/mongo/db:/data/db
+    ports:
+        - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+
 networks: 
   simulatorNet:
+  prosumerNet:
+  webNet:
