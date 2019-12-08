@@ -21,5 +21,10 @@ Date | Time spent | Feature
 19-11-30 | 4h | Writing security homework
 19-12-02 | 4h | Authentication
 19-12-02 | 2h | Kubernetes intital deployment
+19-12-04 | 3h | Evaluation of kuberentes
+19-12-05 | 2h | System architecture
+19-12-05 | 2h | Authentication
+19-12-08 | 2h | Learning nginx
+19-12-08 | 5h | Authentication
 
 

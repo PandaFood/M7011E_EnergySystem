@@ -1,13 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var apiRoute = require('./routes/api');
-var usersRouter = require('./routes/user');
+// Instantiate a new key
+require('./auth/keygen');
 
-var app = express();
+const apiRoute = require('./routes/api');
+const usersRouter = require('./routes/user');
+
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
