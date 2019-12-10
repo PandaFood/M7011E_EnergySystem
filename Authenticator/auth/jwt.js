@@ -6,12 +6,13 @@ const TokenHandler = {
 
   },
 
-  sign: async function(){
-
-    jwt.sign({
-      data: 'foobar'
+  sign: async function(name){
+    return jwt.sign({
+      data: 'foobar',
+      name: name
     }, process.env.PrivateKey, { expiresIn: '1d' });
-
   },
 
 }
+
+module.exports = TokenHandler;

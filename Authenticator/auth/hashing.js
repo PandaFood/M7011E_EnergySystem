@@ -8,6 +8,8 @@ const HashManager = {
   },
 
   verifyPassword: async function (passwordInput, passwordHash) {
+    console.log(passwordInput);
+    console.log(passwordHash);
     if (await argon.verify(passwordHash, passwordInput)) {
       return true;
     } else {

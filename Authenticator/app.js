@@ -7,8 +7,8 @@ const logger = require('morgan');
 // Instantiate a new key
 require('./auth/keygen');
 
-const apiRoute = require('./routes/api');
 const usersRouter = require('./routes/user');
+const oauthRouter = require('./routes/oauth');
 
 const app = express();
 
@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', apiRoute);
-app.use('/user', usersRouter);
+app.use('/auth/user', usersRouter);
+app.use('/auth/oauth', oauthRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,7 +34,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ error: err })
 });
 
 module.exports = app;

@@ -13,7 +13,7 @@ Date | Time spent | Feature
 19-11-14 | 2h | Refactor api
 19-11-19 | 2h | Change swagger from jsdoc to yaml based
 19-11-19 | 1h | Write documentation
-19-11-20 | 3h | More api building
+19-11-20 | 3h | More api buildingsimulator
 19-11-25 | 4h | Writing security homework
 19-11-26 | 2h | Writing security homework
 19-11-28 | 2h | Authentication
@@ -25,6 +25,7 @@ Date | Time spent | Feature
 19-12-05 | 2h | System architecture
 19-12-05 | 2h | Authentication
 19-12-08 | 2h | Learning nginx
-19-12-08 | 5h | Authentication
-
+19-12-08 | 5h | Some user handling and start of Oauth 2 spec
+19-12-19 | 4h | Continue with Oauth2 spec implimentation
+19-12-10 | 3h | Continue with Oauth2 spec implimentation
 
