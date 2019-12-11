@@ -29,11 +29,14 @@ function updateWindRow(id, data) {
     turbine.find('.turbine-production').html(data.power + 'kWh');
 
     if(data.status == 'running'){
+        turbine.find('.turbine-speed').html(data.speed + ' m/s');
+        turbine.find('.turbine-production').html(data.power + ' kWh');
         turbine.find('.turbine-status').html('<i class="fas fa-blender-phone"></i> ' + data.status);
     }else{
-        turbine.find('.turbine-status').html('<i class="fas fa-exclamation-circle"></i>' + data.status);
+        turbine.find('.turbine-speed').html('---');
+        turbine.find('.turbine-production').html('---');
+        turbine.find('.turbine-status').html('<i class="fas fa-exclamation-circle"></i> ' + data.status);
     }
-
 }
 
 function uuidv4() {
