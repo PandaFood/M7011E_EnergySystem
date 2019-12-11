@@ -12,6 +12,9 @@ function addWindRow(id, data) {
     turbine.show()
     windTable.row.add(turbine).draw();
 
+    turbine.on('click', function(){
+        console.log(id);
+    });
 
     updateWindRow(id, data);
 }

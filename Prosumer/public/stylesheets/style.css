@@ -94,6 +94,10 @@ table {
   font-size: 18px;
 }
 
+.turbine-row, .battery-row {
+  cursor: pointer;
+}
+
 .turbine-row.odd,
 .battery-row.odd {
   background: #FFFFFF;
