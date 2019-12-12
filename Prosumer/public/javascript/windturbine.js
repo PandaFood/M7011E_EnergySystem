@@ -5,6 +5,26 @@ let windConfig = {
 };
 let windTable = $('#wind-table').DataTable(windConfig);
 
+function openTurbineModal(id){
+    modal = $("#windturbine-modal");
+
+    modal.show();
+
+    let focus = true;
+
+    modal.on('hover', function(){
+        focus = true;
+    }, function() {
+        focus = false;
+    })
+
+    $("body").on('click', function(){ 
+        if(!focus){
+            modal.hide();
+        }
+    });
+}
+
 function addWindRow(id, data) {
     turbine = $('#template-turbine-row').clone();
     turbine.addClass('turbine-row');
@@ -13,7 +33,7 @@ function addWindRow(id, data) {
     windTable.row.add(turbine).draw();
 
     turbine.on('click', function(){
-        console.log(id);
+        openTurbineModal(id);
     });
 
     updateWindRow(id, data);

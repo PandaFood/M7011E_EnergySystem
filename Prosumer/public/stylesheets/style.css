@@ -124,3 +124,20 @@ td span {
   margin-left: -60px;
   margin-top: -60px;
 }
+
+.modal {
+  z-index: 999;
+  width: 80%;
+  height: 80%;
+  left: 10%;
+  top: 10%;
+  position: absolute;
+  background: white;
+  border: 5px solid  rgb(146, 146, 146);
+  border-radius: 5px;
+}
+.modal div{
+  padding: 50px;
+  z-index: 999;
+  position: relative;
+}
