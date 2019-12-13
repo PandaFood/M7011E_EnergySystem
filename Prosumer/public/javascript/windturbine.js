@@ -5,23 +5,16 @@ let windConfig = {
 };
 let windTable = $('#wind-table').DataTable(windConfig);
 
-function openTurbineModal(id){
-    modal = $("#windturbine-modal");
+function openTurbineModal(){
+    modal = $("#create-windturbine-modal");
 
     modal.show();
 
-    let focus = true;
 
-    modal.on('hover', function(){
-        focus = true;
-    }, function() {
-        focus = false;
-    })
+    let closeButton = modal.find('.btn-close-modal');
 
-    $("body").on('click', function(){ 
-        if(!focus){
-            modal.hide();
-        }
+    closeButton.on('click', function() {
+        modal.hide();
     });
 }
 
@@ -32,8 +25,8 @@ function addWindRow(id, data) {
     turbine.show()
     windTable.row.add(turbine).draw();
 
-    turbine.on('click', function(){
-        openTurbineModal(id);
+    turbine.on('click', function(e){
+        // open new window to display turbine data
     });
 
     updateWindRow(id, data);
@@ -62,10 +55,13 @@ function uuidv4() {
 }
   
 
+$('#btn-create-wind').on('click', function(e) {
+    openTurbineModal();
+});
 
 $(document).ready(function () {
     let id = uuidv4();
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
         if(i === 0){
             data = {
                 name: 'awert',

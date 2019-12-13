@@ -126,7 +126,7 @@ td span {
 }
 
 .modal {
-  z-index: 999;
+  z-index: 900;
   width: 80%;
   height: 80%;
   left: 10%;
@@ -138,6 +138,26 @@ td span {
 }
 .modal div{
   padding: 50px;
-  z-index: 999;
+  z-index: 901;
   position: relative;
+}
+
+.button {
+  float: right;
+  margin-right: 10px;
+}
+
+
+.btn-close-modal {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 41px;
+  height: 41px;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  font-size: 29px;
+  color: rgb(146, 146, 146);
+  z-index: 902;
+
 }
