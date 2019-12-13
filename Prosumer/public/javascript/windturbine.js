@@ -26,7 +26,7 @@ function addWindRow(id, data) {
     windTable.row.add(turbine).draw();
 
     turbine.on('click', function(e){
-        // open new window to display turbine data
+        window.open('/wind?id='+id, '_blank');
     });
 
     updateWindRow(id, data);
