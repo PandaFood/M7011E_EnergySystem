@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/wind', function(req, res, next) {
+  res.render('turbine-data');
+});
+
 module.exports = router;

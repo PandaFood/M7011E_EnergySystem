@@ -1,0 +1,23 @@
+<div id="dashboard">
+
+    <div id="picture-div">
+        <i class="fas fa-igloo"></i>
+    </div>
+    <div id="data-div">
+        Production: <span id="data-production">10 kWh</span></br>
+        Consumption:<span id="data-consumption">10 kWh</span></br>
+        Net production: <span id="data-net-production">10 kWh</span></br>
+        Price: <span id="data-price">50kr/kWh</span></br>
+    </div>
+
+    <div id="table-div">
+        <% include windturbine %>
+
+        <% include battery %>
+    </div>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="/javascript/windturbine.js"></script>
+    <script src="/javascript/battery.js"></script>
+
+</div>

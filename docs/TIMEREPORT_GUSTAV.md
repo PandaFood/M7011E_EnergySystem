@@ -18,3 +18,6 @@ Date | Time spent (h) | Feature
 19-11-27 | 1h | Write extra assignment on security
 19-11-27 | 0.5h | Work on a windsimulation based on Perlin Noise
 19-11-28 | 2h | Finishing WindSimulation by moving it to the backend and using it in the actual simulation
+19-12-09 | 5h | Work on website layout 
+19-12-11 | 3h | Tweaking website layout and work on popup modal
+19-12-12 | 1h | Architectural design discussion with Jonathan
