@@ -1,18 +1,39 @@
 const jwt = require('jsonwebtoken');
 
 const TokenHandler = {
-  verify: async function(){
+	verify: async function() {
 
 
-  },
+	},
 
-  sign: async function(name){
-    return jwt.sign({
-      data: 'foobar',
-      name: name
-    }, process.env.PrivateKey, { expiresIn: '1d' });
-  },
+	generateRefreshToken: async function(username) {
+		const refreshToken = jwt.sign({
+			data: {
 
-}
+			},
+			issued: timestamp(),
+			username: username,
+		}, process.env.PrivateKey, {expiresIn: '5d'});
+		return refreshToken;
+	},
+
+	generateAccessToken: async function(userID) {
+		const accessToken = jwt.sign({
+			data: {
+
+			},
+			issued: timestamp(),
+			userID: userID,
+		}, process.env.PrivateKey, {expiresIn: '1d'});
+		return accessToken;
+	},
+
+};
 
 module.exports = TokenHandler;
+
+
+// eslint-disable-next-line require-jsdoc
+function timestamp() {
+	return Date.now();
+}

@@ -5,28 +5,27 @@ const jwt = require('../auth/jwt');
 const hash = require('../auth/hashing');
 
 router
-  .get('/token', function (req, res, next) {
-    const input = req.body;
-    Database.loginUser(input.email).then((v) => {
-      const passwordHash = v.rows[0].password;
-      console.log(passwordHash);
-
-      hash.verifyPassword(input.password, passwordHash)
-        .then((verified) => {
-          if (verified) {
-            jwt.sign(input.email).then((v) => {
-              res.json({
-                cookie: v
-              })
+	.get('/token/new', function(req, res, next) {
+		const input = req.body;
+		Database.loginUser(input.email).then((v) => {
+			const passwordHash = v.rows[0].password;
+			const userID = v.rows[0].id;
 
 
-            });
-          } else {
-            res.status(401).send("Login failed");
-          }
-        })
-        .catch((err) => console.log(err));
-    })
-  });
+			hash.verifyPassword(input.password, passwordHash)
+				.then((verified) => {
+					if (verified) {
+						jwt.generateAccessToken(userID).then((v) => {
+							res.json({
+								accesstoken: v,
+							});
+						});
+					} else {
+						res.status(401).send('Login failed');
+					}
+				})
+				.catch((err) => console.log(err));
+		});
+	});
 
 module.exports = router;

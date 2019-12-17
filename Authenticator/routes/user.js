@@ -7,20 +7,20 @@ const hash = require('../auth/hashing');
 
 /* GET users listing. */
 router
-	.get('/user', function (req, res, next) {
+	.get('/', function(req, res, next) {
 		Database.getUsers()
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	})
-	.post('/user', function (req, res, next) {
-		const input = req.body
-		const password = hash.hashPassword(input.password).then((password) => {
+	.post('/', function(req, res, next) {
+		const input = req.body;
+		hash.hashPassword(input.password).then((password) => {
 			Database.addUser(input.name, input.adress, input.city, input.country, input.co, input.email, password)
 				.then((v) => res.json(v.rows))
 				.catch((err) => console.log(err));
-		})
+		});
 	})
-	.delete('/user', function (req, res, next) {
+	.delete('/', function(req, res, next) {
 		const input = req.body;
 		Database.removeUser(input.id)
 			.then((v) => res.json(v.rows))
@@ -28,14 +28,11 @@ router
 	});
 
 router
-	.get('/user/:userID', function (req, res, next) {
+	.get('/:userID', function(req, res, next) {
 		Database.getUser(req.params.userID)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
-
-
-
 
 
 module.exports = router;
