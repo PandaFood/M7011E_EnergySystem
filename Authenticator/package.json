@@ -1,0 +1,29 @@
+{
+  "name": "prosumer",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha ./test",
+    "watch": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "argon2": "^0.25.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongod": "^2.0.0",
+    "mongoose": "^5.7.13",
+    "morgan": "~1.9.1",
+    "node-rsa": "^1.0.7",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-google": "^0.14.0",
+    "nodemon": "^2.0.1"
+  }
+}
