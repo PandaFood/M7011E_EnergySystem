@@ -342,7 +342,7 @@ const Noise = {
 	size: 200,
 
 	freqs: [1/200, 1/125, 1/30],
-	stuff: [0.7, 0.20, 0.10],
+	stuff: [0.7, 0.2, 0.1],
 
 	updateWindMap: function(seedVal) {
 		const time = parseInt(Date.now()/1000);
@@ -357,7 +357,7 @@ const Noise = {
 		for (let y = 0; y < this.size; y++) {
 			for (let x = 0; x < this.size; x++) {
 				const tmpNoise = (simplex2(x*1/100, y*1/100))*0.075;
-				const rand = ((0.4*sin1+0.3*sin2+0.2*sin3+0.1*sin4)*0.8) + tmpNoise;
+				const rand = ((0.4*sin1+0.3*sin2+0.2*sin3+0.1*sin4)*0.7) + tmpNoise;
 
 				this.noiseMap[y][x] = this.baseNoiseMap[y][x] + rand;
 			}
@@ -378,10 +378,9 @@ const Noise = {
 				for (let i = 0; i < this.freqs.length; i++) {
 					this.baseNoiseMap[y][x] += (simplex2(x*this.freqs[i], y*this.freqs[i])+1)/2*this.stuff[i];
 				}
+				this.baseNoiseMap[y][x] = this.baseNoiseMap[y][x]*0.8 + 0.1;
 			}
 		}
-
-		this.noiseMap = this.baseNoiseMap;
 	},
 };
 
