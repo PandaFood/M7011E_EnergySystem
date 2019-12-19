@@ -30,3 +30,6 @@ Date | Time spent | Feature
 19-12-10 | 3h | Continue with Oauth2 spec implimentation
 19-12-12 | 1h | Architectural design discussion with Gustav
 19-12-17 | 2h | Finished with Oauth2 access tokens
+19-12-17 | 2h | Create login page
+19-12-18 | 2h | Learn Vue
+19-12-19 | 4h | Convert login page to vue and connect to backend.

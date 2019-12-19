@@ -15,7 +15,8 @@ router
 	.post('/', function(req, res, next) {
 		const input = req.body;
 		hash.hashPassword(input.password).then((password) => {
-			Database.addUser(input.name, input.adress, input.city, input.country, input.co, input.email, password)
+			Database.addUser(input.name.toLowerCase(), input.adress.toLowerCase(), input.city.toLowerCase(),
+				input.country.toLowerCase(), input.co, input.email.toLowerCase(), password)
 				.then((v) => res.json(v.rows))
 				.catch((err) => console.log(err));
 		});
