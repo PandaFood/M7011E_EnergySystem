@@ -3,8 +3,11 @@ CoalPlant = {
 
 	status: 'down',
 
-	producedPower: 0,
 	productionSpeed: 500, // Ws
+
+	capacity: 0,
+	maxCapacity: 0,
+	fillPercentage: 0, // how much power should be sent to the battery instead of the system
 
 	startPlant: function() {
 		if (this.status == 'down') {
@@ -27,20 +30,23 @@ CoalPlant = {
 	},
 	sellPower: function(requestedPower) {
 		if (this.producedPower < requestedPower) {
-			const sellPower = this.producedPower;
-			this.producedPower = 0;
+			const sellPower = this.capacity;
+			this.capacity = 0;
 			return sellPower;
 		} else {
-			this.producedPower -= requestedPower;
+			this.capacity -= requestedPower;
 			return requestedPower;
 		}
 	},
 
 	runPlant: function(deltaTime) {
 		if (this.status == 'up') {
-			this.producedPower += this.productionSpeed * deltaTime;
+			this.capacity += this.productionSpeed * deltaTime;
+
+			if (this.capacity > this.maxCapacity) {
+				this.capacity = this.maxCapacity;
+			}
 		}
-		// console.log(this.producedPower);
 	},
 
 };
