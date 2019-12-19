@@ -21,3 +21,4 @@ Date | Time spent (h) | Feature
 19-12-09 | 5h | Work on website layout 
 19-12-11 | 3h | Tweaking website layout and work on popup modal
 19-12-12 | 1h | Architectural design discussion with Jonathan
+19-12-19 | 1h | Tweak simulation parameters
