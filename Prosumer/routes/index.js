@@ -6,6 +6,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Express' });
+});
+
+router.get('/register', function(req, res, next) {
+  res.render('register', { title: 'Express' });
+});
+
+
 router.get('/wind', function(req, res, next) {
   res.render('turbine-data');
 });
