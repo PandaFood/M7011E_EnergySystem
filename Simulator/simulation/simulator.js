@@ -4,7 +4,9 @@ const Database = require('../postgres/database');
 const Noise = require('./noise');
 
 Simulator = {
-	price: 0,
+	currentPrice: 0,
+	calculatedPrice: 0,
+	useCalculatedPrice: true,
 	power: 10000,
 	houses: [],
 	powerGain: 0,
@@ -86,18 +88,19 @@ Simulator = {
 	},
 
 	runSimulation: async function() {
+		Noise.generateWindMap(Math.random());
 		await this.initHouses();
 		this.timestamp = Date.now();
-		Noise.generateWindMap(Math.random());
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
 		const cd = 10 ** 6; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
-		this.price = cd / this.power + cs * this.powerLoss;
+		this.calculatedPrice = cd / this.power + cs * this.powerLoss;
 
-		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
-		// this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
+		if (this.useCalculatedPrice) {
+			this.currentPrice = this.calculatedPrice;
+		}
 
 		this.powerLoss = 0;
 	},

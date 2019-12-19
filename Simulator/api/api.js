@@ -108,6 +108,25 @@ router
 	});
 
 router
+	.get('/currentPrice', function(req, res, next) {
+		res.send({
+			price: Simulation.currentPrice,
+		});
+	})
+	// only manager should be able to set price
+	.post('/currentPrice', function(req, res, next) {
+		Simulation.useCalculatedPrice = req.query.useCalculatedPrice;
+
+		if (Simulation.useCalculatedPrice) {
+			Simulation.currentPrice = Simulation.calculatedPrice;
+		} else {
+			Simulation.currentPrice = req.query.price;
+		}
+
+		res.send(200);
+	});
+
+router
 	.get('/startSimulation', function(req, res, next) {
 		Simulation.runSimulation();
 	});
