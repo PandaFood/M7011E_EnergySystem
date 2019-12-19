@@ -33,7 +33,10 @@ router
 		const currentCapacity = req.query.currentCapacity;
 		const fillPercentage = req.query.fillPercentage;
 		Database.addStorage(owner, maxCapacity, currentCapacity, fillPercentage)
-			.then((v) => res.json(v.rows))
+			.then((v) => {
+				Simulation.refreshBatteries(houseId);
+				res.json(v.rows);
+			})
 			.catch((err) => console.log(err));
 	})
 	.get('/storage', function(req, res, next) {
@@ -75,7 +78,10 @@ router
 		const coords = req.query.coords;
 
 		Database.addProducer(houseId, coords, type)
-			.then((v) => res.json(v.rows))
+			.then((v) => {
+				Simulation.refreshWindTurbines(houseId);
+				res.json(v.rows);
+			})
 			.catch((err) => console.log(err));
 	})
 	.get('/producer', function(req, res, next) {

@@ -37,15 +37,27 @@ Simulator = {
 		this.power += power;
 		this.powerGain += power;
 	},
-	storeWindData(polledData) {
+	storeWindData: function(polledData) {
 		polledData.timestamp = this.timestamp;
-		// console.log(polledData);
+		console.log(polledData);
 		Database.addProducerEvent(polledData);
 	},
-	storeBatteryData(batteryData) {
+	storeBatteryData: function(batteryData) {
 		batteryData.timestamp = this.timestamp;
 		Database.addStorageEvent(batteryData);
 		Database.updateStorage(batteryData.id, batteryData.currentCapacity);
+	},
+	refreshWindTurbines: async function(houseId) {
+		const windTurbines = await Database.getProducers(houseId);
+		const house = this.houses.find((house) => house.id === houseId);
+
+		house.refreshWindTurbines(windTurbines.rows);
+	},
+	refreshBatteries: async function(houseId) {
+		const batteries = await Database.getStorages(houseId);
+		const house = this.houses.find((house) => house.id === houseId);
+
+		house.refreshBatteries(batteries.rows);
 	},
 	initHouses: async function() {
 		const houses = await Database.getHouses();

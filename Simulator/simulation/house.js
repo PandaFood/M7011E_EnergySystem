@@ -145,6 +145,34 @@ class House {
 	}
 
 	/**
+	 * Reload the list of batteries so that new ones are added during runtime
+	 * @param {JSON} batteries
+	 */
+	refreshBatteries(batteries) {
+		this.batteries = [];
+		this.haveBattery = false;
+		batteries.forEach((battery) => {
+			this.haveBattery = true;
+			battery.currentCapacity = parseInt(battery.currentCapacity);
+			battery.fillCapacity = parseFloat(battery.fillCapacity);
+			battery.maxCapacity = parseInt(battery.maxCapacity);
+
+			this.batteries.push(battery);
+		});
+	}
+
+	/**
+	 * Reload the list of wind turbines so that new ones are added during runtime
+	 * @param {JSON} windTurbines
+	 */
+	refreshWindTurbines(windTurbines) {
+		this.windTurbines = [];
+		windTurbines.forEach((turbine) => {
+			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
+		});
+	}
+
+	/**
 	 * Runs a step in the simulation, calculating the delta time from the last poll
 	 * Fetching and consuming power
 	 * @param {number} deltaTime
