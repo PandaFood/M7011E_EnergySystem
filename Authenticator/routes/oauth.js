@@ -5,12 +5,15 @@ const jwt = require('../auth/jwt');
 const hash = require('../auth/hashing');
 
 router
-	.get('/token/new', function(req, res, next) {
+	.post('/token/new', function(req, res, next) {
 		const input = req.body;
-		Database.loginUser(input.email).then((v) => {
+		Database.loginUser(input.email.toLowerCase()).then((v) => {
+			if (v.rows < 1) {
+				return res.status(401).send('Login failed');
+			}
+
 			const passwordHash = v.rows[0].password;
 			const userID = v.rows[0].id;
-
 
 			hash.verifyPassword(input.password, passwordHash)
 				.then((verified) => {
@@ -25,7 +28,7 @@ router
 					}
 				})
 				.catch((err) => console.log(err));
-		});
+		}).catch((err) => console.log(err));
 	});
 
 module.exports = router;

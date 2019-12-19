@@ -27,7 +27,18 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    meta: {
+      loginPage: true
+    },
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {
+      
+    },
+    component: () => import('../views/Register.vue')
   },
 ]
 
@@ -53,7 +64,7 @@ router.beforeEach((to, from, next) => {
                   next()
               }
               else{
-                  next({ name: 'userboard'})
+                  next({ name: 'home'})
               }
           }else {
               next()
@@ -64,7 +75,7 @@ router.beforeEach((to, from, next) => {
           next()
       }
       else{
-          next({ name: 'userboard'})
+        next({ name: 'home'})
       }
   }else {
       next() 
