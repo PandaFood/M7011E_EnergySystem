@@ -41,7 +41,6 @@ Simulator = {
 	},
 	storeWindData: function(polledData) {
 		polledData.timestamp = this.timestamp;
-		console.log(polledData);
 		Database.addProducerEvent(polledData);
 	},
 	storeBatteryData: function(batteryData) {
