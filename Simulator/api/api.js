@@ -115,7 +115,7 @@ router
 	})
 	// only manager should be able to set price
 	.post('/currentPrice', function(req, res, next) {
-		Simulation.useCalculatedPrice = req.query.useCalculatedPrice;
+		Simulation.useCalculatedPrice = 'true' == req.query.useCalculatedPrice;
 
 		if (Simulation.useCalculatedPrice) {
 			Simulation.currentPrice = Simulation.calculatedPrice;
