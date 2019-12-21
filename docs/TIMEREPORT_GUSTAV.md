@@ -36,3 +36,6 @@ Date | Time spent (h) | Feature
 19-12-30 | 2h | Show current wind data in turbine tab, update values in real time
 19-12-30 | 1h | Open a new tab for displaying battery data
 20-01-02 | 6h | Add graph for batteries, fix GUI updates in real time, update API, remade how batteries work in the simulation
+20-01-03 | 4h | Allow user to create new Wind Turbines, minor tweaks
+20-01-05 | 3h | Allow user to create new Batteries, Add better error responses from the API, more tweaks
+20-01-06 | 1h | Remade how the Coalplant handles batteries, add more style to buttons
