@@ -23,4 +23,6 @@ Date | Time spent (h) | Feature
 19-12-12 | 1h | Architectural design discussion with Jonathan
 19-12-19 | 1h | Tweak simulation parameters
 19-12-19 | 4h | Load new batteries/turbines if added during runtime, let manager controll price via the api, add max capacity to coal plant
+19-12-20 | 4h | Begun to move the dashboard from EJS to Vue
+19-12-21 | 1h | Add tables for batteries as well
 19-12-28 | 1h | Added houses to the Simulator again and updated tests

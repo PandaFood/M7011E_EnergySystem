@@ -40,6 +40,14 @@ const routes = [
     },
     component: () => import('../views/Register.vue')
   },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    meta: {
+      
+    },
+    component: () => import('../views/Dashboard.vue')
+  },
 ]
 
 const router = new VueRouter({
