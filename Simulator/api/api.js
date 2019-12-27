@@ -111,9 +111,9 @@ router
 	});
 
 router
-	.get('/producerEvent', function(req, res, next) {
-		const producerId = req.query.producerId;
-		Database.getProducerEvents(producerId)
+	.get('/allLatestProducerEvent', function(req, res, next) {
+		const houseId = req.query.houseId;
+		Database.getLatestHouseProducerEvents(houseId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
