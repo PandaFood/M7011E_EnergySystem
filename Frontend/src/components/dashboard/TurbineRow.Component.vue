@@ -1,5 +1,5 @@
 <template>
-    <tr>
+    <tr @click='openTab'>
         <td>{{turbine.producerId.split('-')[0]}}...</td>
         <td>{{turbine.windSpeed.toFixed(2)}}</td>
         <td>{{turbine.energyProduced.toFixed(2)}}</td>
@@ -10,7 +10,13 @@
 <script>
 export default {
     name: "TurbineRow",
-    props: ["turbine"]
+    props: ["turbine"],
+    methods: {
+        openTab: function() {
+            window.open('http://localhost/wind', '_blank');
+        }
+    }
+
 }
 </script>
 
