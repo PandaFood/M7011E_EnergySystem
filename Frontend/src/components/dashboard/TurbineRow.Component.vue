@@ -1,8 +1,8 @@
 <template>
     <tr>
-        <td>{{turbine.id}}</td>
-        <td>{{turbine.windSpeed}}</td>
-        <td>{{turbine.currentProduction}}</td>
+        <td>{{turbine.producerId.split('-')[0]}}...</td>
+        <td>{{turbine.windSpeed.toFixed(2)}}</td>
+        <td>{{turbine.energyProduced.toFixed(2)}}</td>
         <td>{{turbine.status}}</td>
     </tr>
 </template>

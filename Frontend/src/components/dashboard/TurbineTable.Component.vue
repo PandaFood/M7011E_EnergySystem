@@ -7,7 +7,6 @@
                 <th> Wind Speed (m/s)</th>
                 <th> Current Production (kWh)</th>
                 <th> Status </th>
-
             </tr>
             <tbody v-bind:key="turbine.id" v-for="turbine in turbines">
                 <TurbineRow v-bind:turbine="turbine" /> 
@@ -21,6 +20,7 @@
 <script>
 
 import TurbineRow from '@/components/dashboard/TurbineRow.Component.vue'
+import axios from 'axios'
 
 export default {
     name: "TurbineTable",
@@ -29,63 +29,13 @@ export default {
     },
     data() {
         return {
-            turbines: [
-                {
-                    id: 1,
-                    windSpeed: 10,
-                    currentProduction: 20,
-                    status: "running"
-                },
-                {
-                    id: 2,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 3,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 4,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 5,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 6,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 7,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-                {
-                    id: 8,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },{
-                    id: 9,
-                    windSpeed: 7,
-                    currentProduction: 13,
-                    status: "running"
-                },
-            ]
+            turbines: []
         }
-    }
+    },
+    mounted () {
+        axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "9585d57b-fc43-44a4-a826-3d7bb2e6a6e4",}})
+            .then(response => this.turbines = response.data)
+    },
 }
 </script>
 
