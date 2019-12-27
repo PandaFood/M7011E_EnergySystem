@@ -1,9 +1,9 @@
 <template>
     <tr>
-        <td>{{battery.id}}</td>
-        <td>{{battery.currentCapacity}}</td>
-        <td>{{battery.maxCapacity}}</td>
-        <td>{{battery.fillPercentage}}</td>
+        <td>{{battery.id.split('-')[0]}}...</td>
+        <td>{{battery.currentCapacity.toFixed(2)}}</td>
+        <td>{{battery.maxCapacity.toFixed(2)}}</td>
+        <td>{{battery.fillCapacity*100}}</td>
     </tr>
 </template>
 

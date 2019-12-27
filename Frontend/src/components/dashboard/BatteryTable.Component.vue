@@ -22,6 +22,7 @@
 <script>
 
 import BatteryRow from '@/components/dashboard/BatteryRow.Component.vue'
+import axios from 'axios'
 
 export default {
     name: "BatteryTable",
@@ -30,27 +31,13 @@ export default {
     },
     data() {
         return {
-            batteries: [
-                {
-                    id: 1,
-                    currentCapacity: 10,
-                    maxCapacity: 20,
-                    fillPercentage: 75
-                },
-                {
-                    id: 2,
-                    currentCapacity: 10,
-                    maxCapacity: 20,
-                    fillPercentage: 75
-                },{
-                    id: 3,
-                    currentCapacity: 10,
-                    maxCapacity: 20,
-                    fillPercentage: 75
-                }
-            ]
+            batteries: []
         }
-    }
+    },
+    mounted () {
+        axios.get('http://localhost/api/storage', {params: {houseId: "9585d57b-fc43-44a4-a826-3d7bb2e6a6e4",}})
+            .then(response => this.batteries = response.data)
+    },
 }
 </script>
 
