@@ -75,7 +75,7 @@ export default {
 
         // Add cursor
         this.chart.cursor = new am4charts.XYCursor();
-        this.chart.cursor.behavior = "zoomY";
+        this.chart.cursor.behavior = "zoomX";
         this.chart.cursor.lineX.disabled = true;
         this.chart.legend = new am4charts.Legend();
         this.chart.legend.labels.template.text = "[bold {color}]{name} ({unit})[/]";
@@ -83,26 +83,26 @@ export default {
         this.dateAxis.start = 0.8;
         this.dateAxis.keepSelection = true;
 
-
-        axios.get('http://localhost/api/producerEvent', {params: {producerId: "6aa7b87b-9dc9-49c3-8271-c93193aa45c9",}})
+        axios.get('http://localhost/api/producerEvent', {params: {producerId: "d28570c0-5b77-49d0-a72b-3c137e333359",}})
             .then(response => {
 
                 function strip(element) {
                     return {
                         speed: element.windSpeed.toFixed(2),
                         power: element.energyProduced.toFixed(2),
-                        date: element.timestamp,
+                        date: Date.parse(element.timestamp),
                     }
                 }
+
                 let data = response.data.map(strip);
+                data.sort(function(a, b){return a.date - b.date}); 
                 this.chart.addData(data)
-                })
+            })
 
-        // (this.graphData);
 
-        // setInterval(() => {
-        //     this.addData(Math.random()*15,Math.random()*20, Date.now());
-        // }, 1000)
+        setInterval(() => {
+            this.addData(Math.random()*15,Math.random()*20, Date.now());
+        }, 1000)
     },
 
     beforeDestroy() {
