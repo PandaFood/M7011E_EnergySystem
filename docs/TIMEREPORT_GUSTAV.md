@@ -31,4 +31,5 @@ Date | Time spent (h) | Feature
 19-12-21 | 1h | Add tables for batteries as well
 19-12-27 | 2h | Fetch turbines and batteries and add them to the table
 19-12-28 | 1h | Added houses to the Simulator again and updated tests
-
+19-12-28 | 3h | Load turbine data into a graph
+19-12-28 | 1h | update current state fields by polling the api
