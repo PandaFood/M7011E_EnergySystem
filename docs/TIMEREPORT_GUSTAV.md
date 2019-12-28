@@ -21,3 +21,6 @@ Date | Time spent (h) | Feature
 19-12-09 | 5h | Work on website layout 
 19-12-11 | 3h | Tweaking website layout and work on popup modal
 19-12-12 | 1h | Architectural design discussion with Jonathan
+19-12-19 | 1h | Tweak simulation parameters
+19-12-19 | 4h | Load new batteries/turbines if added during runtime, let manager controll price via the api, add max capacity to coal plant
+19-12-28 | 1h | Added houses to the Simulator again and updated tests

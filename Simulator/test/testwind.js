@@ -5,11 +5,11 @@ const Noise = require('../simulation/noise');
 
 describe('Wind Turbine', function() {
 	describe('#generateStartWind()', function() {
-		it('should be greater than 0', function() {
+		it('should be equal to 3.00', function() {
 			Noise.generateWindMap(1);
 			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.generateWind();
-			assert.equal(windTurbine.windSpeed.toFixed(2), 7.67);
+			assert.equal(windTurbine.windSpeed.toFixed(2), 3.00);
 		});
 	});
 

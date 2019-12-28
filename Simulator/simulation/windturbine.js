@@ -17,7 +17,7 @@ class WindTurbine {
 			coord = parseInt(coord);
 		});
 		this.coords = coords;
-		this.windSpeed = Noise.noiseMap[this.coords[1]][this.coords[0]],
+		this.windSpeed = 0; // Noise.noiseMap[this.coords[1]][this.coords[0]],
 		this.power = 0; // power in Ws
 
 		this.timestamp = Date.now();
@@ -32,17 +32,11 @@ class WindTurbine {
 
 	/**
 	 * Get the windspeed by taking the noice on the coordinate and using it in a
-	 * function w(n) = 16(n^5 + n) + 1 giving a nice curve for modeling the windspeed
+	 * function w(n) = 7(n^5 + n^3/3 + 2n) + 1 giving a nice curve for modeling the windspeed
 	 */
 	generateWind() {
 		const noiseValue = Noise.noiseMap[this.coords[1]][this.coords[0]];
-
-		this.windSpeed = 16*(noiseValue**5 + noiseValue) + 1;
-		if (noiseValue < 0) {
-			this.windSpeed = 0;
-		} else if (this.noiseValue > 1) {
-			this.windSpeed = 35;
-		}
+		this.windSpeed = 7*(Math.pow(noiseValue, 5) + Math.pow(noiseValue, 3)/3 + 2*noiseValue) + 3;
 	}
 
 	/**

@@ -4,7 +4,9 @@ const Database = require('../postgres/database');
 const Noise = require('./noise');
 
 Simulator = {
-	price: 0,
+	currentPrice: 0,
+	calculatedPrice: 0,
+	useCalculatedPrice: true,
 	power: 10000,
 	houses: [],
 	powerGain: 0,
@@ -37,15 +39,30 @@ Simulator = {
 		this.power += power;
 		this.powerGain += power;
 	},
-	storeWindData(polledData) {
+	storeWindData: function(polledData) {
 		polledData.timestamp = this.timestamp;
-		// console.log(polledData);
 		Database.addProducerEvent(polledData);
 	},
-	storeBatteryData(batteryData) {
+	storeBatteryData: function(batteryData) {
 		batteryData.timestamp = this.timestamp;
 		Database.addStorageEvent(batteryData);
 		Database.updateStorage(batteryData.id, batteryData.currentCapacity);
+	},
+	refreshWindTurbines: async function(houseId) {
+		const windTurbines = await Database.getProducers(houseId);
+		const house = this.houses.find((house) => house.id === houseId);
+
+		if (house) {
+			house.refreshWindTurbines(windTurbines.rows);
+		}
+	},
+	refreshBatteries: async function(houseId) {
+		const batteries = await Database.getStorages(houseId);
+		const house = this.houses.find((house) => house.id === houseId);
+
+		if (house) {
+			house.refreshBatteries(batteries.rows);
+		}
 	},
 	initHouses: async function() {
 		const houses = await Database.getHouses();
@@ -74,18 +91,19 @@ Simulator = {
 	},
 
 	runSimulation: async function() {
+		Noise.generateWindMap(Math.random());
 		await this.initHouses();
 		this.timestamp = Date.now();
-		Noise.generateWindMap(Math.random());
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
 		const cd = 10 ** 6; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
-		this.price = cd / this.power + cs * this.powerLoss;
+		this.calculatedPrice = cd / this.power + cs * this.powerLoss;
 
-		// console.log('Power: ' + this.power.toFixed(2) + ' -- Price: ' +
-		// this.price.toFixed(2)+' -- Loss: '+this.powerLoss.toFixed(2));
+		if (this.useCalculatedPrice) {
+			this.currentPrice = this.calculatedPrice;
+		}
 
 		this.powerLoss = 0;
 	},
