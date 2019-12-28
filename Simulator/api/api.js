@@ -20,7 +20,7 @@ router
 	});
 
 router
-	.get('/house/:houseid', function(req, res, next) {
+	.get('/house/:houseId', function(req, res, next) {
 		Database.getHouse(req.params.houseId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
@@ -115,6 +115,7 @@ router
 	})
 	// only manager should be able to set price
 	.post('/currentPrice', function(req, res, next) {
+		// useCalculatedPrice comes in as a string, thus the awkward check if it equals true
 		Simulation.useCalculatedPrice = 'true' == req.query.useCalculatedPrice;
 
 		if (Simulation.useCalculatedPrice) {

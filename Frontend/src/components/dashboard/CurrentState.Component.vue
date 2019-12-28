@@ -1,9 +1,9 @@
 <template>
   <div id="current-state">
     <div> 
-        <b> Current Production:  </b> <span>{{currentProduction}} kWh </span><br>
-        <b> Current Consumption:  </b> <span>{{currentConsumption}} kWh </span><br> 
-        <b> Net Production:  </b> <span>{{netProduction}} kWh </span><br> 
+        <b> Current Production:  </b> <span>{{currentProduction.toFixed(2)}} kWh </span><br>
+        <b> Current Consumption:  </b> <span>{{currentConsumption.toFixed(2)}} kWh </span><br> 
+        <b> Net Production:  </b> <span>{{(currentProduction - currentConsumption).toFixed(2)}} kWh </span><br> 
         <b> Current Price:  </b> <span>{{currentPrice}} sek/kWh </span><br> 
     </div>
 
@@ -12,17 +12,39 @@
 
 <script>
 
+import axios from 'axios'
+
 export default {
     name: 'CurrentState',
     data() {
         return {
-            currentProduction: 10,
+            currentProduction: 12,
             currentConsumption: 5,
-            netProduction: 5,
-            currentPrice: 10
+            currentPrice: 12
 
         }
     },
+    mounted() {
+        setInterval(() => {
+            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+                .then(response => {
+                    let currentProduction = 0;
+                    response.data.forEach((producer) => {
+                        currentProduction += producer.energyProduced;
+                    });
+                    this.currentProduction = currentProduction;
+                });
+
+            axios.get('http://localhost/api/house/4d1396ab-e88e-4697-8d28-2e4d1be9728a', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+                .then(response => {
+                    this.currentConsumption = response.data[0].consumption;
+                });
+            axios.get('http://localhost/api/currentPrice')
+                .then(response => {
+                    this.currentPrice = response.data.price;
+                });
+        }, 1000);
+    }
 }
 
 
