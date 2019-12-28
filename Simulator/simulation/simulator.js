@@ -52,13 +52,17 @@ Simulator = {
 		const windTurbines = await Database.getProducers(houseId);
 		const house = this.houses.find((house) => house.id === houseId);
 
-		house.refreshWindTurbines(windTurbines.rows);
+		if (house) {
+			house.refreshWindTurbines(windTurbines.rows);
+		}
 	},
 	refreshBatteries: async function(houseId) {
 		const batteries = await Database.getStorages(houseId);
 		const house = this.houses.find((house) => house.id === houseId);
 
-		house.refreshBatteries(batteries.rows);
+		if (house) {
+			house.refreshBatteries(batteries.rows);
+		}
 	},
 	initHouses: async function() {
 		const houses = await Database.getHouses();

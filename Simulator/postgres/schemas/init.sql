@@ -4,8 +4,8 @@
 --
 
 CREATE TABLE "house" (
-    id uuid NOT NULL,
-    consumption int NOT NULL,
+    "id" uuid NOT NULL,
+    "consumption" float NOT NULL
 );
 
 
@@ -101,7 +101,7 @@ ALTER TABLE ONLY "producer"
     ADD CONSTRAINT "producer_pkey" PRIMARY KEY ("id");
 
 
--
+
 -- TOC entry 2804 (class 2606 OID 16402)
 -- Name: Producer owner_fk; Type: FK CONSTRAINT; Schema: sim; owner: sim
 --
