@@ -33,8 +33,13 @@ export default {
         }
     },
     mounted () {
-        axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "9585d57b-fc43-44a4-a826-3d7bb2e6a6e4",}})
-            .then(response => this.turbines = response.data)
+        setInterval(() => {
+            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+                .then(response => {
+                    this.turbines = response.data
+                    this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});
+                });
+        }, 1000);
     },
 }
 </script>
