@@ -20,6 +20,7 @@ export default {
             graphData: []
         }
     },
+    params: ["turbineId"],
     methods: {
         initSeries: function(name, color, unit) {
             var axis = this.chart.yAxes.push(new am4charts.ValueAxis());
@@ -65,7 +66,7 @@ export default {
         this.dateAxis = this.chart.xAxes.push(new am4charts.DateAxis());
         this.dateAxis.renderer.grid.template.location = 0;
         this.dateAxis.renderer.minGridDistance = 100;
-
+        this.dateAxis.groupData = true;
         this.chart.scrollbarX = new am4core.Scrollbar();
         this.chart.scrollbarX.paddingLeft = 20;
         this.chart.scrollbarX.paddingRight = 20;
@@ -83,9 +84,8 @@ export default {
         this.dateAxis.start = 0.8;
         this.dateAxis.keepSelection = true;
 
-        axios.get('http://localhost/api/producerEvent', {params: {producerId: "d28570c0-5b77-49d0-a72b-3c137e333359",}})
+        axios.get('http://localhost/api/producerEvent', {params: {producerId: this.$attrs.turbineId,}})
             .then(response => {
-
                 function strip(element) {
                     return {
                         speed: element.windSpeed.toFixed(2),

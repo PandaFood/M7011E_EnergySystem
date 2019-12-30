@@ -1,7 +1,7 @@
 <template>
     <div>
         <CurrentWind v-bind:windData="windData" />
-        <Graph ref="graph" />
+        <Graph ref="graph" v-bind:turbineId="turbineId"/>
     </div>
 </template>
 
@@ -23,12 +23,13 @@ export default {
                 windSpeed: 0,
                 power: 0,
                 status: ""
-            }
+            },
+            turbineId: this.$route.query.id,
         }
     },
     mounted() {
         setInterval(() => {
-            axios.get('http://localhost/api/latestProducerEvent', {params: {producerId: "d28570c0-5b77-49d0-a72b-3c137e333359",}})
+            axios.get('http://localhost/api/latestProducerEvent', {params: {producerId: this.$route.query.id,}})
                 .then(response => {
                     this.windData.windSpeed = response.data[0].windSpeed;
                     this.windData.power = response.data[0].energyProduced;
