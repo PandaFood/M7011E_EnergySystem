@@ -96,6 +96,12 @@ const Database = {
 		const response = await client.query(query, values);
 		return response;
 	},
+	getLatestProducerEvents: async function(producerId) {
+		const query = `SELECT * FROM producerevent WHERE "producerId" = $1 ORDER BY timestamp DESC LIMIT 1`;
+		const values = [producerId];
+		const response = await client.query(query, values);
+		return response;
+	},
 };
 
 module.exports = Database;

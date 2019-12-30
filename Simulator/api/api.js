@@ -100,6 +100,14 @@ router
 	});
 
 router
+	.get('/latestProducerEvent', function(req, res, next) {
+		const producerId = req.query.producerId;
+		Database.getLatestProducerEvents(producerId)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	});
+
+router
 	.get('/producerEvent', function(req, res, next) {
 		const producerId = req.query.producerId;
 		Database.getProducerEvents(producerId)
