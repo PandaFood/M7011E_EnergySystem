@@ -4,7 +4,7 @@
         <b> Current Production:  </b> <span>{{currentProduction.toFixed(2)}} kWh </span><br>
         <b> Current Consumption:  </b> <span>{{currentConsumption.toFixed(2)}} kWh </span><br> 
         <b> Net Production:  </b> <span>{{(currentProduction - currentConsumption).toFixed(2)}} kWh </span><br> 
-        <b> Current Price:  </b> <span>{{currentPrice}} sek/kWh </span><br> 
+        <b> Current Price:  </b> <span>{{currentPrice.toFixed(2)}} sek/kWh </span><br> 
     </div>
 
   </div>
