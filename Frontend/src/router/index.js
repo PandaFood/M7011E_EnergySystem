@@ -56,6 +56,14 @@ const routes = [
     },
     component: () => import('../views/Wind.vue')
   },
+  {
+    path: '/battery',
+    name: 'battery',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Battery.vue')
+  },
 ]
 
 const router = new VueRouter({

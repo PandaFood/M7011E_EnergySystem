@@ -35,7 +35,7 @@ export default {
         }
     },
     mounted () {
-        axios.get('http://localhost/api/storage', {params: {houseId: "9585d57b-fc43-44a4-a826-3d7bb2e6a6e4",}})
+        axios.get('http://localhost/api/storage', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
             .then(response => this.batteries = response.data)
     },
 }
