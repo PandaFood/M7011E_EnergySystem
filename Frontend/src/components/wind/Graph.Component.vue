@@ -1,5 +1,5 @@
 <template>
-  <div class="hello" ref="chartdiv">
+  <div class="chart" ref="chartdiv">
   </div>
 </template>
 
@@ -98,11 +98,6 @@ export default {
                 data.sort(function(a, b){return a.date - b.date}); 
                 this.chart.addData(data)
             })
-
-
-        setInterval(() => {
-            this.addData(Math.random()*15,Math.random()*20, Date.now());
-        }, 1000)
     },
 
     beforeDestroy() {
@@ -114,10 +109,12 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.hello {
-    width: 80%;
-    height: 600px;
+div {
+    width: 95vw;
+    height: 550px;
+    margin: auto;
+    clear: both;
+    padding-top: 50px;
 }
 </style>

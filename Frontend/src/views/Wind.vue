@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <Header />
-    <Graph/>
+    <WindTab/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Graph from '@/components/wind/Graph.Component.vue'
+import WindTab from '@/components/wind/WindTab.Component.vue'
 
 export default {
   name: 'home',
   components: {
-    Graph
+    WindTab
   }
 }
 </script>
