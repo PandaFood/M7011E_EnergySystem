@@ -33,3 +33,4 @@ Date | Time spent (h) | Feature
 19-12-28 | 1h | Added houses to the Simulator again and updated tests
 19-12-28 | 3h | Load turbine data into a graph
 19-12-28 | 1h | update current state fields by polling the api
+19-12-30 | 2h | Show current wind data in turbine tab, update values in real time
