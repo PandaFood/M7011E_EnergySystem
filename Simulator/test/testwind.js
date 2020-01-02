@@ -9,7 +9,7 @@ describe('Wind Turbine', function() {
 			Noise.generateWindMap(1);
 			windTurbine = new WindTurbine('test-10', ['10', '10'], 1000);
 			windTurbine.generateWind();
-			assert.equal(windTurbine.windSpeed.toFixed(2), 3.00);
+			assert.equal(windTurbine.windSpeed.toFixed(2), 3.50);
 		});
 	});
 
