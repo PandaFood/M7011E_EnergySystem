@@ -5,7 +5,8 @@
 
 CREATE TABLE "house" (
     "id" uuid NOT NULL,
-    "consumption" float NOT NULL
+    "consumption" float NOT NULL,
+    "batteryPercentage" float NOT NULL
 );
 
 
@@ -52,8 +53,7 @@ CREATE TABLE "storage" (
     "id" uuid NOT NULL,
     "owner" uuid NOT NULL,
     "maxCapacity" float NOT NULL,
-    "currentCapacity" float NOT NULL,
-    "fillCapacity" float NOT NULL
+    "currentCapacity" float NOT NULL
 );
 
 
@@ -68,7 +68,7 @@ CREATE TABLE "storageevent" (
     "id" uuid NOT NULL,
     "storageId" uuid NOT NULL,
     "currentCapacity" float NOT NULL,
-    "timeStamp" timestamp with time zone NOT NULL
+    "timestamp" timestamp with time zone NOT NULL
 );
 
 

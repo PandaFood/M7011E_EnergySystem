@@ -11,16 +11,15 @@ router
 			.catch((err) => console.log(err));
 	})
 	.post('/house', function(req, res, next) {
-		const name = req.query.name;
-		const adress = req.query.adress;
 		const consumption = req.query.consumption;
-		Database.addHouse(name, adress, consumption)
+		const batteryPercentage = req.query.batteryPercentage;
+		Database.addHouse(consumption, batteryPercentage)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
 
 router
-	.get('/house/:houseid', function(req, res, next) {
+	.get('/house/:houseId', function(req, res, next) {
 		Database.getHouse(req.params.houseId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
@@ -31,10 +30,9 @@ router
 		const owner = req.query.houseId;
 		const maxCapacity = req.query.maxCapacity;
 		const currentCapacity = req.query.currentCapacity;
-		const fillPercentage = req.query.fillPercentage;
-		Database.addStorage(owner, maxCapacity, currentCapacity, fillPercentage)
+		Database.addStorage(owner, maxCapacity, currentCapacity)
 			.then((v) => {
-				Simulation.refreshBatteries(houseId);
+				Simulation.refreshBatteries(owner);
 				res.json(v.rows);
 			})
 			.catch((err) => console.log(err));
@@ -45,18 +43,15 @@ router
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
-router
-	.post('/storage/update', function(req, res, next) {
-		const owner = req.query.storageId;
-		const currentCapacity = req.query.currentCapacity;
 
-		Database.updateStorage(owner, currentCapacity)
+router
+	.get('/storage/:storageId', function(req, res, next) {
+		Database.getStorage(req.params.storageId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
-
 router
-	.post('/storage/storageEvent', function(req, res, next) {
+	.post('/storageEvent', function(req, res, next) {
 		const storageId = req.query.storageId;
 		const currentCapacity = req.query.currentCapacity;
 		const timestamp = (new Date()).toISOString();
@@ -64,9 +59,17 @@ router
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	})
-	.get('/storage/storageEvent', function(req, res, next) {
+	.get('/storageEvent', function(req, res, next) {
 		const storageId = req.query.storageId;
 		Database.getStorageEvents(storageId)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	});
+
+router
+	.get('/storageEvent/latest', function(req, res, next) {
+		const storageId = req.query.storageId;
+		Database.getLatestStorageEvents(storageId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
@@ -92,9 +95,17 @@ router
 	});
 
 router
-	.get('/producerEvent', function(req, res, next) {
+	.get('/allLatestProducerEvent', function(req, res, next) {
+		const houseId = req.query.houseId;
+		Database.getLatestHouseProducerEvents(houseId)
+			.then((v) => res.json(v.rows))
+			.catch((err) => console.log(err));
+	});
+
+router
+	.get('/latestProducerEvent', function(req, res, next) {
 		const producerId = req.query.producerId;
-		Database.getProducerEvents(producerId)
+		Database.getLatestProducerEvents(producerId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
 	});
@@ -115,6 +126,7 @@ router
 	})
 	// only manager should be able to set price
 	.post('/currentPrice', function(req, res, next) {
+		// useCalculatedPrice comes in as a string, thus the awkward check if it equals true
 		Simulation.useCalculatedPrice = 'true' == req.query.useCalculatedPrice;
 
 		if (Simulation.useCalculatedPrice) {

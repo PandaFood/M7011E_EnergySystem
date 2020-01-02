@@ -22,5 +22,9 @@ app.use('/api', apiRouter);
 app.use('/', swaggerUi.serve);
 app.get('/', swaggerUi.setup(swaggerDocument));
 
+const Simulation = require('./simulation/simulator');
+
+Simulation.runSimulation();
+
 
 module.exports = app;

@@ -17,10 +17,22 @@ Date | Time spent (h) | Feature
 19-11-26 | 4h | Work on a windsimulation based on Perlin Noise
 19-11-27 | 1h | Write extra assignment on security
 19-11-27 | 0.5h | Work on a windsimulation based on Perlin Noise
-19-11-28 | 2h | Finishing WindSimulation by moving it to the backend and using it in the actual simulation
+19-11-28 | 2h | Finishing WindSimulation by moving the noise generation to the backend and using it in the actual simulation
+19-12-02 | 2h | Began looking into graph libraries for the Prosumer, chose AmCharts
+19-12-03 | 3h | Implemented a Gauge to visualize battery storage with a slider to increase and decrease the fill percentage
+12-12-05 | 2h | Implemented a line graph for displaying values over time 
 19-12-09 | 5h | Work on website layout 
 19-12-11 | 3h | Tweaking website layout and work on popup modal
 19-12-12 | 1h | Architectural design discussion with Jonathan
+19-12-13 | 2h | More work with the basic layout, open a new tab for displaying wind data 
 19-12-19 | 1h | Tweak simulation parameters
 19-12-19 | 4h | Load new batteries/turbines if added during runtime, let manager controll price via the api, add max capacity to coal plant
+19-12-20 | 4h | Begun to move the dashboard from EJS to Vue
+19-12-21 | 1h | Add tables for batteries as well
+19-12-27 | 2h | Fetch turbines and batteries and add them to the table
 19-12-28 | 1h | Added houses to the Simulator again and updated tests
+19-12-28 | 3h | Load turbine data into a graph
+19-12-28 | 1h | update current state fields by polling the api
+19-12-30 | 2h | Show current wind data in turbine tab, update values in real time
+19-12-30 | 1h | Open a new tab for displaying battery data
+20-01-02 | 6h | Add graph for batteries, fix GUI updates in real time, update API, remade how batteries work in the simulation

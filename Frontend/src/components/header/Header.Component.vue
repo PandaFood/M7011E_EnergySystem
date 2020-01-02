@@ -6,7 +6,7 @@
     </a>
 
     <div id="nav">
-      <router-link to="/">Dashboard</router-link> |
+      <router-link to="/dashboard">Dashboard</router-link> |
       <router-link to="/about">About</router-link> | 
       <a @click="logout" href="/">Log out</a>
     </div>

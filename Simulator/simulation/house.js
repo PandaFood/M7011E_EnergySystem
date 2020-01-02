@@ -14,15 +14,14 @@ class House {
 		this.id = houseValues.id;
 		this.powerConsumption = houseValues.consumption;
 		this.name = houseValues.name;
-		this.adress = houseValues.adress;
 		this.pollTime = simulator.pollTime;
+		this.batteryPercentage = houseValues.batteryPercentage;
 		this.haveBattery = false;
 		this.batteries = [];
 		batteries.forEach((battery) => {
 			this.haveBattery = true;
-			battery.currentCapacity = parseInt(battery.currentCapacity);
-			battery.fillCapacity = parseFloat(battery.fillCapacity);
-			battery.maxCapacity = parseInt(battery.maxCapacity);
+			battery.currentCapacity = parseFloat(battery.currentCapacity);
+			battery.maxCapacity = parseFloat(battery.maxCapacity);
 
 			this.batteries.push(battery);
 		});
@@ -47,18 +46,12 @@ class House {
 	 */
 	calcEnergyDifference(battery, power) {
 		let powerDiff = 0;
-		const batteryGoal = (battery.maxCapacity * battery.fillCapacity);
 
 		// Calculate how much power is left to sell
-		if (battery.currentCapacity <= batteryGoal && battery.currentCapacity + power >= batteryGoal) {
-			const diff = batteryGoal - battery.currentCapacity;
+		if (battery.currentCapacity <= battery.maxCapacity && battery.currentCapacity + power >= battery.maxCapacity) {
+			const diff = battery.maxCapacity - battery.currentCapacity;
 			powerDiff = power - diff;
-			battery.currentCapacity = batteryGoal;
-
-			// Calculate how much power is needed to buy
-		} else if (battery.currentCapacity + power < 0) {
-			powerDiff = battery.currentCapacity + power; // power < 0
-			battery.currentCapacity = 0;
+			battery.currentCapacity = battery.maxCapacity;
 
 			// Fill the battery
 		} else {
@@ -69,18 +62,11 @@ class House {
 	}
 
 	/**
-	 * If a list of batteries exists add power to the last battery in that list
-	 * Else just buy the precise amount that the house needs
+	 * Buy the amount of power the house needs to not get a blackout
 	 * @param {number} powerDiff
 	 */
 	buyPower(powerDiff) {
-		if (this.haveBattery) {
-			const battery = this.batteries[this.batteries.length-1];
-			battery.currentCapacity += this.simulator.sellPower(-powerDiff);
-			this.storeBatteryData(battery);
-		} else {
-			this.simulator.sellPower(-powerDiff);
-		}
+		this.simulator.sellPower(-powerDiff);
 	}
 
 	/**
@@ -100,24 +86,40 @@ class House {
 
 		this.generatedPower -= consumption;
 
-		let powerDiff = 0;
-		if (this.haveBattery) {
-			powerDiff = this.generatedPower;
+		// if not enough power is generated, take from the batteries
+		// if there is not enough in the batteries then buy from the power grid
+		if (this.generatedPower < 0) {
 			this.batteries.forEach((battery) => {
-				powerDiff = this.calcEnergyDifference(battery, powerDiff);
+				if (battery.currentCapacity > -this.generatedPower &&
+				battery.currentCapacity + this.generatedPower > 0) {
+					battery.currentCapacity += this.generatedPower;
+					this.generatedPower = 0;
+					this.storeBatteryData(battery);
+					return;
+				} else {
+					this.generatedPower += battery.currentCapacity;
+					battery.currentCapacity = 0;
+					this.storeBatteryData(battery);
+				}
+			});
+
+			this.buyPower(this.generatedPower);
+			this.generatedPower = 0;
+			return;
+		}
+
+		let storePower = this.generatedPower * this.batteryPercentage;
+		const sellPower = this.generatedPower * (1-this.batteryPercentage);
+
+		if (this.haveBattery) {
+			this.batteries.forEach((battery) => {
+				storePower = this.calcEnergyDifference(battery, storePower);
 
 				this.storeBatteryData(battery);
 			});
-		} else {
-			powerDiff = this.generatedPower;
 		}
-
 		this.generatedPower = 0;
-		if (powerDiff < 0) {
-			this.buyPower(powerDiff);
-		} else if (powerDiff > 0) {
-			this.sellPower(powerDiff);
-		}
+		this.sellPower(storePower + sellPower);
 	}
 
 	/**

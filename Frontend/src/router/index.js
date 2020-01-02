@@ -40,6 +40,30 @@ const routes = [
     },
     component: () => import('../views/Register.vue')
   },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Dashboard.vue')
+  },
+  {
+    path: '/wind',
+    name: 'wind',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Wind.vue')
+  },
+  {
+    path: '/battery',
+    name: 'battery',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Battery.vue')
+  },
 ]
 
 const router = new VueRouter({

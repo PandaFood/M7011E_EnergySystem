@@ -19,16 +19,16 @@ const Database = {
 		return response;
 	},
 
-	addHouse: async function(name, adress, consumption) {
-		const query = 'INSERT INTO House VALUES(uuid_generate_v4(), $1, $2, $3)';
-		const values = [name, adress, consumption];
+	addHouse: async function(consumption, batteryPercentage) {
+		const query = 'INSERT INTO House VALUES(uuid_generate_v4(), $1, $2)';
+		const values = [consumption, batteryPercentage];
 
 		const response = await client.query(query, values);
 		return response;
 	},
-	addStorage: async function(owner, maxCapacity, currentCapacity, fillPercentage) {
-		const query = 'INSERT INTO Storage VALUES(uuid_generate_v4(), $1, $2, $3, $4)';
-		const values = [owner, maxCapacity, currentCapacity, fillPercentage];
+	addStorage: async function(owner, maxCapacity, currentCapacity) {
+		const query = 'INSERT INTO Storage VALUES(uuid_generate_v4(), $1, $2, $3)';
+		const values = [owner, maxCapacity, currentCapacity];
 
 		const response = await client.query(query, values);
 		return response;
@@ -36,6 +36,13 @@ const Database = {
 	getStorages: async function(houseId) {
 		const query = 'SELECT * FROM storage WHERE "owner" = $1';
 		const values = [houseId];
+
+		const response = await client.query(query, values);
+		return response;
+	},
+	getStorage: async function(storageId) {
+		const query = 'SELECT * FROM storage WHERE "id" = $1';
+		const values = [storageId];
 
 		const response = await client.query(query, values);
 		return response;
@@ -48,19 +55,26 @@ const Database = {
 		return response;
 	},
 	addStorageEvent: async function(storageData) {
-		const query = 'INSERT INTO StorageEvent VALUES(uuid_generate_v4(), $1, $2, $3)';
+		const query = 'INSERT INTO storageevent VALUES(uuid_generate_v4(), $1, $2, $3)';
 		const values = [storageData.id, storageData.currentCapacity, storageData.timestamp];
 
 		const response = await client.query(query, values);
 		return response;
 	},
 	getStorageEvents: async function(storageId) {
-		const query = 'SELECT * FROM StorageEvent WHERE "storageId" = $1';
+		const query = 'SELECT * FROM storageevent WHERE "storageId" = $1';
 		const values = [storageId];
 
 		const response = await client.query(query, values);
 		return response;
 	},
+	getLatestStorageEvents: async function(storageId) {
+		const query = `SELECT * FROM storageevent WHERE "storageId" = $1 ORDER BY timestamp DESC LIMIT 1`;
+		const values = [storageId];
+		const response = await client.query(query, values);
+		return response;
+	},
+
 	addProducer: async function(houseId, coord, type) {
 		const query = 'INSERT INTO Producer VALUES(uuid_generate_v4(), $1, $2, $3)';
 		const values = [houseId, type, coord];
@@ -86,6 +100,19 @@ const Database = {
 		const query = 'SELECT * FROM producerevent WHERE "producerId" = $1';
 		const values = [producerId];
 
+		const response = await client.query(query, values);
+		return response;
+	},
+	getLatestHouseProducerEvents: async function(houseId) {
+		const query = `SELECT * FROM producerevent WHERE "producerId" IN (SELECT id FROM producer WHERE "owner" = $1)
+						ORDER BY timestamp DESC LIMIT (SELECT count(id) FROM producer WHERE "owner" = $1)`;
+		const values = [houseId];
+		const response = await client.query(query, values);
+		return response;
+	},
+	getLatestProducerEvents: async function(producerId) {
+		const query = `SELECT * FROM producerevent WHERE "producerId" = $1 ORDER BY timestamp DESC LIMIT 1`;
+		const values = [producerId];
 		const response = await client.query(query, values);
 		return response;
 	},
