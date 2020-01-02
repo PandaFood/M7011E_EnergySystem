@@ -3,7 +3,7 @@
     <div> 
         <b> Current Capacity:  </b> <span>{{battery.currentCapacity.toFixed(2)}} kWh </span><br>
         <b> Max Capacity:  </b> <span>{{battery.maxCapacity.toFixed(2)}} kWh </span><br> 
-        <b> Fill Percentage:  </b> <span>{{battery.fillPercentage}} % </span><br> 
+        <b> Fill Percentage:  </b> <span>{{(battery.currentCapacity/battery.maxCapacity).toFixed(2)}} % </span><br> 
     </div>
 
   </div>

@@ -20,7 +20,7 @@ export default {
             graphData: []
         }
     },
-    params: ["turbineId"],
+    params: ["batteryId"],
     methods: {
         initSeries: function(name, color, unit) {
             var axis = this.chart.yAxes.push(new am4charts.ValueAxis());
@@ -45,11 +45,10 @@ export default {
             axis.renderer.labels.template.fill = series.stroke;
                 axis.renderer.grid.template.disabled = true;
         },
-        addData: function (speed, power, timestamp) {
+        addData: function (capacity, timestamp) {
             this.chart.addData({
                 date: timestamp,
-                speed: speed.toFixed(2),
-                power: power.toFixed(2)
+                capacity: capacity.toFixed(2),
             })
         },
     },
@@ -71,8 +70,7 @@ export default {
         this.chart.scrollbarX.paddingLeft = 20;
         this.chart.scrollbarX.paddingRight = 20;
 
-        this.initSeries("Power", '#EE0000', 'kWh');
-        this.initSeries("Speed", '#0000EE', 'm/s');
+        this.initSeries("Capacity", '#0000EE', 'kWh');
 
         // Add cursor
         this.chart.cursor = new am4charts.XYCursor();
@@ -84,13 +82,12 @@ export default {
         this.dateAxis.start = 0.8;
         this.dateAxis.keepSelection = true;
 
-        axios.get('http://localhost/api/producerEvent', {params: {producerId: this.$attrs.turbineId,}})
+        axios.get('http://localhost/api/storageEvent', {params: {storageId: this.$attrs.batteryId,}})
             .then(response => {
                 function strip(element) {
                     return {
-                        speed: element.windSpeed.toFixed(2),
-                        power: element.energyProduced.toFixed(2),
-                        date: Date.parse(element.timestamp),
+                        capacity: element.currentCapacity.toFixed(2),
+                        date: Date.parse(element.timeStamp),
                     }
                 }
 
