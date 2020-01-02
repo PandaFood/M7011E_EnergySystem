@@ -89,10 +89,7 @@ class House {
 		// if not enough power is generated, take from the batteries
 		// if there is not enough in the batteries then buy from the power grid
 		if (this.generatedPower < 0) {
-
 			this.batteries.forEach((battery) => {
-				console.log("power" + this.generatedPower);
-
 				if (battery.currentCapacity > -this.generatedPower &&
 				battery.currentCapacity + this.generatedPower > 0) {
 					battery.currentCapacity += this.generatedPower;
