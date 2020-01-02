@@ -105,6 +105,11 @@ Simulator = {
 			this.currentPrice = this.calculatedPrice;
 		}
 
+		// have a max price to prevent rise to infinity
+		if (this.currentPrice > 999999) {
+			this.currentPrice = 999999;
+		}
+
 		this.powerLoss = 0;
 	},
 };
