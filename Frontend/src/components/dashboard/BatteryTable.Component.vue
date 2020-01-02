@@ -35,8 +35,10 @@ export default {
         }
     },
     mounted () {
-        axios.get('http://localhost/api/storage', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+        setInterval(() => {
+            axios.get('http://localhost/api/storage', {params: {houseId: "0c988e3b-f1c2-404b-85b5-ac6b22b30948",}})
             .then(response => this.batteries = response.data)
+        },1000);
     },
 }
 </script>

@@ -34,7 +34,7 @@ export default {
     },
     mounted () {
         setInterval(() => {
-            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "0c988e3b-f1c2-404b-85b5-ac6b22b30948",}})
                 .then(response => {
                     this.turbines = response.data
                     this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});

@@ -20,13 +20,14 @@ export default {
         return {
             currentProduction: 12,
             currentConsumption: 5,
-            currentPrice: 12
+            currentPrice: 12,
+            houseId: '0c988e3b-f1c2-404b-85b5-ac6b22b30948'
 
         }
     },
     mounted() {
         setInterval(() => {
-            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}})
                 .then(response => {
                     let currentProduction = 0;
                     response.data.forEach((producer) => {
@@ -35,7 +36,7 @@ export default {
                     this.currentProduction = currentProduction;
                 });
 
-            axios.get('http://localhost/api/house/4d1396ab-e88e-4697-8d28-2e4d1be9728a', {params: {houseId: "4d1396ab-e88e-4697-8d28-2e4d1be9728a",}})
+            axios.get('http://localhost/api/house/'+this.houseId)
                 .then(response => {
                     this.currentConsumption = response.data[0].consumption;
                 });
