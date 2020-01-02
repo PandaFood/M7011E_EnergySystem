@@ -35,3 +35,4 @@ Date | Time spent (h) | Feature
 19-12-28 | 1h | update current state fields by polling the api
 19-12-30 | 2h | Show current wind data in turbine tab, update values in real time
 19-12-30 | 1h | Open a new tab for displaying battery data
+20-01-02 | 6h | Add graph for batteries, fix GUI updates in real time, update API, remade how batteries work in the simulation
