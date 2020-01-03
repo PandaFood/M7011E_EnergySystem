@@ -76,16 +76,15 @@ router
 
 router
 	.post('/producer', function(req, res, next) {
-		const houseId = req.query.houseId;
-		const type = req.query.type;
-		const coords = req.query.coords;
-
+		const houseId = req.body.data.houseId;
+		const type = req.body.data.type;
+		const coords = req.body.data.coords[0] + ',' + req.body.data.coords[1];
 		Database.addProducer(houseId, coords, type)
 			.then((v) => {
 				Simulation.refreshWindTurbines(houseId);
-				res.json(v.rows);
+				res.sendStatus(200).send('Turbine Created');
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('Turbine could not be created'));
 	})
 	.get('/producer', function(req, res, next) {
 		const houseId = req.query.houseId;
