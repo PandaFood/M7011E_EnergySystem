@@ -64,6 +64,14 @@ const routes = [
     },
     component: () => import('../views/Battery.vue')
   },
+  {
+    path: '/manage',
+    name: 'manager',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Manager.vue')
+  },
 ]
 
 const router = new VueRouter({

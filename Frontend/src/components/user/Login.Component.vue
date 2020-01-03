@@ -52,7 +52,9 @@ export default {
           password: this.form.password
         })
         .then(function (response) {
+          console.log(response.data);
           localStorage.setItem("jwt", response.data.accesstoken);
+          localStorage.setItem("role", response.data.role);
           here.$router.push('/');
         })
         .catch(function (error) {

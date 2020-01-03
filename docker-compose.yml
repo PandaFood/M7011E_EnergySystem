@@ -12,24 +12,10 @@ services:
       - 80:80
       - 443:443
     links:
-      - prosumer
       - simulator
       - authenticator
     networks:
       - webNet
-
-  prosumer:
-    build: ./Prosumer
-    container_name: "prosumer-web"
-    command: >
-      sh -c "npm install &&
-             npm run watch"
-    volumes:
-      - ./Prosumer:/usr/src/app/
-    networks:
-      - webNet
-#    ports:  
-#      - "3000:3000"
 
   frontend:
     build: ./Frontend
