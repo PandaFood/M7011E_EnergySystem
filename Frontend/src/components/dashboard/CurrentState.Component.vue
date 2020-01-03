@@ -18,13 +18,12 @@ export default {
     name: 'CurrentState',
     data() {
         return {
-            currentProduction: 12,
-            currentConsumption: 5,
-            currentPrice: 12,
-            houseId: '0c988e3b-f1c2-404b-85b5-ac6b22b30948'
-
+            currentProduction: 0,
+            currentConsumption: 0,
+            currentPrice: 0,
         }
     },
+    props: ["houseId"],
     mounted() {
         setInterval(() => {
             axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}})

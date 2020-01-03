@@ -27,6 +27,7 @@ export default {
     components: {
         TurbineRow
     },
+    props: ["houseId"],
     data() {
         return {
             turbines: []
@@ -34,7 +35,7 @@ export default {
     },
     mounted () {
         setInterval(() => {
-            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: "0c988e3b-f1c2-404b-85b5-ac6b22b30948",}})
+            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}})
                 .then(response => {
                     this.turbines = response.data
                     this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});
