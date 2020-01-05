@@ -8,21 +8,21 @@ router
 	.get('/house', function(req, res, next) {
 		Database.getHouses()
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Houses'));
 	})
 	.post('/house', function(req, res, next) {
 		const consumption = req.query.consumption;
 		const batteryPercentage = req.query.batteryPercentage;
 		Database.addHouse(consumption, batteryPercentage)
-			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.then((v) => res.status(200).send('House Created'))
+			.catch((err) => res.status(500).send('ERROR: Could not create House'));
 	});
 
 router
 	.get('/house/:houseId', function(req, res, next) {
 		Database.getHouse(req.params.houseId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch House with given ID'));
 	});
 
 router
@@ -33,22 +33,22 @@ router
 		Database.addStorage(owner, maxCapacity, currentCapacity)
 			.then((v) => {
 				Simulation.refreshBatteries(owner);
-				res.json(v.rows);
+				res.status(200).send('Storage Created');
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => res.status(500).send('ERROR: Could not create Storage'));
 	})
 	.get('/storage', function(req, res, next) {
 		const owner = req.query.houseId;
 		Database.getStorages(owner)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Storages for this House'));
 	});
 
 router
 	.get('/storage/:storageId', function(req, res, next) {
 		Database.getStorage(req.params.storageId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Storage'));
 	});
 router
 	.post('/storageEvent', function(req, res, next) {
@@ -56,14 +56,14 @@ router
 		const currentCapacity = req.query.currentCapacity;
 		const timestamp = (new Date()).toISOString();
 		Database.addStorageEvent(storageId, currentCapacity, timestamp)
-			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.then((v) => res.status(200).send('Storage Event Created'))
+			.catch((err) => res.status(500).send('ERROR: Could not create Storage Event'));
 	})
 	.get('/storageEvent', function(req, res, next) {
 		const storageId = req.query.storageId;
 		Database.getStorageEvents(storageId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Storage Events for this Storage'));
 	});
 
 router
@@ -71,7 +71,7 @@ router
 		const storageId = req.query.storageId;
 		Database.getLatestStorageEvents(storageId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch latest Storage Events for this Storage'));
 	});
 
 router
@@ -82,15 +82,15 @@ router
 		Database.addProducer(houseId, coords, type)
 			.then((v) => {
 				Simulation.refreshWindTurbines(houseId);
-				res.sendStatus(200).send('Turbine Created');
+				res.status(200).send('Turbine Created');
 			})
-			.catch((err) => res.sendStatus(500).send('Turbine could not be created'));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not create Producer'));
 	})
 	.get('/producer', function(req, res, next) {
 		const houseId = req.query.houseId;
 		Database.getProducers(houseId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Producer'));
 	});
 
 router
@@ -98,7 +98,7 @@ router
 		const houseId = req.query.houseId;
 		Database.getLatestHouseProducerEvents(houseId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch latest Producer Events for this House'));
 	});
 
 router
@@ -106,7 +106,7 @@ router
 		const producerId = req.query.producerId;
 		Database.getLatestProducerEvents(producerId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch latest Producer Events for this Produce'));
 	});
 
 router
@@ -114,7 +114,7 @@ router
 		const houseId = req.query.houseId;
 		Database.getLatestHouseProducerEvents(houseId)
 			.then((v) => res.json(v.rows))
-			.catch((err) => console.log(err));
+			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Producer Events for this Producer'));
 	});
 
 router
@@ -134,7 +134,7 @@ router
 			Simulation.currentPrice = req.query.price;
 		}
 
-		res.send(200);
+		res.status(200).send('Price set');
 	});
 
 router
