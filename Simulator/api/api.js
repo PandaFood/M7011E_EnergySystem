@@ -27,9 +27,9 @@ router
 
 router
 	.post('/storage', function(req, res, next) {
-		const owner = req.query.houseId;
-		const maxCapacity = req.query.maxCapacity;
-		const currentCapacity = req.query.currentCapacity;
+		const owner = req.body.data.houseId;
+		const maxCapacity = req.body.data.maxCapacity;
+		const currentCapacity = req.body.data.currentCapacity;
 		Database.addStorage(owner, maxCapacity, currentCapacity)
 			.then((v) => {
 				Simulation.refreshBatteries(owner);
