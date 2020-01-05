@@ -7,6 +7,7 @@
 
     <div id="nav">
       <router-link to="/dashboard">Dashboard</router-link> |
+      <span  v-if="admin"><router-link to="/manage">Manage</router-link> | </span>
       <router-link to="/about">About</router-link> | 
       <a @click="logout" href="/">Log out</a>
     </div>
@@ -17,9 +18,16 @@
 <script>
 export default {
   name: 'Header',
+  data() { 
+  return {
+    admin: localStorage.getItem("role") == "ADMIN" ? true : false,
+    }
+  },
   methods: {
     logout: function(){
       localStorage.removeItem("jwt");
+      localStorage.removeItem("role");
+      this.admin = false;
     }
   },
 }
