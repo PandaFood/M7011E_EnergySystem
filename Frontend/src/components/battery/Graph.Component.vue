@@ -87,12 +87,12 @@ export default {
                 function strip(element) {
                     return {
                         capacity: element.currentCapacity.toFixed(2),
-                        date: Date.parse(element.timeStamp),
+                        date: Date.parse(element.timestamp),
                     }
                 }
 
                 let data = response.data.map(strip);
-                data.sort(function(a, b){return a.date - b.date}); 
+                data.sort(function(a, b){return a.time - b.date}); 
                 this.chart.addData(data)
             })
     },
