@@ -2,7 +2,7 @@
     <modal name="wind-modal" class="wind-modal">
         <h3>Create new Wind Turbine</h3>
         <div id="form-div">
-            Please enter coordinates for the new wind turbine:
+            Please enter coordinates between <b>0</b> and <b>200</b> for the new wind turbine:
             <form>  
                 <div class="input"> <b>Latitude:</b> <input v-model.number="lat" type="number"><br> </div> 
                 <div class="input"> <b>Longitude:</b> <input v-model.number="lon" type="number"><br> </div>
@@ -70,7 +70,7 @@ export default {
         padding-top: 10px;
     }
 
-    b {
+    form b {
         float: left;
     }
 
