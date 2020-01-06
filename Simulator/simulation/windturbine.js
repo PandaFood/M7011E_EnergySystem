@@ -90,7 +90,7 @@ class WindTurbine {
 			this.status = 'down';
 
 			// values gathered by experimenting,trying to get results between 3000 and 5000 ms
-			const distribution = gaussian(4000, 500 * 10 ** 3);
+			const distribution = gaussian(40000, 1000 * 10 ** 3);
 			const timeoutLength = Math.floor(distribution.ppf(Math.random()));
 
 			setTimeout(function(self) {

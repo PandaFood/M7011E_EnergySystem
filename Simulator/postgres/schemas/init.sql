@@ -21,7 +21,7 @@ CREATE TABLE "producer" (
     "id" uuid NOT NULL,
     "owner" uuid NOT NULL,
     "type" text NOT NULL,
-    "coords" text
+    "coords" text NOT NULL
 );
 
 

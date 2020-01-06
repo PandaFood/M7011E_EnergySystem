@@ -29,6 +29,7 @@ export default {
     components: {
         BatteryRow
     },
+    props: ["houseId"],
     data() {
         return {
             batteries: []
@@ -36,7 +37,7 @@ export default {
     },
     mounted () {
         setInterval(() => {
-            axios.get('http://localhost/api/storage', {params: {houseId: "0c988e3b-f1c2-404b-85b5-ac6b22b30948",}})
+            axios.get('http://localhost/api/storage', {params: {houseId: this.houseId,}})
             .then(response => this.batteries = response.data)
         },1000);
     },

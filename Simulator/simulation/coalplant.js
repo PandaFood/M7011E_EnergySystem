@@ -1,20 +1,20 @@
 
 CoalPlant = {
 
-	status: 'down',
+	status: 'up',
 
-	productionSpeed: 500, // Ws
+	productionSpeed: 50, // Ws
 
 	capacity: 0,
-	maxCapacity: 0,
-	fillPercentage: 0, // how much power should be sent to the battery instead of the system
+	maxCapacity: 1000,
+	batteryPercentage: 0.5, // how much power should be sent to the battery instead of the system
 
 	startPlant: function() {
 		if (this.status == 'down') {
 			this.status = 'startup';
 			setTimeout(function(self) {
 				self.status = 'up';
-			}, 5000, this);
+			}, 30000, this);
 		}
 	},
 	stopPlant: function() {
@@ -22,33 +22,32 @@ CoalPlant = {
 			this.status = 'shutdown';
 			setTimeout(function(self) {
 				self.status = 'down';
-			}, 3000, this);
+			}, 20000, this);
 		}
 	},
 	getStatus: function() {
 		return this.status;
 	},
-	sellPower: function(requestedPower) {
-		if (this.producedPower < requestedPower) {
-			const sellPower = this.capacity;
-			this.capacity = 0;
-			return sellPower;
-		} else {
-			this.capacity -= requestedPower;
-			return requestedPower;
-		}
+	setBatteryPercentage: function(newPercentage) {
+		this.batteryPercentage = newPercentage;
 	},
-
-	runPlant: function(deltaTime) {
+	getBatteryPercentage: function() {
+		return this.batteryPercentage;
+	},
+	runPlant: function(simulator, deltaTime) {
 		if (this.status == 'up') {
-			this.capacity += this.productionSpeed * deltaTime;
+			this.generatedPower = this.productionSpeed * deltaTime;
+			this.capacity += this.generatedPower * this.batteryPercentage;
+			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage));
 
 			if (this.capacity > this.maxCapacity) {
 				this.capacity = this.maxCapacity;
 			}
+		} else if (simulator.power <= 0) {
+			this.capacity += simulator.power;
+			simulator.power = 0;
 		}
 	},
-
 };
 
 module.exports = CoalPlant;

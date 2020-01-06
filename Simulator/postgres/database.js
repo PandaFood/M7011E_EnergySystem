@@ -116,6 +116,13 @@ const Database = {
 		const response = await client.query(query, values);
 		return response;
 	},
+	getLatestHouseProducerEvents: async function(houseId) {
+		const query = `SELECT * FROM producerevent WHERE "producerId" IN (SELECT id FROM producer WHERE "owner" = $1)
+						ORDER BY timestamp DESC LIMIT (SELECT count(id) FROM producer WHERE "owner" = $1)`;
+		const values = [houseId];
+		const response = await client.query(query, values);
+		return response;
+	},
 };
 
 module.exports = Database;
