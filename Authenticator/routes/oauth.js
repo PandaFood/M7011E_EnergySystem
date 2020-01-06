@@ -14,13 +14,16 @@ router
 
 			const passwordHash = v.rows[0].password;
 			const userID = v.rows[0].id;
+			const userRole = v.rows[0].role;
 
 			hash.verifyPassword(input.password, passwordHash)
 				.then((verified) => {
 					if (verified) {
-						jwt.generateAccessToken(userID).then((v) => {
+						jwt.generateAccessToken(userID, userRole).then((v) => {
 							res.json({
 								accesstoken: v,
+								role: userRole,
+								userID: userID,
 							});
 						});
 					} else {

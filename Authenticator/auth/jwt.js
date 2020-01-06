@@ -17,10 +17,10 @@ const TokenHandler = {
 		return refreshToken;
 	},
 
-	generateAccessToken: async function(userID) {
+	generateAccessToken: async function(userID, userRole) {
 		const accessToken = jwt.sign({
 			data: {
-
+				role: userRole,
 			},
 			issued: timestamp(),
 			userID: userID,

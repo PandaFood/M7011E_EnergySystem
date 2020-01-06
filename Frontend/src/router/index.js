@@ -64,6 +64,22 @@ const routes = [
     },
     component: () => import('../views/Battery.vue')
   },
+  {
+    path: '/manage',
+    name: 'manager',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Manager.vue')
+  },
+  {
+    path: '/u/:id',
+    name: 'usersettings',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/UserSettings.vue')
+  },
 ]
 
 const router = new VueRouter({

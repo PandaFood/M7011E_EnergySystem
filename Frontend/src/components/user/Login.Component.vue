@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     getLogin: function() {
-      const here = this;
       if(this.form.email == null || this.form.password == null)
         return false;
 
@@ -53,7 +52,9 @@ export default {
         })
         .then(function (response) {
           localStorage.setItem("jwt", response.data.accesstoken);
-          here.$router.push('/');
+          localStorage.setItem("role", response.data.role);
+          localStorage.setItem("userID", response.data.userID);
+          window.location.href = '/';
         })
         .catch(function (error) {
           console.log(error);
