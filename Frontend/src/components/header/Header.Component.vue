@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     
-    <a href="/">
+    <a id="logo" href="/">
         <img src='../../assets/img/gle.png'/>
     </a>
 
@@ -11,6 +11,10 @@
       <router-link to="/about">About</router-link> | 
       <a @click="logout" href="/">Log out</a>
     </div>
+
+    <a id="profile" v-bind:href="'/u/'+ this.userID" >
+        <img src='../../assets/img/user.png'/>
+    </a>
    
   </div>
 </template>
@@ -21,6 +25,7 @@ export default {
   data() { 
   return {
     admin: localStorage.getItem("role") == "ADMIN" ? true : false,
+    userID: localStorage.getItem("userID"),
     }
   },
   methods: {
@@ -43,6 +48,18 @@ export default {
 #header {
   background-color: #DADADA;
   width: 100%;
+}
+
+#nav {
+  display: inline-block;
+}
+
+.logo {
+  float: left;
+}
+
+.profile {
+  float: right;
 }
 
 

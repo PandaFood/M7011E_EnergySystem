@@ -23,6 +23,7 @@ router
 							res.json({
 								accesstoken: v,
 								role: userRole,
+								userID: userID,
 							});
 						});
 					} else {

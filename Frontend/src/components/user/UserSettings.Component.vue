@@ -1,22 +1,58 @@
 <template>
-  <div id="dashboard">
-    <CurrentState />
-    <div id="table-div">
-      <UserTable />
-    </div>
+  <div id="">
+    <h2>User settings page</h2>
+    <span> Name: {{userInfo.name}} <br/></span>
+    <span> Email: {{userInfo.email}} <br/></span>
+    <span> Adress: {{userInfo.adress}} <br/></span>
+    <span> Name: {{userInfo.city}} <br/></span>
+    <span> C/O: {{userInfo.co != null ? userInfo.co : "N/A" }} <br/></span>
   </div>
 </template>
 
 <script>
-import CurrentState from '@/components/dashboard/CurrentState.Component.vue'
-import UserTable from '@/components/dashboard/manager/UserTable.Component.vue'
+//import CurrentState from '@/components/dashboard/CurrentState.Component.vue'
+import axios from 'axios';
+
 
 export default {
-  name: 'UserDashboard',
+  name: 'UserSettings',
   components: {
-    CurrentState,
-    UserTable,
-  }
+  },
+  data() {
+    return {
+      userInfo: {
+        id: null,
+        name: null,
+        adress: null,
+        city: null,
+        co: null,
+        country: null,
+        email: null,
+      }
+    }
+  },
+  created() {
+    const here = this;
+    console.log(this.$route);
+    axios.get('/auth/user/' + here.$route.params.id, {
+        })
+        .then(function (response) {
+          console.log(response.data);
+          let res = response.data[0];
+          here.userInfo.id = res.id;
+          here.userInfo.name = res.name;
+          here.userInfo.adress = res.adress;
+          here.userInfo.city = res.city;
+          here.userInfo.co = res.co;
+          here.userInfo.country = res.country;
+          here.userInfo.email = res.email;
+
+        })
+        .catch(function (error) {
+          console.log(error);
+      });
+  },
+
 
 }
 

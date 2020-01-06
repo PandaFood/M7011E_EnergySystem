@@ -54,6 +54,7 @@ export default {
           console.log(response.data);
           localStorage.setItem("jwt", response.data.accesstoken);
           localStorage.setItem("role", response.data.role);
+          localStorage.setItem("userID", response.data.userID);
           window.location.href = '/';
         })
         .catch(function (error) {

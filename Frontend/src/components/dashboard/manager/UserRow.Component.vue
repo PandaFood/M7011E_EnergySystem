@@ -15,7 +15,7 @@ export default {
 
     methods: {
         openTab: function() {
-            window.open('http://localhost/user?id='+this.user.id, '_blank');
+            window.open('http://localhost/u/'+this.user.id, '_blank');
         }
     }
 }
