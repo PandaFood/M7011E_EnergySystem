@@ -47,8 +47,6 @@ CoalPlant = {
 			this.capacity += simulator.power;
 			simulator.power = 0;
 		}
-
-		console.log(this.capacity);
 	},
 };
 
