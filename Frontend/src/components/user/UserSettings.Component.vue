@@ -33,11 +33,9 @@ export default {
   },
   created() {
     const here = this;
-    console.log(this.$route);
     axios.get('/auth/user/' + here.$route.params.id, {
         })
         .then(function (response) {
-          console.log(response.data);
           let res = response.data[0];
           here.userInfo.id = res.id;
           here.userInfo.name = res.name;
