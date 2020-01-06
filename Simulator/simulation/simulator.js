@@ -96,7 +96,7 @@ Simulator = {
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},
 	calcPrice: function() {
-		const cd = 10 ** 6; // Coeff for demand variable
+		const cd = 10 ** 4; // Coeff for demand variable
 		const cs = 1; // Coeff for supply variable
 		this.calculatedPrice = cd / this.power + cs * this.powerLoss;
 
