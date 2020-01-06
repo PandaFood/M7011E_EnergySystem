@@ -22,12 +22,11 @@ Simulator = {
 		this.power -= powerNeed;
 		this.powerLoss += powerNeed;
 
-		if (this.power <= 0 && CoalPlant.getStatus() == 'up') {
-			this.power += CoalPlant.sellPower(100);
-		} else if (this.power <= 0) {
+		if (powerNeed > this.power) {
+			powerNeed = 0;
 			this.power = 0;
-			return 0;
 		}
+
 		return powerNeed;
 	},
 
@@ -85,7 +84,7 @@ Simulator = {
 			house.runSimulation(deltaTime);
 		});
 
-		CoalPlant.runPlant(deltaTime);
+		CoalPlant.runPlant(self, deltaTime);
 
 		self.calcPrice();
 	},
