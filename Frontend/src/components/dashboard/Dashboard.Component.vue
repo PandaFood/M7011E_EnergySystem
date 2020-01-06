@@ -51,7 +51,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
+  * {
+    box-sizing: border-box;
+  }
   #table-div {
     clear: both;
     height: 300px;

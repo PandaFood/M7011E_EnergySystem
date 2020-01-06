@@ -39,6 +39,9 @@ export default {
                 .then(response => {
                     this.turbines = response.data
                     this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});
+                })
+                .catch(err => {
+                    this.flash(err, 'error');
                 });
         }, 1000);
     },

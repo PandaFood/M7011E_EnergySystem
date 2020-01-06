@@ -39,6 +39,9 @@ export default {
         setInterval(() => {
             axios.get('http://localhost/api/storage', {params: {houseId: this.houseId,}})
             .then(response => this.batteries = response.data)
+            .catch(err => {
+                    this.flash(err, 'error');
+                });
         },1000);
     },
 }
