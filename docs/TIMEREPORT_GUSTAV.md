@@ -38,4 +38,5 @@ Date | Time spent (h) | Feature
 20-01-02 | 6h | Add graph for batteries, fix GUI updates in real time, update API, remade how batteries work in the simulation
 20-01-03 | 4h | Allow user to create new Wind Turbines, minor tweaks
 20-01-05 | 3h | Allow user to create new Batteries, Add better error responses from the API, more tweaks
-20-01-06 | 1h | Remade how the Coalplant handles batteries, add more style to buttons
+20-01-06 | 3h | Remade how the Coalplant handles batteries, add more style to buttons, began work on flash messages
+20-01-07 | 2h | Style flash messages and add them where they should be in the prosumer
