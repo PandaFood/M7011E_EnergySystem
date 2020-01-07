@@ -36,6 +36,9 @@ export default {
                     this.windData.status = response.data[0].status;
 
                     this.$refs.graph.addData(response.data[0].windSpeed,response.data[0].energyProduced, Date.parse(response.data[0].timestamp));
+                })
+                .catch(err => {
+                    this.flash(err, 'error');
                 });
         }, 1000);
     }

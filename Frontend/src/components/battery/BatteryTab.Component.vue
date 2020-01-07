@@ -32,6 +32,9 @@ export default {
                 this.battery.currentCapacity = response.data[0].currentCapacity;
                 this.battery.maxCapacity = response.data[0].maxCapacity;
             })
+            .catch(err => {
+                this.flash(err, 'error');
+            });
         setInterval(() => {
             axios.get('http://localhost/api/storageEvent/latest', {params: {storageId: this.batteryId}})
                 .then(response => {
@@ -39,8 +42,8 @@ export default {
 
                     this.$refs.graph.addData(response.data[0].currentCapacity, Date.parse(response.data[0].timestamp));
                 })
-                .catch((err) => {
-                    console.log("ERROR: Can not fetch latest storage event. " + err);
+                .catch(err => {
+                    this.flash(err, 'error');
                 });
         }, 1000);
     }

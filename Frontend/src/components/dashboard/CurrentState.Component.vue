@@ -39,7 +39,11 @@ export default {
 
             axios.get('http://localhost/api/house/'+this.houseId)
                 .then(response => {
-                    this.currentConsumption = response.data[0].consumption;
+                    if(response.data.length > 0){
+                        this.currentConsumption = response.data[0].consumption;
+                    } else {
+                        throw "ERROR: Could not fetch house, wrong ID";
+                    }
                 }).catch(err => {
                     this.flash(err, 'error');
                 });

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <flash-message class="myCustomClass"></flash-message>
+    <flash-message class="flash-message"></flash-message>
     <Header />
      <router-view/>
   </div>

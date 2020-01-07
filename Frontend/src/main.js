@@ -8,7 +8,12 @@ require('vue-flash-message/dist/vue-flash-message.min.css');
 
 Vue.config.productionTip = false
  
-Vue.use(VueFlashMessage);
+Vue.use(VueFlashMessage, {
+  messageOptions: {
+    timeout: 3300,
+    important: true,
+  }
+});
 Vue.use(VModal)
 
 new Vue({

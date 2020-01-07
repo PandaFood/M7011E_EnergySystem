@@ -27,7 +27,6 @@ export default {
             axios.post('http://localhost/api/storage', {data})
                 .then(response => {
                     this.flash(response, 'success');
-
                 })
                 .catch(err => {
                     this.flash(err, 'error');

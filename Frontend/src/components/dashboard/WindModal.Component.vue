@@ -46,9 +46,9 @@ export default {
                 if(newVal > 200) this.lat = 200;
                 if(newVal < 0) this.lat = 0;
 
-                this.flash("Coordinate out of bounds", 'error');
+                this.flash("Coordinate out of bounds", 'warning');
             } else if(newVal == "") {
-                this.flash("Coordinate is not a number", 'error');
+                this.flash("Coordinate is not a number", 'warning');
                 this.lat = 0;
             } else {
                 this.lat = newVal;
