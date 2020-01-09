@@ -144,6 +144,16 @@ router.get('/systemPower', function(req, res, next) {
 	});
 });
 
+router.post('/coal/battery', function(req, res, next) {
+	const newPercentage = req.body.data.newPercentage;
+	if (newPercentage >= 0 && newPercentage <= 1) {
+		CoalPlant.batteryPercentage = newPercentage;
+		res.status(200).send('Battery Percentage updated');
+	} else {
+		res.status(500).send('ERROR: Battery Percentage not updated, bad value');
+	}
+})
+
 router.get('/coal/status', function(req, res, next) {
 	res.status(200).send({
 		status: CoalPlant.status,

@@ -1,6 +1,7 @@
 <template>
   <div id="current-state">
-    <div> 
+    <div>
+        <h1> Current State </h1> 
         <b> Coal Plant Status:  </b> <span>{{coalPlant.status}} </span><br>
         <b> Current Coal Capacity: </b> <span>{{coalPlant.currentCapacity.toFixed(2)}} kWh </span><br>
         <b> Max Coal Capacity:  </b> <span>{{coalPlant.maxCapacity.toFixed(2)}} kWh </span><br>
@@ -67,6 +68,9 @@ export default {
         float: right;
         margin-right: 5vw;
         width: 400px;
+    }
+    h1 {
+        margin-left: -150px;
     }
 
     b {

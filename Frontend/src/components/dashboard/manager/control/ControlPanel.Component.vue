@@ -1,11 +1,13 @@
 <template>
     <div id="control-panel">
         <div id="button-div"> 
+            <h1> Coal Plant Control </h1>
             <button class="button" :disabled=disableStart v-on:click="startCoalPlant">Start Coal Plant</button>
             <button class="button" :disabled=disableStop  v-on:click="stopCoalPlant">Stop Coal Plant</button>
-
         </div>
         <CurrentState v-bind:coalPlant="coalPlant"/>
+
+        <BatteryControl v-bind:coalPlant="coalPlant" />
     </div>
 </template>
 
@@ -14,12 +16,14 @@
 import axios from 'axios'
 
 import CurrentState from '@/components/dashboard/manager/control/CurrentState.Component.vue'
+import BatteryControl from '@/components/dashboard/manager/control/BatteryControl.Component.vue'
 
 
 export default {
     name: "ControlPanel",
     components: {
         CurrentState,
+        BatteryControl,
     },
     data() {
         return {
@@ -83,5 +87,13 @@ export default {
 </script>
 
 <style scoped>
+
+    h1 {
+        margin-left: -85px;
+    }
+
+    #button-div {
+        float: left;
+    }
 
 </style>
