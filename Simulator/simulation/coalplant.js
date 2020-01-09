@@ -35,7 +35,7 @@ CoalPlant = {
 		return this.batteryPercentage;
 	},
 	runPlant: function(simulator, deltaTime) {
-		if (this.status == 'up') {
+		if (this.status == 'up' || this.status == 'shutdown' ) {
 			this.generatedPower = this.productionSpeed * deltaTime;
 			this.capacity += this.generatedPower * this.batteryPercentage;
 			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage));

@@ -1,8 +1,8 @@
 <template>
     <div id="control-panel">
         <div id="button-div"> 
-            <button v-on:click="startCoalPlant">Start Coal Plant</button>
-            <button v-on:click="stopCoalPlant">Stop Coal Plant</button>
+            <button class="button" :disabled=disableStart v-on:click="startCoalPlant">Start Coal Plant</button>
+            <button class="button" :disabled=disableStop  v-on:click="stopCoalPlant">Stop Coal Plant</button>
 
         </div>
         <CurrentState v-bind:coalPlant="coalPlant"/>
@@ -47,24 +47,38 @@ export default {
         startCoalPlant: function() {
             axios.post('http://localhost/api/coal/start')
                 .then(response => {
-                    console.log(response);
+                    this.flash(response.data, 'success');
                 })
                 .catch(err => {
-                    console.log(err);
-
+                    this.flash(err.response.data, 'error');
                 });
         },
         stopCoalPlant: function() {
             axios.post('http://localhost/api/coal/stop')
                 .then(response => {
-                    console.log(response);
+                    this.flash(response.data, 'success');
                 })
                 .catch(err => {
-                    console.log(err);
-
+                    this.flash(err.response.data, 'error');
                 });
         }
     },
+    computed: {
+        disableStart: function() {
+            if(this.coalPlant.status == 'down'){
+                return false;
+            } else {
+                return true;
+            }
+        },
+        disableStop: function() {
+            if(this.coalPlant.status == 'up'){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 }
 </script>
 

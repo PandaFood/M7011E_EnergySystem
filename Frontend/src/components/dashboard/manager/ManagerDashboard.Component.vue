@@ -1,9 +1,8 @@
 <template>
   <div id="dashboard">
     <div id="button-div"> 
-      <button v-on:click="openTab">Control Panel</button>
+      <button class="button" v-on:click="openTab">Control Panel</button>
     </div>
-    <CurrentState />
     <div id="table-div">
       <UserTable />
     </div>
@@ -11,13 +10,11 @@
 </template>
 
 <script>
-import CurrentState from '@/components/dashboard/CurrentState.Component.vue'
 import UserTable from '@/components/dashboard/manager/UserTable.Component.vue'
 
 export default {
   name: 'ManagerDashboard',
   components: {
-    CurrentState,
     UserTable,
   },
   methods: {
@@ -72,19 +69,6 @@ export default {
     #button-div {
       float: left;
       margin-left: 100px;
-    }
-
-    button {
-      widows: 80px;
-      height: 80px;
-      margin: 20px;
-      font-size: 20px;
-      padding: 20px;
-      float: left;
-      margin-left: 100px;
-      
-      border: 1px solid #ccc;
-      border-radius: 5px;
     }
 
 </style>
