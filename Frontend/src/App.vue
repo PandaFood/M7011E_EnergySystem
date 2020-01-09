@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <flash-message class="flash-message"></flash-message>
     <Header />
      <router-view/>
   </div>
@@ -39,4 +40,11 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.flash-message {
+  width: 30%;
+  position: absolute;
+  right: 10px;
+}
+
 </style>

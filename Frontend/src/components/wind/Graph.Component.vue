@@ -98,6 +98,9 @@ export default {
                 data.sort(function(a, b){return a.date - b.date}); 
                 this.chart.addData(data)
             })
+            .catch(err => {
+                this.flash(err, 'error');
+            });
     },
 
     beforeDestroy() {

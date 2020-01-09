@@ -6,8 +6,8 @@
     <CurrentState v-bind:houseId="houseId"/>
 
     <div id="button-div"> 
-      <button v-on:click="openWindModal">Add Wind Turbine</button>
-      <button v-on:click="openBatteryModal">Add Battery</button>
+      <button class="button" v-on:click="openWindModal">Add Wind Turbine</button>
+      <button class="button" v-on:click="openBatteryModal">Add Battery</button>
     </div>
     <div id="table-div">
       <TurbineTable v-bind:houseId="houseId"/>
@@ -51,7 +51,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
+  * {
+    box-sizing: border-box;
+  }
   #table-div {
     clear: both;
     height: 300px;
@@ -89,7 +91,7 @@ export default {
       background: #eee;
   }
   
-  button {
+  .button {
     widows: 80px;
     height: 80px;
     margin: 20px;
@@ -101,6 +103,8 @@ export default {
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  
 
   #button-div {
     margin-left: 50px;

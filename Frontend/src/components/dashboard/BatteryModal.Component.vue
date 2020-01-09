@@ -26,10 +26,10 @@ export default {
             }
             axios.post('http://localhost/api/storage', {data})
                 .then(response => {
-                    console.log(response);
+                    this.flash(response, 'success');
                 })
                 .catch(err => {
-                    console.log(err);
+                    this.flash(err, 'error');
                 });
         }
     },

@@ -33,15 +33,25 @@ export default {
                         currentProduction += producer.energyProduced;
                     });
                     this.currentProduction = currentProduction;
+                }).catch(err => {
+                    this.flash(err, 'error');
                 });
 
             axios.get('http://localhost/api/house/'+this.houseId)
                 .then(response => {
-                    this.currentConsumption = response.data[0].consumption;
+                    if(response.data.length > 0){
+                        this.currentConsumption = response.data[0].consumption;
+                    } else {
+                        throw "ERROR: Could not fetch house, wrong ID";
+                    }
+                }).catch(err => {
+                    this.flash(err, 'error');
                 });
             axios.get('http://localhost/api/currentPrice')
                 .then(response => {
                     this.currentPrice = response.data.price;
+                }).catch(err => {
+                    this.flash(err, 'error');
                 });
         }, 1000);
     }

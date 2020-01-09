@@ -27,10 +27,10 @@ export default {
             }
             axios.post('http://localhost/api/producer', {data})
                 .then(response => {
-                    console.log(response);
+                    this.flash(response, 'success');
                 })
                 .catch(err => {
-                    console.log(err);
+                    this.flash(err, 'error');
                 });
         }
     },
@@ -46,9 +46,9 @@ export default {
                 if(newVal > 200) this.lat = 200;
                 if(newVal < 0) this.lat = 0;
 
-                console.log("out of limit") // TODO -- add correct error display
+                this.flash("Coordinate out of bounds", 'warning');
             } else if(newVal == "") {
-                console.log("not a number") // TODO -- add correct error display
+                this.flash("Coordinate is not a number", 'warning');
                 this.lat = 0;
             } else {
                 this.lat = newVal;
