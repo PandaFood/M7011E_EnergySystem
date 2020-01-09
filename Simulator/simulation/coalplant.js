@@ -3,7 +3,7 @@ CoalPlant = {
 
 	status: 'up',
 
-	productionSpeed: 50, // Ws
+	productionSpeed: 100, // Ws
 
 	capacity: 0,
 	maxCapacity: 1000,
@@ -49,10 +49,14 @@ CoalPlant = {
 			}
 
 			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage) + overProduction);
-		} else if (simulator.power <= 0) {
-			this.capacity += simulator.power;
-			simulator.power = 0;
 		}
+
+		if (simulator.power <= 0 && this.capacity > 0) {
+			this.capacity += simulator.power;
+			simulator.buyPower(-simulator.power);
+		}
+
+		if (this.capacity < 0) this.capacity = 0;
 	},
 };
 

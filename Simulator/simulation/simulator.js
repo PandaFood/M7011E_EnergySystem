@@ -7,7 +7,7 @@ Simulator = {
 	currentPrice: 0,
 	calculatedPrice: 0,
 	useCalculatedPrice: true,
-	power: 10000,
+	power: 500,
 	houses: [],
 	powerGain: 0,
 	powerLoss: 0,
@@ -21,11 +21,6 @@ Simulator = {
 	sellPower: function(powerNeed) {
 		this.power -= powerNeed;
 		this.powerLoss += powerNeed;
-
-		if (powerNeed > this.power) {
-			powerNeed = 0;
-			this.power = 0;
-		}
 
 		return powerNeed;
 	},
