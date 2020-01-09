@@ -37,12 +37,18 @@ CoalPlant = {
 	runPlant: function(simulator, deltaTime) {
 		if (this.status == 'up' || this.status == 'shutdown' ) {
 			this.generatedPower = this.productionSpeed * deltaTime;
+
+
 			this.capacity += this.generatedPower * this.batteryPercentage;
-			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage));
+
+			let overProduction = 0;
 
 			if (this.capacity > this.maxCapacity) {
+				overProduction = this.capacity % this.maxCapacity;
 				this.capacity = this.maxCapacity;
 			}
+
+			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage) + overProduction);
 		} else if (simulator.power <= 0) {
 			this.capacity += simulator.power;
 			simulator.power = 0;
