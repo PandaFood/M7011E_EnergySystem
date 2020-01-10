@@ -1,7 +1,7 @@
 <template>
     <div id="battery-control">
         <h1> Battery Control </h1>
-
+        <p> Set how much of generated power should go to the battery: </p>
         <div id="slider-div"> 
             <input v-model="newPercentage" type="range" name="percent" min="0" max="100"> 
             <h2> {{this.newPercentage}} % </h2>
@@ -63,6 +63,14 @@ export default {
         margin-left: 25px;
     }
     
+    p {
+        float: left;
+        width: 80%;
+        margin-left: 50px;
+        font-size: 18px;
+        text-align: left;
+    }
+
     button {
         float: right;
         margin-right: 50px;
