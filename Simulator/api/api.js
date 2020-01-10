@@ -12,9 +12,10 @@ router
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Houses'));
 	})
 	.post('/house', function(req, res, next) {
-		const consumption = req.query.consumption;
-		const batteryPercentage = req.query.batteryPercentage;
-		Database.addHouse(consumption, batteryPercentage)
+		const id = req.body.houseId;
+		const consumption = 30;
+		const batteryPercentage = 0.5;
+		Database.addHouse(id, consumption, batteryPercentage)
 			.then((v) => res.status(200).send('House Created'))
 			.catch((err) => res.status(500).send('ERROR: Could not create House'));
 	});

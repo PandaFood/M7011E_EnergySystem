@@ -12,7 +12,8 @@ CREATE TABLE "users" (
     "co" text,
     "email" text NOT NULL,
     "password" text NOT NULL,
-    "role" text DEFAULT USER
+    "role" text DEFAULT USER,
+    "houseId" uuid
 );
 
 ALTER TABLE "users" OWNER TO auth;

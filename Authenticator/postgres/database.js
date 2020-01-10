@@ -13,7 +13,7 @@ const Database = {
 	},
 
 	getUsers: async function() {
-		const query = 'SELECT id, name, adress, city, country, co, email, role FROM users';
+		const query = 'SELECT id, name, adress, city, country, co, email, role, "houseId" FROM users';
 
 		const response = await client.query(query);
 		return response;
@@ -28,7 +28,8 @@ const Database = {
 	},
 
 	addUser: async function(name, adress, city, country, co, email, password) {
-		const query = 'INSERT INTO users VALUES (uuid_generate_v4(),$1, $2, $3, $4, $5, $6, $7, $8)';
+		// eslint-disable-next-line max-len
+		const query = 'INSERT INTO users VALUES (uuid_generate_v4(),$1, $2, $3, $4, $5, $6, $7, $8, uuid_generate_v4())';
 		const values = [name, adress, city, country, co, email, password, 'USER'];
 
 		const response = await client.query(query, values);
@@ -40,6 +41,14 @@ const Database = {
 		const values = [id];
 
 		const response = await client.query(query, values);
+		return response;
+	},
+	getUserHouseId: async function(email) {
+		const query = 'SELECT "houseId" FROM users WHERE email = $1';
+		const values = [email];
+
+		const response = await client.query(query, values);
+
 		return response;
 	},
 
