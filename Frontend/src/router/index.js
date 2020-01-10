@@ -73,6 +73,14 @@ const routes = [
     component: () => import('../views/Manager.vue')
   },
   {
+    path: '/manage/control',
+    name: 'controlpanel',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/ControlPanel.vue')
+  },
+  {
     path: '/u/:id',
     name: 'usersettings',
     meta: {

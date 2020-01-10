@@ -1,6 +1,8 @@
 <template>
   <div id="dashboard">
-    <CurrentState />
+    <div id="button-div"> 
+      <button class="button" v-on:click="openTab">Control Panel</button>
+    </div>
     <div id="table-div">
       <UserTable />
     </div>
@@ -8,20 +10,19 @@
 </template>
 
 <script>
-import CurrentState from '@/components/dashboard/CurrentState.Component.vue'
 import UserTable from '@/components/dashboard/manager/UserTable.Component.vue'
 
 export default {
   name: 'ManagerDashboard',
   components: {
-    CurrentState,
     UserTable,
-  }
-
+  },
+  methods: {
+        openTab: function() {
+            window.open('http://localhost/manage/control', '_blank');
+        }
+    }
 }
-
-
-
 
 </script>
 
@@ -63,6 +64,11 @@ export default {
 
     tr:hover{
         background: #eee;
+    }
+
+    #button-div {
+      float: left;
+      margin-left: 100px;
     }
 
 </style>

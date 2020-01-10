@@ -47,4 +47,22 @@ export default {
   right: 10px;
 }
 
+
+.button {
+  widows: 80px;
+  height: 80px;
+  margin: 20px;
+  font-size: 20px;
+  padding: 20px;
+  float: left;
+  margin-left: 70px;
+  
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background: #ddd;
+}
+
 </style>

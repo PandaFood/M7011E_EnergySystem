@@ -3,9 +3,9 @@ CoalPlant = {
 
 	status: 'up',
 
-	productionSpeed: 50, // Ws
+	productionSpeed: 200, // Ws
 
-	capacity: 0,
+	capacity: 200,
 	maxCapacity: 1000,
 	batteryPercentage: 0.5, // how much power should be sent to the battery instead of the system
 
@@ -35,18 +35,28 @@ CoalPlant = {
 		return this.batteryPercentage;
 	},
 	runPlant: function(simulator, deltaTime) {
-		if (this.status == 'up') {
+		if (this.status == 'up' || this.status == 'shutdown' ) {
 			this.generatedPower = this.productionSpeed * deltaTime;
+
+
 			this.capacity += this.generatedPower * this.batteryPercentage;
-			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage));
+
+			let overProduction = 0;
 
 			if (this.capacity > this.maxCapacity) {
+				overProduction = this.capacity % this.maxCapacity;
 				this.capacity = this.maxCapacity;
 			}
-		} else if (simulator.power <= 0) {
-			this.capacity += simulator.power;
-			simulator.power = 0;
+
+			simulator.buyPower(this.generatedPower * (1 - this.batteryPercentage) + overProduction);
 		}
+
+		if (simulator.power <= 0 && this.capacity > 0) {
+			this.capacity += simulator.power;
+			simulator.buyPower(-simulator.power);
+		}
+
+		if (this.capacity < 0) this.capacity = 0;
 	},
 };
 

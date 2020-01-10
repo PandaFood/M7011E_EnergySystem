@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Database = require('../postgres/database');
 const Simulation = require('../simulation/simulator');
+const CoalPlant = require('../simulation/coalplant');
 
 router
 	.get('/house', function(req, res, next) {
@@ -121,21 +122,67 @@ router
 	.get('/currentPrice', function(req, res, next) {
 		res.send({
 			price: Simulation.currentPrice,
+			calculatedPrice: Simulation.calculatedPrice,
 		});
 	})
 	// only manager should be able to set price
 	.post('/currentPrice', function(req, res, next) {
-		// useCalculatedPrice comes in as a string, thus the awkward check if it equals true
-		Simulation.useCalculatedPrice = 'true' == req.query.useCalculatedPrice;
+		Simulation.useCalculatedPrice = req.body.data.useCalculatedPrice;
 
 		if (Simulation.useCalculatedPrice) {
 			Simulation.currentPrice = Simulation.calculatedPrice;
+			res.status(200).send('Price set');
+		} else if (req.body.data.price > 0) {
+			Simulation.currentPrice = req.body.data.price;
+			res.status(200).send('Price set');
 		} else {
-			Simulation.currentPrice = req.query.price;
+			res.status(500).send('ERROR: Price cannot be set');
 		}
-
-		res.status(200).send('Price set');
 	});
+
+router.get('/systemPower', function(req, res, next) {
+	res.status(200).send({
+		power: Simulation.power,
+	});
+});
+
+router.post('/coal/battery', function(req, res, next) {
+	const newPercentage = req.body.data.newPercentage;
+	if (newPercentage >= 0 && newPercentage <= 1) {
+		CoalPlant.batteryPercentage = newPercentage;
+		res.status(200).send('Battery Percentage updated');
+	} else {
+		res.status(500).send('ERROR: Battery Percentage not updated, bad value');
+	}
+});
+
+router.get('/coal/status', function(req, res, next) {
+	res.status(200).send({
+		status: CoalPlant.status,
+		capacity: CoalPlant.capacity,
+		maxCapacity: CoalPlant.maxCapacity,
+		batteryPercentage: CoalPlant.batteryPercentage,
+	});
+});
+
+router.post('/coal/start', function(req, res, next) {
+	if (CoalPlant.status === 'down') {
+		CoalPlant.startPlant();
+		res.status(200).send('Starting Coal Plant');
+	} else {
+		res.status(500).send('ERROR: Coal Plant is not turned off');
+	}
+});
+
+router.post('/coal/stop', function(req, res, next) {
+	if (CoalPlant.status === 'up') {
+		CoalPlant.stopPlant();
+		res.status(200).send('Stopping Coal Plant');
+	} else {
+		res.status(500).send('ERROR: Coal Plant is not running');
+	}
+});
+
 
 router
 	.get('/startSimulation', function(req, res, next) {
