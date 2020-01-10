@@ -5,7 +5,7 @@ client.connect();
 
 const Database = {
 	getUser: async function(userID) {
-		const query = 'SELECT id, name, adress, city, country, co, email, password, role FROM users WHERE ID = $1';
+		const query = 'SELECT id, name, adress, city, country, co, email, password, role, "houseId" FROM users WHERE ID = $1';
 		const values = [userID];
 
 		const response = await client.query(query, values);
