@@ -92,7 +92,6 @@ export default {
         width: 100%;
         height: 8.4px;
         cursor: pointer;
-        animate: 0.2s;
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
         background: #3071a9;
         border-radius: 1.3px;
@@ -119,7 +118,6 @@ export default {
         width: 100%;
         height: 8.4px;
         cursor: pointer;
-        animate: 0.2s;
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
         background: #3071a9;
         border-radius: 1.3px;
@@ -140,7 +138,6 @@ export default {
         width: 100%;
         height: 8.4px;
         cursor: pointer;
-        animate: 0.2s;
         background: transparent;
         border-color: transparent;
         border-width: 16px 0;
