@@ -45,8 +45,13 @@ export default {
 
     #battery-control {
         width: 40%;
-        clear: both;
+        text-align: left;
         padding-top: 50px;
+        float: left;
+    }
+
+    h1 {
+        margin-left: 50px;
     }
 
     #slider-div {
@@ -65,10 +70,11 @@ export default {
     
     p {
         float: left;
-        width: 80%;
-        margin-left: 50px;
+        width: 70%;
+        margin-left: 75px;
         font-size: 18px;
         text-align: left;
+        margin-bottom: 30px;
     }
 
     button {

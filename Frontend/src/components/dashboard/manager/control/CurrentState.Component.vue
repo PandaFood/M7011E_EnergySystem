@@ -1,7 +1,7 @@
 <template>
   <div id="current-state">
-    <div>
         <h1> Current State </h1> 
+    <div>
         <b> Coal Plant Status:  </b> <span>{{coalPlant.status}} </span><br>
         <b> Current Coal Capacity: </b> <span>{{coalPlant.currentCapacity.toFixed(2)}} kWh </span><br>
         <b> Max Coal Capacity:  </b> <span>{{coalPlant.maxCapacity.toFixed(2)}} kWh </span><br>
@@ -9,7 +9,7 @@
 
         <b> Current House Consumption:  </b> <span>{{currentConsumption.toFixed(2)}} kWh </span><br> 
         <b> System Power:  </b> <span>{{currentPower.toFixed(2)}} kWh </span><br> 
-        <b> Current Price:  </b> <span>{{currentPrice.toFixed(2)}} sek/kWh </span><br> 
+        <b> Current Price:  </b> <span>{{price.currentPrice.toFixed(2)}} sek/kWh </span><br> 
     </div>
 
   </div>
@@ -21,12 +21,11 @@ import axios from 'axios'
 
 export default {
     name: 'CurrentState',
-    props: ['coalPlant'],
+    props: ['coalPlant', 'price'],
     data() {
         return {
             currentConsumption: 0,
             currentPower: 0,
-            currentPrice: 0,
         }
     },
     mounted() {
@@ -39,10 +38,7 @@ export default {
                 .then(response => {
                     this.currentPower = response.data.power;
                 });
-            axios.get('http://localhost/api/currentPrice')
-                .then(response => {
-                    this.currentPrice = response.data.price;
-                });
+            
         }, 1000);
         
     }
@@ -56,21 +52,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     #current-state {
-        width: 100vw;
-        font-size: 20px;
+        width: 40%;
         /* height: 10vw; */
-        margin-top: 5vh;
-        display: block;
-
+        text-align: left;
+        float: right;
     }
 
     #current-state div {
-        float: right;
+        margin-left: 20px;
         margin-right: 5vw;
         width: 400px;
-    }
-    h1 {
-        margin-left: -150px;
     }
 
     b {

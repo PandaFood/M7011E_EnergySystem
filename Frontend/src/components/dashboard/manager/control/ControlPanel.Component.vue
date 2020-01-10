@@ -5,9 +5,10 @@
             <button class="button" :disabled=disableStart v-on:click="startCoalPlant">Start Coal Plant</button>
             <button class="button" :disabled=disableStop  v-on:click="stopCoalPlant">Stop Coal Plant</button>
         </div>
-        <CurrentState v-bind:coalPlant="coalPlant"/>
+        <CurrentState v-bind:coalPlant="coalPlant" v-bind:price="price"/>
 
         <BatteryControl v-bind:coalPlant="coalPlant" />
+        <PriceControl v-bind:price="price" />
     </div>
 </template>
 
@@ -17,6 +18,7 @@ import axios from 'axios'
 
 import CurrentState from '@/components/dashboard/manager/control/CurrentState.Component.vue'
 import BatteryControl from '@/components/dashboard/manager/control/BatteryControl.Component.vue'
+import PriceControl from '@/components/dashboard/manager/control/PriceControl.Component.vue'
 
 
 export default {
@@ -24,6 +26,7 @@ export default {
     components: {
         CurrentState,
         BatteryControl,
+        PriceControl,
     },
     data() {
         return {
@@ -32,6 +35,10 @@ export default {
                 currentCapacity: 0,
                 maxCapacity: 0,
                 batteryPercentage: 0,
+            },
+            price: {
+                currentPrice: 0,
+                calculatedPrice: 0
             }
         }
     },
@@ -43,6 +50,13 @@ export default {
                     this.coalPlant.maxCapacity = response.data.maxCapacity;
                     this.coalPlant.status = response.data.status;
                     this.coalPlant.batteryPercentage = response.data.batteryPercentage;
+
+                });
+
+            axios.get('http://localhost/api/currentPrice')
+                .then(response => {
+                    this.price.currentPrice = response.data.price;
+                    this.price.calculatedPrice = response.data.calculatedPrice;
 
                 });
         }, 1000);
@@ -88,12 +102,20 @@ export default {
 
 <style scoped>
 
+    #control-panel {
+        text-align: left;
+        width: 100%;
+        font-size: 20px;
+
+    }
+
     h1 {
-        margin-left: -85px;
+        margin-left: 50px;
     }
 
     #button-div {
         float: left;
+        width: 50%;
     }
 
 </style>

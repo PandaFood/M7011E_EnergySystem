@@ -3,9 +3,9 @@ CoalPlant = {
 
 	status: 'up',
 
-	productionSpeed: 100, // Ws
+	productionSpeed: 200, // Ws
 
-	capacity: 0,
+	capacity: 200,
 	maxCapacity: 1000,
 	batteryPercentage: 0.5, // how much power should be sent to the battery instead of the system
 
