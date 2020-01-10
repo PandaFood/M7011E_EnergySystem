@@ -15,6 +15,7 @@ router
 			const passwordHash = v.rows[0].password;
 			const userID = v.rows[0].id;
 			const userRole = v.rows[0].role;
+			const houseId = v.rows[0].houseId;
 
 			hash.verifyPassword(input.password, passwordHash)
 				.then((verified) => {
@@ -24,6 +25,7 @@ router
 								accesstoken: v,
 								role: userRole,
 								userID: userID,
+								houseId: houseId,
 							});
 						});
 					} else {

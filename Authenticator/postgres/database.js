@@ -20,7 +20,7 @@ const Database = {
 	},
 
 	loginUser: async function(email) {
-		const query = 'SELECT password, id, role FROM users WHERE email = $1';
+		const query = 'SELECT password, id, role, "houseId" FROM users WHERE email = $1';
 		const values = [email];
 
 		const response = await client.query(query, values);
