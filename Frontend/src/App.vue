@@ -55,7 +55,7 @@ export default {
   font-size: 20px;
   padding: 20px;
   float: left;
-  margin-left: 100px;
+  margin-left: 70px;
   
   border: 1px solid #ccc;
   border-radius: 5px;
