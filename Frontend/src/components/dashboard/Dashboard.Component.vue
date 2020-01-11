@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      houseId: 'b2c1509a-8447-4a87-9373-d483700fc887'
+      houseId: localStorage.getItem("houseId")
     }
   },
   methods: {
@@ -44,6 +44,9 @@ export default {
     openBatteryModal: function () {
       this.$modal.show('battery-modal');
     },
+  },
+  mounted() {
+    this.houseId = localStorage.getItem("houseId");
   }
 }
 

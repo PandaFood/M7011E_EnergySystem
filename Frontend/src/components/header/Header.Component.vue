@@ -30,8 +30,7 @@ export default {
   },
   methods: {
     logout: function(){
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("role");
+      localStorage.clear();
       this.admin = false;
     }
   },

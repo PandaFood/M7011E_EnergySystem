@@ -19,9 +19,9 @@ const Database = {
 		return response;
 	},
 
-	addHouse: async function(consumption, batteryPercentage) {
-		const query = 'INSERT INTO House VALUES(uuid_generate_v4(), $1, $2)';
-		const values = [consumption, batteryPercentage];
+	addHouse: async function(id, consumption, batteryPercentage) {
+		const query = 'INSERT INTO House VALUES($1, $2, $3)';
+		const values = [id, consumption, batteryPercentage];
 
 		const response = await client.query(query, values);
 		return response;
