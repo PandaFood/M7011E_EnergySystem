@@ -19,8 +19,13 @@ Simulator = {
 	 * @return {number}
 	 */
 	sellPower: function(powerNeed) {
-		this.power -= powerNeed;
-		this.powerLoss += powerNeed;
+		if (powerNeed > this.power) {
+			powerNeed = this.power;
+			this.power = 0;
+		} else {
+			this.power -= powerNeed;
+			this.powerLoss += powerNeed;
+		}
 
 		return powerNeed;
 	},
@@ -75,11 +80,12 @@ Simulator = {
 		const deltaTime = (currentTime - self.timestamp) / 1000;
 		self.timestamp = new Date(currentTime);
 
+		CoalPlant.runPlant(self, deltaTime);
+
 		self.houses.forEach((house) => {
 			house.runSimulation(deltaTime);
 		});
 
-		CoalPlant.runPlant(self, deltaTime);
 
 		self.calcPrice();
 	},

@@ -41,7 +41,7 @@ export default {
                 price: this.newPrice,
                 useCalculatedPrice: this.useCalculatedPrice
             }
-            axios.post('http://localhost/api/currentPrice', {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('http://localhost/api/currentPrice', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
@@ -78,7 +78,7 @@ export default {
 
     button {
         float: right;
-        margin-right: 50px;
+        margin-right: 150px;
         height: 60px;
     }
 

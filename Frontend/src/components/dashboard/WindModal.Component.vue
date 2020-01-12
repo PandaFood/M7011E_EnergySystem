@@ -25,12 +25,12 @@ export default {
                 coords: [this.lat, this.lon],
                 type: "Wind Turbine"
             }
-            axios.post('http://localhost/api/producer', {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('http://localhost/api/producer', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
-                    this.flash(response, 'success');
+                    this.flash(response.data, 'success');
                 })
                 .catch(err => {
-                    this.flash(err, 'error');
+                    this.flash(err.response.data, 'error');
                 });
         }
     },
@@ -52,6 +52,19 @@ export default {
                 this.lat = 0;
             } else {
                 this.lat = newVal;
+            }
+        },
+        lon: function(newVal) {
+            if(newVal > 200 || newVal < 0) {
+                if(newVal > 200) this.lon = 200;
+                if(newVal < 0) this.lon = 0;
+
+                this.flash("Coordinate out of bounds", 'warning');
+            } else if(newVal == "") {
+                this.flash("Coordinate is not a number", 'warning');
+                this.lon = 0;
+            } else {
+                this.lon = newVal;
             }
         }
     }
@@ -80,8 +93,8 @@ export default {
 
     .button {
         margin-right: 50px;
-        width: 80px;
-        height: 50px;
+        width: 120px;
+        height: 70px;
         margin-top: 20px;
     }
 

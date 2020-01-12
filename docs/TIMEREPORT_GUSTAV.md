@@ -42,3 +42,6 @@ Date | Time spent (h) | Feature
 20-01-07 | 2h | Style flash messages and add them where they should be in the prosumer
 20-01-09 | 6h | Began work on the Manager Control Panel
 20-01-10 | 2h | Set price via Manager Control Panel, update styles
+20-01-11 | 3h | Calculate when a blackout occurs, tweaking styles
+20-01-12 | 1h | Show in the manager when a user have a blackout. Update flash messages
+20-01-12 | 1h | Fix small broken stuff

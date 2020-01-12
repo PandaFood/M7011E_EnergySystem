@@ -52,8 +52,9 @@ CoalPlant = {
 		}
 
 		if (simulator.power <= 0 && this.capacity > 0) {
-			this.capacity += simulator.power;
-			simulator.buyPower(-simulator.power);
+			const currentConcumption = simulator.houses.reduce((tot, house) => tot + house.powerConsumption, 0);
+			this.capacity -= currentConcumption*3;
+			simulator.buyPower(currentConcumption*3);
 		}
 
 		if (this.capacity < 0) this.capacity = 0;

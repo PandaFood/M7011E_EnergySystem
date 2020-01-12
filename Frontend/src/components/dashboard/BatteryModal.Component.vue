@@ -24,12 +24,12 @@ export default {
                 maxCapacity: this.capacity,
                 currentCapacity: 0
             }
-            axios.post('http://localhost/api/storage', {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('http://localhost/api/storage', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
-                    this.flash(response, 'success');
+                    this.flash(response.data, 'success');
                 })
                 .catch(err => {
-                    this.flash(err, 'error');
+                    this.flash(err.response.data, 'error');
                 });
         }
     },
@@ -44,9 +44,9 @@ export default {
                 if(newVal > 200) this.capacity = 200;
                 if(newVal < 0) this.capacity = 0;
 
-                console.log("out of limit") // TODO -- add correct error display
+                this.flash("Size out of bounds", 'warning');
             } else if(newVal == "") {
-                console.log("not a number") // TODO -- add correct error display
+                this.flash("Size is not a number", 'warning');
                 this.capacity = 0;
             } else {
                 this.capacity = newVal;
@@ -78,8 +78,8 @@ export default {
 
     .button {
         margin-right: 50px;
-        width: 80px;
-        height: 50px;
+        width: 120px;
+        height: 70px;
         margin-top: 20px;
     }
 

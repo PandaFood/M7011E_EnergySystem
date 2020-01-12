@@ -4,7 +4,7 @@
         
         <table>
             <tr id="table-header">
-                <th> Id </th>
+                <th> Status </th>
                 <th> Name</th>
                 <th> Adress</th>
                 <th> Email </th>
@@ -31,14 +31,33 @@ export default {
     },
     data() {
         return {
-            users: []
+            users: [],
         }
     },
     mounted () {
-        this.$nextTick(function () {
-            axios.get('http://localhost/auth/user/', {params: {}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
-            .then(response => this.users = response.data)
-        });
+        
+        setInterval(() => {
+
+            axios.get('http://localhost/auth/user/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                .then(response => {
+
+                    axios.get('http://localhost/api/blackout/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                        .then(res => {                            
+                            this.users = response.data;
+                            
+                            this.users.forEach(user => {
+                                if (typeof(res.data[user.houseId]) !== 'undefined') {
+                                    user.blackout = res.data[user.houseId];
+                                } else {
+                                    user.blackout = false;
+                                }
+
+                            });
+                        }).catch(err => this.flash(err, 'error'));
+                 })
+                .catch(err => this.flash(err, 'error'));   
+            
+        }, 1000);
     },
 }
 </script>

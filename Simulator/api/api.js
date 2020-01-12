@@ -29,9 +29,9 @@ router
 
 router
 	.post('/storage', function(req, res, next) {
-		const owner = req.body.data.houseId;
-		const maxCapacity = req.body.data.maxCapacity;
-		const currentCapacity = req.body.data.currentCapacity;
+		const owner = req.body.houseId;
+		const maxCapacity = req.body.maxCapacity;
+		const currentCapacity = req.body.currentCapacity;
 		Database.addStorage(owner, maxCapacity, currentCapacity)
 			.then((v) => {
 				Simulation.refreshBatteries(owner);
@@ -78,9 +78,9 @@ router
 
 router
 	.post('/producer', function(req, res, next) {
-		const houseId = req.body.data.houseId;
-		const type = req.body.data.type;
-		const coords = req.body.data.coords[0] + ',' + req.body.data.coords[1];
+		const houseId = req.body.houseId;
+		const type = req.body.type;
+		const coords = req.body.coords[0] + ',' + req.body.coords[1];
 		Database.addProducer(houseId, coords, type)
 			.then((v) => {
 				Simulation.refreshWindTurbines(houseId);
@@ -128,13 +128,13 @@ router
 	})
 	// only manager should be able to set price
 	.post('/currentPrice', function(req, res, next) {
-		Simulation.useCalculatedPrice = req.body.data.useCalculatedPrice;
+		Simulation.useCalculatedPrice = req.body.useCalculatedPrice;
 
 		if (Simulation.useCalculatedPrice) {
 			Simulation.currentPrice = Simulation.calculatedPrice;
 			res.status(200).send('Price set');
-		} else if (req.body.data.price > 0) {
-			Simulation.currentPrice = req.body.data.price;
+		} else if (req.body.price > 0) {
+			Simulation.currentPrice = req.body.price;
 			res.status(200).send('Price set');
 		} else {
 			res.status(500).send('ERROR: Price cannot be set');
@@ -148,7 +148,7 @@ router.get('/systemPower', function(req, res, next) {
 });
 
 router.post('/coal/battery', function(req, res, next) {
-	const newPercentage = req.body.data.newPercentage;
+	const newPercentage = req.body.newPercentage;
 	if (newPercentage >= 0 && newPercentage <= 1) {
 		CoalPlant.batteryPercentage = newPercentage;
 		res.status(200).send('Battery Percentage updated');
@@ -184,6 +184,15 @@ router.post('/coal/stop', function(req, res, next) {
 	}
 });
 
+router.get('/blackout', function(req, res, next) {
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		houseStatus[house.id] = house.blackout;
+	});
+
+	res.status(200).send(houseStatus);
+});
 
 router
 	.get('/startSimulation', function(req, res, next) {
