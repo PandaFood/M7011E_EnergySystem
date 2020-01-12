@@ -41,7 +41,7 @@ export default {
                 price: this.newPrice,
                 useCalculatedPrice: this.useCalculatedPrice
             }
-            axios.post('http://localhost/api/currentPrice', {data})
+            axios.post('http://localhost/api/currentPrice', {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })

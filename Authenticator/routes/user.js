@@ -19,7 +19,10 @@ router
 			Database.addUser(input.name.toLowerCase(), input.adress.toLowerCase(), input.city.toLowerCase(),
 				input.country.toLowerCase(), input.co, input.email.toLowerCase(), password)
 				.then((v) => {
-					createHouse(input.email.toLowerCase(), res);
+					jwt.generateAccessToken('AUTH', 'SERVER', '60s')
+						.then((token) => {
+							createHouse(input.email.toLowerCase(), token, res);
+						}).catch((err) => console.log(err));
 				})
 				.catch((err) => console.log(err));
 		});
@@ -42,13 +45,14 @@ router
 /**
  *
  * @param {string} email
+ * @param {string} tempToken
  * @param {Object} res
  */
-function createHouse(email, res) {
+function createHouse(email, token, res) {
 	Database.getUserHouseId(email).then((response) => {
 		axios.post('http://simulator:3000/api/house', {
 			houseId: response.rows[0].houseId,
-		})
+		}, {headers: {Authorization: 'Bearer ' + token}})
 			.then((response) => {
 				res.status(200).send('House created');
 			})

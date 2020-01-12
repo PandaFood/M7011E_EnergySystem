@@ -35,8 +35,10 @@ export default {
         }
     },
     mounted () {
-        axios.get('http://localhost/auth/user/', {params: {}})
-        .then(response => this.users = response.data)
+        this.$nextTick(function () {
+            axios.get('http://localhost/auth/user/', {params: {}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            .then(response => this.users = response.data)
+        });
     },
 }
 </script>

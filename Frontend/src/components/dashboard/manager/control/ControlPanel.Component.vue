@@ -43,27 +43,29 @@ export default {
         }
     },
     mounted() {
-        setInterval(() => {
-            axios.get('http://localhost/api/coal/status')
-                .then(response => {
-                    this.coalPlant.currentCapacity = response.data.capacity;
-                    this.coalPlant.maxCapacity = response.data.maxCapacity;
-                    this.coalPlant.status = response.data.status;
-                    this.coalPlant.batteryPercentage = response.data.batteryPercentage;
+        this.$nextTick(function () {
+            setInterval(() => {
+                axios.get('http://localhost/api/coal/status', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.coalPlant.currentCapacity = response.data.capacity;
+                        this.coalPlant.maxCapacity = response.data.maxCapacity;
+                        this.coalPlant.status = response.data.status;
+                        this.coalPlant.batteryPercentage = response.data.batteryPercentage;
 
-                });
+                    });
 
-            axios.get('http://localhost/api/currentPrice')
-                .then(response => {
-                    this.price.currentPrice = response.data.price;
-                    this.price.calculatedPrice = response.data.calculatedPrice;
+                axios.get('http://localhost/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.price.currentPrice = response.data.price;
+                        this.price.calculatedPrice = response.data.calculatedPrice;
 
-                });
-        }, 1000);
+                    });
+            }, 1000);
+        });
     },
     methods: {
         startCoalPlant: function() {
-            axios.post('http://localhost/api/coal/start')
+            axios.post('http://localhost/api/coal/start', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
@@ -72,7 +74,7 @@ export default {
                 });
         },
         stopCoalPlant: function() {
-            axios.post('http://localhost/api/coal/stop')
+            axios.post('http://localhost/api/coal/stop', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
@@ -80,6 +82,7 @@ export default {
                     this.flash(err.response.data, 'error');
                 });
         }
+        
     },
     computed: {
         disableStart: function() {
