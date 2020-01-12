@@ -29,18 +29,19 @@ export default {
         }
     },
     mounted() {
-        setInterval(() => {
-            axios.get('http://localhost/api/house')
-                .then(response => {
-                    this.currentConsumption = response.data.reduce((accumulated, currentRow) => accumulated + parseInt(currentRow.consumption), 0);
-                });
-            axios.get('http://localhost/api/systemPower')
-                .then(response => {
-                    this.currentPower = response.data.power;
-                });
-            
-        }, 1000);
-        
+        this.$nextTick(function () {
+            setInterval(() => {
+                axios.get('http://localhost/api/house', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.currentConsumption = response.data.reduce((accumulated, currentRow) => accumulated + parseInt(currentRow.consumption), 0);
+                    });
+                axios.get('http://localhost/api/systemPower', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.currentPower = response.data.power;
+                    });
+                
+            }, 1000);
+        });
     }
 }
 

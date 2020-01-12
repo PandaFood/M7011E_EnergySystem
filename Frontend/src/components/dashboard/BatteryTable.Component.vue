@@ -36,13 +36,15 @@ export default {
         }
     },
     mounted () {
-        setInterval(() => {
-            axios.get('http://localhost/api/storage', {params: {houseId: this.houseId,}})
-            .then(response => this.batteries = response.data)
-            .catch(err => {
-                    this.flash(err, 'error');
-                });
-        },1000);
+        this.$nextTick(function () {
+            setInterval(() => {
+                axios.get('http://localhost/api/storage', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                .then(response => this.batteries = response.data)
+                .catch(err => {
+                        this.flash(err, 'error');
+                    });
+            },1000);
+        });
     },
 }
 </script>

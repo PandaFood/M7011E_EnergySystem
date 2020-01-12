@@ -16,6 +16,21 @@ Vue.use(VueFlashMessage, {
 });
 Vue.use(VModal)
 
+
+Vue.mixin({
+  data: function() {
+    return {
+      get authHeader() {
+        const webtoken = localStorage.getItem('jwt');
+        return { headers: {
+          Authorization:'Bearer ' + webtoken
+        } 
+      };
+      }
+    }
+  }
+})
+
 new Vue({
   router,
   render: h => h(App)

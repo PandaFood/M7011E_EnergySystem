@@ -33,3 +33,6 @@ Date | Time spent | Feature
 19-12-17 | 2h | Create login page
 19-12-18 | 2h | Learn Vue
 19-12-19 | 4h | Convert login page to vue and connect to backend.
+19-01-03 | 4h | Build manager page
+19-01-04 | 4h | Build user page
+

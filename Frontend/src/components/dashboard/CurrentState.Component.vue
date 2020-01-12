@@ -25,35 +25,38 @@ export default {
     },
     props: ["houseId"],
     mounted() {
-        setInterval(() => {
-            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}})
-                .then(response => {
-                    let currentProduction = 0;
-                    response.data.forEach((producer) => {
-                        currentProduction += producer.energyProduced;
+        this.$nextTick(function () {
+            setInterval(() => {
+                
+                axios.get('http://localhost/api/allLatestProducerEvent', { params: {houseId: this.houseId,}, headers: {Authorization:'Bearer ' + localStorage.getItem('jwt') }})
+                    .then(response => {
+                        let currentProduction = 0;
+                        response.data.forEach((producer) => {
+                            currentProduction += producer.energyProduced;
+                        });
+                        this.currentProduction = currentProduction;
+                    }).catch(err => {
+                        this.flash(err, 'error');
                     });
-                    this.currentProduction = currentProduction;
-                }).catch(err => {
-                    this.flash(err, 'error');
-                });
-
-            axios.get('http://localhost/api/house/'+this.houseId)
-                .then(response => {
-                    if(response.data.length > 0){
-                        this.currentConsumption = response.data[0].consumption;
-                    } else {
-                        throw "ERROR: Could not fetch house, wrong ID";
-                    }
-                }).catch(err => {
-                    this.flash(err, 'error');
-                });
-            axios.get('http://localhost/api/currentPrice')
-                .then(response => {
-                    this.currentPrice = response.data.price;
-                }).catch(err => {
-                    this.flash(err, 'error');
-                });
-        }, 1000);
+                
+                axios.get('http://localhost/api/house/'+this.houseId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        if(response.data.length > 0){
+                            this.currentConsumption = response.data[0].consumption;
+                        } else {
+                            throw "ERROR: Could not fetch house, wrong ID";
+                        }
+                    }).catch(err => {
+                        this.flash(err, 'error');
+                    });
+                axios.get('http://localhost/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.currentPrice = response.data.price;
+                    }).catch(err => {
+                        this.flash(err, 'error');
+                    });
+            }, 1000);
+        });
     }
 }
 

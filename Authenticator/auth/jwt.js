@@ -13,18 +13,22 @@ const TokenHandler = {
 			},
 			issued: timestamp(),
 			username: username,
-		}, process.env.PrivateKey, {expiresIn: '5d'});
+		}, process.env.PrivateKey, {algorithm: 'RS256', expiresIn: '5d'});
 		return refreshToken;
 	},
 
-	generateAccessToken: async function(userID, userRole) {
+	generateAccessToken: async function(userID, userRole, time) {
+		if (time == null) {
+			time = timestamp();
+		}
+
 		const accessToken = jwt.sign({
 			data: {
 				role: userRole,
 			},
-			issued: timestamp(),
+			issued: time,
 			userID: userID,
-		}, process.env.PrivateKey, {expiresIn: '1d'});
+		}, process.env.PrivateKey, {algorithm: 'RS256', expiresIn: '1d'});
 		return accessToken;
 	},
 

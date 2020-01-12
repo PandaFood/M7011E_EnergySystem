@@ -34,16 +34,18 @@ export default {
         }
     },
     mounted () {
-        setInterval(() => {
-            axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}})
-                .then(response => {
-                    this.turbines = response.data
-                    this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});
-                })
-                .catch(err => {
-                    this.flash(err, 'error');
-                });
-        }, 1000);
+        this.$nextTick(function () {
+            setInterval(() => {
+                axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}} )
+                    .then(response => {
+                        this.turbines = response.data
+                        this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});
+                    })
+                    .catch(err => {
+                        this.flash(err, 'error');
+                    });
+            }, 1000);
+        });
     },
 }
 </script>

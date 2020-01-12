@@ -27,26 +27,29 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost/api/storage/'+this.batteryId)
-            .then(response => {
-                this.battery.currentCapacity = response.data[0].currentCapacity;
-                this.battery.maxCapacity = response.data[0].maxCapacity;
-            })
-            .catch(err => {
-                this.flash(err, 'error');
-            });
-        setInterval(() => {
-            axios.get('http://localhost/api/storageEvent/latest', {params: {storageId: this.batteryId}})
+        this.$nextTick(function () {
+            axios.get('http://localhost/api/storage/'+this.batteryId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.battery.currentCapacity = response.data[0].currentCapacity;
-
-                    this.$refs.graph.addData(response.data[0].currentCapacity, Date.parse(response.data[0].timestamp));
+                    this.battery.maxCapacity = response.data[0].maxCapacity;
                 })
                 .catch(err => {
                     this.flash(err, 'error');
                 });
-        }, 1000);
+            setInterval(() => {
+                axios.get('http://localhost/api/storageEvent/latest', {params: {storageId: this.batteryId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.battery.currentCapacity = response.data[0].currentCapacity;
+
+                        this.$refs.graph.addData(response.data[0].currentCapacity, Date.parse(response.data[0].timestamp));
+                    })
+                    .catch(err => {
+                        this.flash(err, 'error');
+                    });
+            }, 1000);
+        });
     }
+
 }
 
 
