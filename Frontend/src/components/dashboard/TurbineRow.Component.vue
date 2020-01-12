@@ -1,5 +1,5 @@
 <template>
-    <tr @click='openTab'>
+    <tr @click='openTab' v-bind:class="{'blackout-row' : turbine.status == 'down'}">
         <td>{{turbine.producerId.split('-')[0]}}...</td>
         <td>{{turbine.windSpeed.toFixed(2)}}</td>
         <td>{{turbine.energyProduced.toFixed(2)}}</td>
@@ -21,5 +21,14 @@ export default {
 </script>
 
 <style scoped>
+
+
+.broken-row {
+    background: #ff8282;
+}
+
+.broken-row:hover {
+    background: #e97878;
+}
 
 </style>
