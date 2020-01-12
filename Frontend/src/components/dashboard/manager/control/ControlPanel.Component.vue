@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         startCoalPlant: function() {
-            axios.post('http://localhost/api/coal/start', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('http://localhost/api/coal/start',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
@@ -74,7 +74,7 @@ export default {
                 });
         },
         stopCoalPlant: function() {
-            axios.post('http://localhost/api/coal/stop', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('http://localhost/api/coal/stop',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })

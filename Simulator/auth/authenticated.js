@@ -10,7 +10,6 @@ module.exports = async function authenticated(req, res, next) {
 	const bearer = req.headers.authorization;
 	const token = bearer.match(regex)[0].replace(/ /g, '');
 
-	console.log(req);
 	if (process.env.authkey == null) {
 		await axios.get('http://authenticator:3000/auth/identity')
 			.then((response) => {
