@@ -78,8 +78,8 @@ export default {
 
     .button {
         margin-right: 50px;
-        width: 80px;
-        height: 50px;
+        width: 120px;
+        height: 70px;
         margin-top: 20px;
     }
 
