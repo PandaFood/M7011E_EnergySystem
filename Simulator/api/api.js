@@ -184,6 +184,15 @@ router.post('/coal/stop', function(req, res, next) {
 	}
 });
 
+router.get('/blackout', function(req, res, next) {
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		houseStatus[house.id] = house.blackout;
+	});
+
+	res.status(200).send(houseStatus);
+});
 
 router
 	.get('/startSimulation', function(req, res, next) {

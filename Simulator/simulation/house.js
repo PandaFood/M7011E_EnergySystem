@@ -18,6 +18,7 @@ class House {
 		this.batteryPercentage = houseValues.batteryPercentage;
 		this.haveBattery = false;
 		this.batteries = [];
+		this.blackout = false;
 		batteries.forEach((battery) => {
 			this.haveBattery = true;
 			battery.currentCapacity = parseFloat(battery.currentCapacity);
@@ -30,7 +31,6 @@ class House {
 		windTurbines.forEach((turbine) => {
 			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
 		});
-
 
 		this.timestamp = Date.now();
 		this.generatedPower = 0;
@@ -66,7 +66,13 @@ class House {
 	 * @param {number} powerDiff
 	 */
 	buyPower(powerDiff) {
-		this.simulator.sellPower(-powerDiff);
+		const gainedPower = this.simulator.sellPower(-powerDiff);
+
+		if (gainedPower >= -powerDiff) {
+			this.blackout = false;
+		} else {
+			this.blackout = true;
+		}
 	}
 
 	/**

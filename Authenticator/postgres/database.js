@@ -5,6 +5,7 @@ client.connect();
 
 const Database = {
 	getUser: async function(userID) {
+		// eslint-disable-next-line max-len
 		const query = 'SELECT id, name, adress, city, country, co, email, password, role, "houseId" FROM users WHERE ID = $1';
 		const values = [userID];
 
