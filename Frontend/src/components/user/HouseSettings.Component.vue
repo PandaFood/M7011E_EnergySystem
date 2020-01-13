@@ -27,16 +27,22 @@ export default {
 
   div{
     float: right;
-    height: 300px;
+    /* height: 300px; */
+    width: 50%;
     padding-top: 50px;
-    padding-left: 100px;
+    
+    /* padding-left: 100px; */
     font-size: 20px;
     text-align: left;
-    padding-right: 100px;
+    /* padding-right: 100px; */
   }
 
   span {
-    padding-left: 20px;
+    margin-left: 75px;
+  }
+
+  h2 {
+    margin-left: 50px;
   }
 
     

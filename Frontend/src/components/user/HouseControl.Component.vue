@@ -1,12 +1,15 @@
 <template>
-    <div id="battery-control">
-        <h1> Battery Control </h1>
+    <div id="house-control">
+        <h1> House Control </h1>
         <p> Set how much of generated power should go to the battery: </p>
         <div id="slider-div"> 
             <input v-model="newPercentage" type="range" name="percent" min="0" max="100"> 
             <h2> {{this.newPercentage}} % </h2>
         </div>
 
+        <p> Set how much power the house consumes: </p>
+        <div class="input"> <b>Consumption:</b> <input v-model.number="consumption" type="number"><br> </div> 
+      
       <button class="button" v-on:click="updatePercentage">Update</button>
     </div>
 </template>
@@ -21,22 +24,30 @@ export default {
     props: ['house'],
     data() {
         return {
-            newPercentage: this.house.batteryPercentage * 100
+            newPercentage: this.house.batteryPercentage * 100,
+            consumption: this.house.consumption,
         }
     },
     methods: {
         updatePercentage: function() {
-            const data = {
-                batteryPercentage: (this.newPercentage / 100).toFixed(2),
-                consumption: 30,
+
+            if (typeof(this.consumption) == "string") {
+                this.flash("Input consumption is not number", 'warning');
+            } else if (this.consumption < 0) {
+                this.flash("Input consumption can not be negative", 'warning');
+            } else {      
+                const data = {
+                    batteryPercentage: (this.newPercentage / 100).toFixed(2),
+                    consumption: this.consumption,
+                }
+                axios.post('http://localhost/api/house/'+this.house.id, {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.flash(response.data, 'success');
+                    })
+                    .catch(err => {
+                        this.flash(err.response.data, 'error');
+                    });
             }
-            axios.post('http://localhost/api/house/'+this.house.id, {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
-                .then(response => {
-                    this.flash(response.data, 'success');
-                })
-                .catch(err => {
-                    this.flash(err.response.data, 'error');
-                });
         }
     }
 }
@@ -44,13 +55,11 @@ export default {
 
 <style scoped>
 
-    #battery-control {
+    #house-control {
         width: 50%;
         text-align: left;
-        padding-top: 50px;
-        float: left;
-
-
+        padding-top: 100px;
+        float: right;
     }
 
     h1 {
@@ -62,8 +71,20 @@ export default {
         margin: auto;
     }
 
-    input {
-        width: 100%;    
+    .input {
+        clear: both;
+        font-size: 20px;
+        margin-left: 75px;
+        margin-bottom: 15px;
+
+    }
+
+    input[type="number"]{
+        width: 50%;
+        text-align: right;
+        padding: 5px;
+        margin-right: 50px;
+        float: right;
     }
 
     h2 {
