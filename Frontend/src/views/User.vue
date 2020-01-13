@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <Header />
-    <UserSettings/>
+    <UserPage/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import UserSettings from '@/components/user/UserSettings.Component.vue'
+import UserPage from '@/components/user/UserPage.Component.vue'
 
 export default {
-  name: 'usersettings',
+  name: 'User',
   components: {
-    UserSettings
+    UserPage
   }
 }
 </script>
