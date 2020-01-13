@@ -26,6 +26,13 @@ const Database = {
 		const response = await client.query(query, values);
 		return response;
 	},
+	updateHouse: async function(id, consumption, batteryPercentage) {
+		const query = 'UPDATE House SET "consumption" = $1, "batteryPercentage" = $2 WHERE "id" = $3';
+		const values = [consumption, batteryPercentage, id];
+
+		const response = await client.query(query, values);
+		return response;
+	},
 	addStorage: async function(owner, maxCapacity, currentCapacity) {
 		const query = 'INSERT INTO Storage VALUES(uuid_generate_v4(), $1, $2, $3)';
 		const values = [owner, maxCapacity, currentCapacity];

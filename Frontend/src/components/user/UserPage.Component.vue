@@ -2,6 +2,7 @@
     <div>
         <UserSettings v-bind:user="user"/>
         <HouseSettings v-bind:house="house"/>
+        <HouseControl v-bind:house="house"/>
         
     </div>
 </template>
@@ -11,6 +12,7 @@ import axios from 'axios';
 
 import UserSettings from '@/components/user/UserSettings.Component.vue'
 import HouseSettings from '@/components/user/HouseSettings.Component.vue';
+import HouseControl from '@/components/user/HouseControl.Component.vue';
 
 export default {
     name: 'UserPage',
@@ -35,7 +37,8 @@ export default {
     },
     components: {
         UserSettings,
-        HouseSettings
+        HouseSettings,
+        HouseControl,
     },
     mounted() {
         const here = this;
