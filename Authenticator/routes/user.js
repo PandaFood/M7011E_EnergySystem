@@ -4,11 +4,16 @@ const Database = require('../postgres/database');
 const jwt = require('../auth/jwt');
 const hash = require('../auth/hashing');
 const axios = require('axios');
+const auth = require('../auth/authenticated');
 
 
 /* GET users listing. */
 router
 	.get('/', function(req, res, next) {
+		if ( req.auth.role != 'ADMIN') {
+			return res.sendStatus(403);
+		}
+
 		Database.getUsers()
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
@@ -27,15 +32,26 @@ router
 				.catch((err) => console.log(err));
 		});
 	})
-	.delete('/', function(req, res, next) {
-		const input = req.body;
+	.delete('/', auth, function(req, res, next) {
+		const input = req.auth.userID;
+
+		console.log(input);
 		Database.removeUser(input.id)
-			.then((v) => res.json(v.rows))
+			.then((v) => {
+				console.log(v.rows);
+				res.json(v.rows);
+			})
 			.catch((err) => console.log(err));
 	});
 
 router
-	.get('/:userID', function(req, res, next) {
+	.get('/:userID', auth, function(req, res, next) {
+		if ( req.auth.userID != req.params.userID) {
+			if ( req.auth.role != 'ADMIN') {
+				return res.sendStatus(403);
+			}
+		}
+
 		Database.getUser(req.params.userID)
 			.then((v) => res.json(v.rows))
 			.catch((err) => console.log(err));
