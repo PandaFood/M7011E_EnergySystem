@@ -16,7 +16,10 @@ router
 		const consumption = 30;
 		const batteryPercentage = 0.5;
 		Database.addHouse(id, consumption, batteryPercentage)
-			.then((v) => res.status(200).send('House Created'))
+			.then((v) => {
+				Simulation.initHouses();
+				res.status(200).send('House Created'));
+			}
 			.catch((err) => res.status(500).send('ERROR: Could not create House'));
 	});
 
