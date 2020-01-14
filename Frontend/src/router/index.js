@@ -82,11 +82,11 @@ const routes = [
   },
   {
     path: '/u/:id',
-    name: 'usersettings',
+    name: 'User',
     meta: {
       requiresAuth: true
     },
-    component: () => import('../views/UserSettings.vue')
+    component: () => import('../views/User.vue')
   },
 ]
 

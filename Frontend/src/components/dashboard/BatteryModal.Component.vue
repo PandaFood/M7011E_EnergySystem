@@ -19,18 +19,25 @@ export default {
     props: ["houseId"],
     methods: {
         submit: function(){
-            const data = {
-                houseId: this.houseId,
-                maxCapacity: this.capacity,
-                currentCapacity: 0
+
+            if(this.capacity > 200 || this.capacity < 0) {
+                this.flash("Size out of bounds", 'warning');
+            } else if(typeof(this.capacity) == "string") {
+                this.flash("Size is not a number", 'warning');
+            } else {
+                const data = {
+                    houseId: this.houseId,
+                    maxCapacity: this.capacity,
+                    currentCapacity: 0
+                }
+                axios.post('http://localhost/api/storage', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.flash(response.data, 'success');
+                    })
+                    .catch(err => {
+                        this.flash(err.response.data, 'error');
+                    });
             }
-            axios.post('http://localhost/api/storage', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
-                .then(response => {
-                    this.flash(response.data, 'success');
-                })
-                .catch(err => {
-                    this.flash(err.response.data, 'error');
-                });
         }
     },
     data() {
@@ -38,21 +45,6 @@ export default {
             capacity: 0,
         }
     },
-    watch: {
-        capacity: function(newVal) {
-            if(newVal > 200 || newVal < 0) {
-                if(newVal > 200) this.capacity = 200;
-                if(newVal < 0) this.capacity = 0;
-
-                this.flash("Size out of bounds", 'warning');
-            } else if(newVal == "") {
-                this.flash("Size is not a number", 'warning');
-                this.capacity = 0;
-            } else {
-                this.capacity = newVal;
-            }
-        }
-    }
 }
 </script>
 

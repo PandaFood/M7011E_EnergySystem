@@ -16,7 +16,10 @@ router
 		const consumption = 30;
 		const batteryPercentage = 0.5;
 		Database.addHouse(id, consumption, batteryPercentage)
-			.then((v) => res.status(200).send('House Created'))
+			.then((v) => {
+				Simulation.initHouses();
+				res.status(200).send('House Created'));
+			}
 			.catch((err) => res.status(500).send('ERROR: Could not create House'));
 	});
 
@@ -25,7 +28,16 @@ router
 		Database.getHouse(req.params.houseId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch House with given ID'));
+	})
+	.post('/house/:houseId', function(req, res, next) {
+		const id = req.params.houseId;
+		const consumption = req.body.consumption;
+		const batteryPercentage = req.body.batteryPercentage;
+		Database.updateHouse(id, consumption, batteryPercentage)
+			.then((v) => res.status(200).send('House Updated'))
+			.catch((err) => res.status(500).send('ERROR: Could not update House'));
 	});
+
 
 router
 	.post('/storage', function(req, res, next) {

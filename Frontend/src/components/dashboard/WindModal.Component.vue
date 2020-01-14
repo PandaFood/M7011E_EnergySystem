@@ -20,52 +20,31 @@ export default {
     props: ["houseId"],
     methods: {
         submit: function(){
-            const data = {
-                houseId: this.houseId,
-                coords: [this.lat, this.lon],
-                type: "Wind Turbine"
+            if((this.lat > 200 || this.lat < 0) || (this.lon > 200 || this.lon < 0)) {
+                this.flash("Coordinate out of bounds", 'warning');
+            } else if(typeof(this.lat) == "string" || typeof(this.lon) == "string") {
+                this.flash("Coordinate is not a number", 'warning');
+            } else {
+
+                const data = {
+                    houseId: this.houseId,
+                    coords: [this.lat, this.lon],
+                    type: "Wind Turbine"
+                }
+                axios.post('http://localhost/api/producer', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.flash(response.data, 'success');
+                    })
+                    .catch(err => {
+                        this.flash(err.response.data, 'error');
+                    });
             }
-            axios.post('http://localhost/api/producer', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
-                .then(response => {
-                    this.flash(response.data, 'success');
-                })
-                .catch(err => {
-                    this.flash(err.response.data, 'error');
-                });
         }
     },
     data() {
         return {
             lat: 0,
             lon: 0
-        }
-    },
-    watch: {
-        lat: function(newVal) {
-            if(newVal > 200 || newVal < 0) {
-                if(newVal > 200) this.lat = 200;
-                if(newVal < 0) this.lat = 0;
-
-                this.flash("Coordinate out of bounds", 'warning');
-            } else if(newVal == "") {
-                this.flash("Coordinate is not a number", 'warning');
-                this.lat = 0;
-            } else {
-                this.lat = newVal;
-            }
-        },
-        lon: function(newVal) {
-            if(newVal > 200 || newVal < 0) {
-                if(newVal > 200) this.lon = 200;
-                if(newVal < 0) this.lon = 0;
-
-                this.flash("Coordinate out of bounds", 'warning');
-            } else if(newVal == "") {
-                this.flash("Coordinate is not a number", 'warning');
-                this.lon = 0;
-            } else {
-                this.lon = newVal;
-            }
         }
     }
 }
