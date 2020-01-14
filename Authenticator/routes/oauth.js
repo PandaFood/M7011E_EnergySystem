@@ -20,7 +20,7 @@ router
 			hash.verifyPassword(input.password, passwordHash)
 				.then((verified) => {
 					if (verified) {
-						jwt.generateAccessToken(userID, userRole).then((v) => {
+						jwt.generateAccessToken(userID, userRole, houseId).then((v) => {
 							res.json({
 								accesstoken: v,
 								role: userRole,

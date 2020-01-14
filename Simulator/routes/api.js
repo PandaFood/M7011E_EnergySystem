@@ -12,12 +12,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/startCoalPlant', function(req, res, next) {
-	// TODO: add authentication
+	if (req.auth.role != 'ADMIN') {
+		return res.sendStatus(403);
+	}
 	CoalPlant.startPlant();
 	res.sendStatus(200);
 });
 
 router.post('/stopCoalPlant', function(req, res, next) {
+	if (req.auth.role != 'ADMIN') {
+		return res.sendStatus(403);
+	}
 	CoalPlant.stopPlant();
 	res.sendStatus(200);
 });

@@ -19,7 +19,7 @@ router
 			Database.addUser(input.name.toLowerCase(), input.adress.toLowerCase(), input.city.toLowerCase(),
 				input.country.toLowerCase(), input.co, input.email.toLowerCase(), password)
 				.then((v) => {
-					jwt.generateAccessToken('AUTH', 'SERVER', '60s')
+					jwt.generateAccessToken('AUTH', 'SERVER', '', '60s')
 						.then((token) => {
 							createHouse(input.email.toLowerCase(), token, res);
 						}).catch((err) => console.log(err));
