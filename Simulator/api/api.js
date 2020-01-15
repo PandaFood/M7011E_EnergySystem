@@ -267,6 +267,19 @@ router.post('/coal/stop', function(req, res, next) {
 	}
 });
 
+router.get('/blackout', function(req, res, next) {
+	if (req.auth.role != 'ADMIN') {
+		return res.sendStatus(403);
+	}
+
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		houseStatus[house.id] = house.blackout;
+	});
+
+	res.status(200).send(houseStatus);
+});
 
 router.post('/banUser', function(req, res, next) {
 	if (req.auth.role != 'ADMIN') {
