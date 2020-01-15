@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      houseId: localStorage.getItem("houseId")
+      houseId: this.$route.params.houseId
     }
   },
   methods: {
@@ -46,7 +46,7 @@ export default {
     },
   },
   mounted() {
-    this.houseId = localStorage.getItem("houseId");
+    this.houseId = this.$route.params.houseId;
   }
 }
 
