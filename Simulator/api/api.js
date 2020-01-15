@@ -16,13 +16,14 @@ router
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Houses'));
 	})
 	.post('/house', function(req, res, next) {
+		const id = req.body.houseId;
+
 		if (req.auth.house != id) {
 			if (req.auth.role != 'ADMIN') {
 				return res.sendStatus(403);
 			}
 		}
 
-		const id = req.body.houseId;
 		const consumption = 30;
 		const batteryPercentage = 0.5;
 		Database.addHouse(id, consumption, batteryPercentage)
