@@ -6,10 +6,10 @@
     </a>
 
     <div id="nav">
-      <span v-if="user"><router-link :to="{path: '/dashboard/'+houseId}">Dashboard</router-link> | </span>
-      <span v-if="admin"><router-link to="/manage">Manage</router-link> | </span>
-      <router-link to="/about">About</router-link> | 
-      <a @click="logout" href="/">Log out</a>
+      <span v-if="isUser"><router-link :to="{path: '/dashboard/'+houseId}">Dashboard</router-link> | </span>
+      <span v-if="isAdmin"><router-link to="/manage">Manage</router-link> | </span>
+      <router-link to="/about">About</router-link> 
+      <span  v-if="userId" > | <a @click="logout" href="/">Log out</a> </span>
     </div>
 
     <a id="profile" v-bind:href="'/u/'+ this.userID" >
@@ -24,16 +24,21 @@ export default {
   name: 'Header',
   data() { 
   return {
-    admin: localStorage.getItem("role") == "ADMIN" ? true : false,
-    user: localStorage.getItem("role") == "USER" ? true : false,
-    userID: localStorage.getItem("userID"),
+    userId: localStorage.getItem("userID"),
     houseId: localStorage.getItem("houseId"),
     }
+  },
+  computed: {
+    isAdmin () {
+      return localStorage.getItem("role") == "ADMIN" ? true : false;
+    },
+    isUser () {
+      return localStorage.getItem("role") == "USER" ? true : false;
+    },
   },
   methods: {
     logout: function(){
       localStorage.clear();
-      this.admin = false;
     }
   },
 }
