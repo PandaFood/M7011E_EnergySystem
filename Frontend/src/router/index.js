@@ -1,18 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    meta: {
-      requiresAuth: true
-    },
-  },
   {
     path: '/about',
     name: 'about',
@@ -41,7 +32,7 @@ const routes = [
     component: () => import('../views/Register.vue')
   },
   {
-    path: '/dashboard',
+    path: '/dashboard/:houseId',
     name: 'dashboard',
     meta: {
       requiresAuth: true
@@ -106,27 +97,35 @@ router.beforeEach((to, from, next) => {
               params: { nextUrl: to.fullPath }
           })
       } else {
-          let user = JSON.parse(localStorage.getItem('user'))
-          if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.is_admin == 1){
-                  next()
-              }
-              else{
-                  next({ name: 'home'})
-              }
-          }else {
-              next()
-          }
+          next()
+          
       }
   } else if(to.matched.some(record => record.meta.guest)) {
       if(localStorage.getItem('jwt') == null){
           next()
       }
       else{
-        next({ name: 'home'})
+        next()
       }
-  }else {
-      next() 
+  }else if(to.fullPath === '/'){
+    let role = localStorage.getItem('role');
+
+    if(role == null) {
+      next({
+        path: '/login',
+      })
+    }
+    else if(role == "ADMIN") {
+      next({
+        path: '/manage',
+      })
+    } else {
+      next({
+        path: '/dashboard/'+ localStorage.getItem('houseId'),
+      })
+    }
+  } else {
+    next()
   }
 })
 

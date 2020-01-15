@@ -83,7 +83,6 @@ router
 
 router
 	.get('/storage/:storageId', function(req, res, next) {
-
 		Database.getStorage(req.params.storageId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Storage'));
@@ -169,15 +168,10 @@ router
 	});
 
 router
-	.get('/allLatestProducerEvent', function(req, res, next) {
-		const houseId = req.query.houseId;
-		if (req.auth.house != houseId) {
-			if (req.auth.role != 'ADMIN') {
-				return res.sendStatus(403);
-			}
-		}
+	.get('/producerEvent', function(req, res, next) {
+		const producerId = req.query.producerId;
 
-		Database.getLatestHouseProducerEvents(houseId)
+		Database.getProducerEvents(producerId)
 			.then((v) => res.json(v.rows))
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch Producer Events for this Producer'));
 	});
@@ -214,7 +208,6 @@ router.get('/systemPower', function(req, res, next) {
 });
 
 router.post('/coal/battery', function(req, res, next) {
-
 	if (req.auth.role != 'ADMIN') {
 		return res.sendStatus(403);
 	}
@@ -267,6 +260,19 @@ router.post('/coal/stop', function(req, res, next) {
 	}
 });
 
+router.get('/blackout', function(req, res, next) {
+	if (req.auth.role != 'ADMIN') {
+		return res.sendStatus(403);
+	}
+
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		houseStatus[house.id] = house.blackout;
+	});
+
+	res.status(200).send(houseStatus);
+});
 
 router.post('/banUser', function(req, res, next) {
 	if (req.auth.role != 'ADMIN') {

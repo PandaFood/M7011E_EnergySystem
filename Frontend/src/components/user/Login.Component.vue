@@ -57,8 +57,8 @@ export default {
           localStorage.setItem("houseId", response.data.houseId);
           window.location.href = '/';
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
+          this.flash("ERROR: Could not log in", "error");
       });
     },
 

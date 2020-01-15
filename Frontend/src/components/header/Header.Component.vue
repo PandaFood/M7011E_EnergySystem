@@ -6,8 +6,8 @@
     </a>
 
     <div id="nav">
-      <router-link to="/dashboard">Dashboard</router-link> |
-      <span  v-if="admin"><router-link to="/manage">Manage</router-link> | </span>
+      <span v-if="user"><router-link :to="{path: '/dashboard/'+houseId}">Dashboard</router-link> | </span>
+      <span v-if="admin"><router-link to="/manage">Manage</router-link> | </span>
       <router-link to="/about">About</router-link> | 
       <a @click="logout" href="/">Log out</a>
     </div>
@@ -25,7 +25,9 @@ export default {
   data() { 
   return {
     admin: localStorage.getItem("role") == "ADMIN" ? true : false,
+    user: localStorage.getItem("role") == "USER" ? true : false,
     userID: localStorage.getItem("userID"),
+    houseId: localStorage.getItem("houseId"),
     }
   },
   methods: {

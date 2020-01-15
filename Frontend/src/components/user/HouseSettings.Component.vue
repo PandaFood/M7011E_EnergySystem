@@ -1,8 +1,15 @@
 <template>
-  <div>
+  <div id="house-settings">
     <h2>House settings</h2>
-    <span> Consumption: {{house.consumption}} kWh <br/></span>
-    <span> Battery Percentage: {{house.batteryPercentage.toFixed(2) * 100}}% <br/></span>
+    
+    <div id="info"> 
+      <span> Consumption: {{house.consumption}} kWh <br/></span>
+      <span> Battery Percentage: {{house.batteryPercentage.toFixed(2) * 100}}% <br/></span>
+    </div>
+
+    <div v-if="admin">
+        <input class="button" type="button" v-on:click="openTab" value="Open Dashboard">
+    </div>
   </div>
 </template>
 
@@ -15,9 +22,16 @@ export default {
   components: {
   },
   props: ['house'],
-  created() {
-    
+  data() {
+    return {
+        admin: localStorage.getItem("role") == "ADMIN" ? true : false,
+    }
   },
+  methods: {
+      openTab: function() {
+          window.open('http://localhost/dashboard/'+this.house.id, '_blank');
+      }
+  }
 }
 
 </script>
@@ -25,16 +39,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  div{
+  #house-settings{
     float: right;
-    /* height: 300px; */
     width: 50%;
     padding-top: 50px;
     
-    /* padding-left: 100px; */
     font-size: 20px;
     text-align: left;
-    /* padding-right: 100px; */
+    height: 300px;
   }
 
   span {
@@ -45,6 +57,14 @@ export default {
     margin-left: 50px;
   }
 
-    
+  #info {
+    float: left;
+    width: 100%;
+  }
+
+  .button {
+    float: right;
+    margin-right: 50px;
+  }
 
 </style>
