@@ -58,7 +58,7 @@ export default {
           window.location.href = '/';
         })
         .catch(function () {
-          this.flash("ERROR: Could not log in");
+          this.flash("ERROR: Could not log in", "error");
       });
     },
 
