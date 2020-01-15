@@ -35,6 +35,9 @@ module.exports = async function authenticated(req, res, next) {
 		req.auth = {};
 		req.auth.userID = decoded.userID;
 		req.auth.role = decoded.data.role;
+		req.auth.house = decoded.data.house;
+
+		//console.log(req.auth);
 
 		return next();
 	});

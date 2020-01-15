@@ -17,7 +17,7 @@ const TokenHandler = {
 		return refreshToken;
 	},
 
-	generateAccessToken: async function(userID, userRole, time) {
+	generateAccessToken: async function(userID, userRole, house, time) {
 		if (time == null) {
 			time = timestamp();
 		}
@@ -25,6 +25,7 @@ const TokenHandler = {
 		const accessToken = jwt.sign({
 			data: {
 				role: userRole,
+				house: house,
 			},
 			issued: time,
 			userID: userID,
