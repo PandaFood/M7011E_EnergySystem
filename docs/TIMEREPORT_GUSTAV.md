@@ -45,4 +45,5 @@ Date | Time spent (h) | Feature
 20-01-11 | 3h | Calculate when a blackout occurs, tweaking styles
 20-01-12 | 1h | Show in the manager when a user have a blackout. Update flash messages
 20-01-12 | 1h | Fix small broken stuff
-20-01-13 | 3h | Add slider for changing user battery percentage, update user settings page
+20-01-14 | 3h | Add slider for changing user battery percentage, update user settings page
+20-01-15 | 4h | Allow manager to ban a prosumer from selling to the market, fix routing, allow manager to see a users dashboard
