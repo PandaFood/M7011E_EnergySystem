@@ -27,7 +27,10 @@ router
 		const consumption = 30;
 		const batteryPercentage = 0.5;
 		Database.addHouse(id, consumption, batteryPercentage)
-			.then((v) => res.status(200).send('House Created'))
+			.then((v) => {
+				Simulation.initHouses();
+				res.status(200).send('House Created');
+			})
 			.catch((err) => res.status(500).send('ERROR: Could not create House'));
 	});
 
@@ -265,12 +268,18 @@ router.post('/coal/stop', function(req, res, next) {
 });
 
 
-router
-	.get('/startSimulation', function(req, res, next) {
-		if (req.auth.role != 'ADMIN') {
-			return res.sendStatus(403);
-		}
+router.post('/banUser', function(req, res, next) {
+	if (req.auth.role != 'ADMIN') {
+		return res.sendStatus(403);
+	}
 
-		Simulation.runSimulation();
-	});
+	const houseId = req.body.houseId;
+	const banTime = req.body.banTime;
+
+	if (Simulation.banHouse(houseId, banTime)) {
+		res.status(200).send('User banned for ' + banTime + ' seconds');
+	} else {
+		res.status(500).send('ERROR: could not ban user, already banned');
+	}
+});
 module.exports = router;

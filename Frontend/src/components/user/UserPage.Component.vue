@@ -4,6 +4,16 @@
         <HouseSettings v-bind:house="house"/>
         <HouseControl v-bind:house="house"/>
         
+        <span  v-if="admin">
+            <h1> Ban user from selling to market </h1>
+
+            <div id="slider-div"> 
+                <input v-model="banTime" type="range" name="seconds" min="10" max="100"> 
+                <h2> {{banTime}} seconds </h2>
+            </div>
+            <input class="button" type="button" v-on:click="banUser" value="Ban User"/>     
+        </span>
+
     </div>
 </template>
 
@@ -18,6 +28,7 @@ export default {
     name: 'UserPage',
     data() {
         return {
+            admin: localStorage.getItem("role") == "ADMIN" ? true : false,
             userId: this.$route.params.id,
             user: {
                 id: null,
@@ -32,7 +43,8 @@ export default {
                 id: null,
                 consumption: 0,
                 batteryPercentage: 0,
-            }
+            },
+            banTime: 10,
         }
     },
     components: {
@@ -55,7 +67,7 @@ export default {
                 here.user.houseId = res.houseId;
             })
             .catch(function (error) {
-                console.log(error);
+                this.flash(error, "error");
             });
 
         setInterval(() => {
@@ -68,16 +80,44 @@ export default {
                 here.house.batteryPercentage = res.batteryPercentage;
             })
             .catch(function (error) {
-                console.log(error);
+                this.flash(error, "error");
             });
         }, 1000);
 
     },
+    methods: {
+        banUser: function() {
+            const data = {
+                banTime: this.banTime,
+                houseId: this.house.id,
+            }
+            axios.post('http://localhost/api/banUser', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                .then(() => {
+                    this.flash('User banned for ' + this.banTime + ' seconds', 'success');
+                })
+                .catch(err => {
+                    this.flash(err.response.data, 'error');
+                });
+        }
+    }
 
     
 }
 </script>
 
 <style scoped>
+
+span {
+    float: left;
+    margin-left: 50px;
+}
+
+.button {
+    float: right;
+}
+
+h2 {
+    float: left;
+}
 
 </style>
