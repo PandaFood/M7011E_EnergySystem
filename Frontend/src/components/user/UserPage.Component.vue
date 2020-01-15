@@ -109,6 +109,7 @@ export default {
 
 span {
     float: left;
+    width: 40%;
     margin-left: 50px;
 }
 

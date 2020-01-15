@@ -58,7 +58,6 @@ export default {
     #house-control {
         width: 50%;
         text-align: left;
-        padding-top: 100px;
         float: right;
     }
 
