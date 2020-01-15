@@ -19,6 +19,7 @@ class House {
 		this.haveBattery = false;
 		this.batteries = [];
 		this.blackout = false;
+		this.banned = false;
 		batteries.forEach((battery) => {
 			this.haveBattery = true;
 			battery.currentCapacity = parseFloat(battery.currentCapacity);
@@ -178,6 +179,25 @@ class House {
 		windTurbines.forEach((turbine) => {
 			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
 		});
+	}
+
+	/**
+	 * Bans a house from selling to market for some seconds
+	 * @param {number} banTime - How many seconds the house should be banned from selling to the market
+	 * @return {boolean}
+	 */
+	banHouse(banTime) {
+		if (!this.banned) {
+			this.banned = true;
+
+			setTimeout(() => {
+				this.banned = false;
+			}, banTime * 1000);
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

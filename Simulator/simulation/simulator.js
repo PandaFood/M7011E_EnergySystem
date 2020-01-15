@@ -72,7 +72,10 @@ Simulator = {
 			this.houses.push(new House(house, windTurbines.rows, batteries.rows, this));
 		});
 	},
-
+	banHouse: function(houseId, banTime) {
+		const house = this.houses.find((house) => house.id === houseId);
+		return house.banHouse(banTime);
+	},
 	simulationLoop: function(self) {
 		Noise.updateWindMap(Math.random());
 
@@ -83,7 +86,9 @@ Simulator = {
 		CoalPlant.runPlant(self, deltaTime);
 
 		self.houses.forEach((house) => {
-			house.runSimulation(deltaTime);
+			if (!house.banned) {
+				house.runSimulation(deltaTime);
+			}
 		});
 
 
