@@ -69,7 +69,7 @@ const Database = {
 		return response;
 	},
 	getStorageEvents: async function(storageId) {
-		const query = 'SELECT * FROM storageevent WHERE "storageId" = $1';
+		const query = 'SELECT * FROM storageevent WHERE "storageId" = $1 ORDER BY timestamp DESC LIMIT 5000';
 		const values = [storageId];
 
 		const response = await client.query(query, values);
@@ -104,7 +104,7 @@ const Database = {
 		return response;
 	},
 	getProducerEvents: async function(producerId) {
-		const query = 'SELECT * FROM producerevent WHERE "producerId" = $1';
+		const query = 'SELECT * FROM producerevent WHERE "producerId" = $1 ORDER BY timestamp DESC LIMIT 5000';
 		const values = [producerId];
 
 		const response = await client.query(query, values);
