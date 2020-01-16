@@ -22,12 +22,17 @@ export default {
   components: {
   },
   props: ['user'],
+  data() { 
+  return {
+      userId: localStorage.getItem("userID"),
+    }
+  },
   methods: {
      clicked : function(e) {
         if(!confirm('Are you sure?')){
           e.preventDefault();
         } else {
-          Axios.delete('/auth/user', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
+          Axios.delete('/auth/user/' + this.userId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
             localStorage.clear();
             window.location.href = "/";
           })

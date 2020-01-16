@@ -32,13 +32,17 @@ router
 				.catch((err) => console.log(err));
 		});
 	})
-	.delete('/', auth, function(req, res, next) {
-		const input = req.auth.userID;
+	.delete('/:userID', auth, function(req, res, next) {
+		if ( req.auth.userID != req.params.userID) {
+			if ( req.auth.role != 'ADMIN') {
+				return res.sendStatus(403);
+			}
+		}
 
-		console.log(input);
-		Database.removeUser(input.id)
+		const input = req.params.userID;
+
+		Database.removeUser(input)
 			.then((v) => {
-				console.log(v.rows);
 				res.json(v.rows);
 			})
 			.catch((err) => console.log(err));

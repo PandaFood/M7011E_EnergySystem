@@ -35,7 +35,7 @@ const Database = {
 		const values = [name, adress, city, country, co, email, password, 'USER'];
 
 		this.checkUser(email).then((rows) => {
-			if (rows.length > 0) {
+			if (rows.rowCount > 0) {
 				return 0;
 			}
 			const response = client.query(query, values);
