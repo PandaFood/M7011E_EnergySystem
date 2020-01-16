@@ -4,7 +4,7 @@
         <HouseSettings v-bind:house="house"/>
         <HouseControl v-bind:house="house"/>
         
-        <span  v-if="admin">
+        <span  v-if="isAdmin">
             <h1> Ban user from selling to market </h1>
 
             <div id="slider-div"> 
@@ -28,7 +28,6 @@ export default {
     name: 'UserPage',
     data() {
         return {
-            admin: localStorage.getItem("role") == "ADMIN" ? true : false,
             userId: this.$route.params.id,
             user: {
                 id: null,
@@ -99,7 +98,12 @@ export default {
                     this.flash(err.response.data, 'error');
                 });
         }
-    }
+    },
+    computed: {
+        isAdmin () {
+            return localStorage.getItem("role") == "ADMIN" ? true : false;
+        }
+    },
 
     
 }

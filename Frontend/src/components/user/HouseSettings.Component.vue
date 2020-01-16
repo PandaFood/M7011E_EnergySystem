@@ -7,7 +7,7 @@
       <span> Battery Percentage: {{house.batteryPercentage.toFixed(2) * 100}}% <br/></span>
     </div>
 
-    <div v-if="admin">
+    <div v-if="isAdmin">
         <input class="button" type="button" v-on:click="openTab" value="Open Dashboard">
     </div>
   </div>
@@ -22,16 +22,16 @@ export default {
   components: {
   },
   props: ['house'],
-  data() {
-    return {
-        admin: localStorage.getItem("role") == "ADMIN" ? true : false,
-    }
-  },
   methods: {
       openTab: function() {
           window.open('http://localhost/dashboard/'+this.house.id, '_blank');
       }
-  }
+  },
+  computed: {
+    isAdmin () {
+      return localStorage.getItem("role") == "ADMIN" ? true : false;
+    },
+  },
 }
 
 </script>
