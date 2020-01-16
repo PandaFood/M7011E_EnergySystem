@@ -30,7 +30,7 @@ export default {
                     maxCapacity: this.capacity,
                     currentCapacity: 0
                 }
-                axios.post('http://localhost/api/storage', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.post('http://localhost/api/storage', {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
                     })
