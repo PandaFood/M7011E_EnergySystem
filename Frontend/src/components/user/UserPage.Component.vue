@@ -53,7 +53,7 @@ export default {
     },
     mounted() {
         const here = this;
-        axios.get('/auth/user/' + this.userId, {})
+        axios.get('/auth/user/' + this.userId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
             .then(function (response) {
                 let res = response.data[0];
                 here.user.id = res.id;

@@ -35,4 +35,11 @@ Date | Time spent | Feature
 19-12-19 | 4h | Convert login page to vue and connect to backend.
 19-01-03 | 4h | Build manager page
 19-01-04 | 4h | Build user page
+19-01-06 | 3h | Expand manager page
+19-01-06 | 2h | Initialize report
+19-01-06 | 3h | Write on report
+19-01-12 | 6h | API Authentication
+19-01-14 | 1h | User registration validation
+19-01-14 | 4h | Authentication on path and start of delete user
+19-01-16 | 4h | Various bugfixes and delete user
 

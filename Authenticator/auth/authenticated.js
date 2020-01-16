@@ -30,16 +30,12 @@ module.exports = async function authenticated(req, res, next) {
 		}
 
 		if (decoded.data.role == 'SERVER') {
-			req.auth = {};
-			req.auth.userID = '1';
-			req.auth.role = 'ADMIN';
-			req.auth.house = '';
 			return next();
 		}
 		req.auth = {};
 		req.auth.userID = decoded.userID;
 		req.auth.role = decoded.data.role;
-		req.auth.house = decoded.data.house;
+
 		return next();
 	});
 };

@@ -12,7 +12,7 @@
       <span  v-if="userId" > | <a @click="logout" href="/">Log out</a> </span>
     </div>
 
-    <a id="profile" v-bind:href="'/u/'+ this.userID" >
+    <a id="profile" v-bind:href="'/u/'+ this.userId" >
         <img src='../../assets/img/user.png'/>
     </a>
    
@@ -24,8 +24,8 @@ export default {
   name: 'Header',
   data() { 
   return {
-    userId: localStorage.getItem("userID"),
-    houseId: localStorage.getItem("houseId"),
+      userId: localStorage.getItem("userID"),
+      houseId: localStorage.getItem("houseId"),
     }
   },
   computed: {
