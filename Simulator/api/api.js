@@ -18,11 +18,6 @@ router
 	.post('/house', function(req, res, next) {
 		const id = req.body.houseId;
 
-		if (req.auth.house != id) {
-			if (req.auth.role != 'ADMIN') {
-				return res.sendStatus(403);
-			}
-		}
 
 		const consumption = 30;
 		const batteryPercentage = 0.5;
