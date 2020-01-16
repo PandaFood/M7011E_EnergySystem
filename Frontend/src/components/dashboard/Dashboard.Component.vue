@@ -5,7 +5,7 @@
 
     <CurrentState v-bind:houseId="houseId"/>
 
-    <div id="button-div"> 
+    <div v-if="isUser" id="button-div"> 
       <button class="button" v-on:click="openWindModal">Add Wind Turbine</button>
       <button class="button" v-on:click="openBatteryModal">Add Battery</button>
     </div>
@@ -47,7 +47,12 @@ export default {
   },
   mounted() {
     this.houseId = this.$route.params.houseId;
-  }
+  },
+  computed: {
+        isUser () {
+            return localStorage.getItem("role") == "USER" ? true : false;
+        }
+    },
 }
 
 </script>
