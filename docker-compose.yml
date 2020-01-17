@@ -8,6 +8,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/services:/etc/nginx/conf.d/
+      - ./Frontend/dist:/usr/share/nginx/html
     ports:  
       - 80:80
       - 443:443
@@ -20,9 +21,9 @@ services:
   frontend:
     build: ./Frontend
     container_name: "frontend"
-    command: >
-      sh -c "npm install &&
-            npm run serve"
+    #command: >
+    #  sh -c "npm install &&
+    #        npm run serve"
     volumes:
       - ./Frontend:/usr/src/app/
     networks:
