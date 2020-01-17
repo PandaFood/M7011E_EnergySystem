@@ -29,23 +29,13 @@ docker-compose up -d
 
 You can then connect to the website at 
 ```
-localhost:3000
-```
-or the API at
-```
-localhost:3100
+localhost
 ```
 
 ## Running the tests
 
-To test the entire project, run the `./test.sh all` file in the root folder, 
-
-or to run on seperate projects, run `./test.sh <project>`.
-
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+The tests on the simulator can be run by doing 
+``` npm test ``` in the simulator folder.
 
 ## Authors
 
