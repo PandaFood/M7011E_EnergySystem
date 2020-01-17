@@ -69,17 +69,19 @@ router
  * @param {Object} res
  */
 function createHouse(email, token, res) {
-	Database.getUserHouseId(email).then((response) => {
-		axios.post('http://simulator:3000/api/house', {
-			houseId: response.rows[0].houseId,
-		}, {headers: {Authorization: 'Bearer ' + token}})
-			.then((response) => {
-				res.status(200).send('House created');
-			})
-			.catch((error) => {
-				res.status(500).send('ERROR: Could not create house');
-			});
-	}).catch((err) => res.status(500).send('ERROR: Could not fetch house id'));
+	setTimeout(() => {
+		Database.getUserHouseId(email).then((response) => {
+			axios.post('http://simulator:3000/api/house', {
+				houseId: response.rows[0].houseId,
+			}, {headers: {Authorization: 'Bearer ' + token}})
+				.then((response) => {
+					res.status(200).send('House created');
+				})
+				.catch((error) => {
+					res.status(500).send('ERROR: Could not create house');
+				});
+		}).catch((err) => res.status(500).send('ERROR: Could not fetch house id'));
+	}, 700);
 }
 
 module.exports = router;
