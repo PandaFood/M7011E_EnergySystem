@@ -12,7 +12,7 @@
       <span  v-if="userId" > | <a @click="logout" href="/">Log out</a> </span>
     </div>
 
-    <a id="profile" v-bind:href="'/u/'+ this.userId" >
+    <a id="profile" v-if="userId" v-bind:href="'/u/'+ this.userId" >
         <img src='../../assets/img/user.png'/>
     </a>
    
