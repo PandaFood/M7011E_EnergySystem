@@ -19,7 +19,7 @@ export default {
   },
   methods: {
         openTab: function() {
-            window.open('http://localhost/manage/control', '_blank');
+            window.open('/manage/control', '_blank');
         }
     }
 }

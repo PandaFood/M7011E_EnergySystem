@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         openTab: function() {
-            window.open('http://localhost/u/'+this.user.id, '_blank');
+            window.open('/u/'+this.user.id, '_blank');
         }
     },
     mounted() {

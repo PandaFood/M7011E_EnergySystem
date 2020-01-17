@@ -82,7 +82,7 @@ export default {
         this.dateAxis.start = 0.8;
         this.dateAxis.keepSelection = true;
 
-        axios.get('http://localhost/api/storageEvent', {params: {storageId: this.$attrs.batteryId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+        axios.get('/api/storageEvent', {params: {storageId: this.$attrs.batteryId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
             .then(response => {
                 function strip(element) {
                     return {

@@ -36,7 +36,7 @@ export default {
     mounted () {
         this.$nextTick(function () {
             setInterval(() => {
-                axios.get('http://localhost/api/allLatestProducerEvent', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}} )
+                axios.get('/api/allLatestProducerEvent', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}} )
                     .then(response => {
                         this.turbines = response.data
                         this.turbines.sort(function(a, b){return ('' + a.producerId).localeCompare(b.producerId);});

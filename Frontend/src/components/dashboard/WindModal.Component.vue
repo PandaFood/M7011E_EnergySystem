@@ -31,7 +31,7 @@ export default {
                     coords: [this.lat, this.lon],
                     type: "Wind Turbine"
                 }
-                axios.post('http://localhost/api/producer', {data}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.post('/api/producer', {data}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
                     })

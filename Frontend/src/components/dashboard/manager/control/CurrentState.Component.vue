@@ -31,11 +31,11 @@ export default {
     mounted() {
         this.$nextTick(function () {
             setInterval(() => {
-                axios.get('http://localhost/api/house', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/house', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.currentConsumption = response.data.reduce((accumulated, currentRow) => accumulated + parseInt(currentRow.consumption), 0);
                     });
-                axios.get('http://localhost/api/systemPower', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/systemPower', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.currentPower = response.data.power;
                     });

@@ -28,7 +28,7 @@ export default {
     },
     mounted() {
         this.$nextTick(function () {
-            axios.get('http://localhost/api/storage/'+this.batteryId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.get('/api/storage/'+this.batteryId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.battery.currentCapacity = response.data[0].currentCapacity;
                     this.battery.maxCapacity = response.data[0].maxCapacity;
@@ -37,7 +37,7 @@ export default {
                     this.flash(err, 'error');
                 });
             setInterval(() => {
-                axios.get('http://localhost/api/storageEvent/latest', {params: {storageId: this.batteryId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/storageEvent/latest', {params: {storageId: this.batteryId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.battery.currentCapacity = response.data[0].currentCapacity;
 

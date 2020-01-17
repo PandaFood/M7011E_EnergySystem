@@ -30,7 +30,7 @@ export default {
     mounted() {
         this.$nextTick(function () {
             setInterval(() => {
-                axios.get('http://localhost/api/latestProducerEvent', {params: {producerId: this.$route.query.id,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/latestProducerEvent', {params: {producerId: this.$route.query.id,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.windData.windSpeed = response.data[0].windSpeed;
                         this.windData.power = response.data[0].energyProduced;

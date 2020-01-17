@@ -40,7 +40,7 @@ export default {
                     batteryPercentage: (this.newPercentage / 100).toFixed(2),
                     consumption: this.consumption,
                 }
-                axios.post('http://localhost/api/house/'+this.house.id, {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.post('/api/house/'+this.house.id, {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
                     })
