@@ -273,9 +273,8 @@ router.post('/banUser', function(req, res, next) {
 	if (req.auth.role != 'ADMIN') {
 		return res.sendStatus(403);
 	}
-
-	const houseId = req.body.houseId;
-	const banTime = req.body.banTime;
+	const houseId = req.body.data.houseId;
+	const banTime = req.body.data.banTime;
 
 	if (Simulation.banHouse(houseId, banTime)) {
 		res.status(200).send('User banned for ' + banTime + ' seconds');
