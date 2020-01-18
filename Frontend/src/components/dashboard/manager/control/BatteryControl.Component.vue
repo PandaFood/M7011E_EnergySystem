@@ -29,7 +29,7 @@ export default {
             const data = {
                 newPercentage: this.newPercentage/100
             }
-            axios.post('/api/coal/battery', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('/api/coal/battery', {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
