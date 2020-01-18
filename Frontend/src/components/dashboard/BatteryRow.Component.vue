@@ -14,7 +14,7 @@ export default {
 
     methods: {
         openTab: function() {
-            window.open('http://localhost/battery?id='+this.battery.id, '_blank');
+            window.open('/battery?id='+this.battery.id, '_blank');
         }
     }
 }

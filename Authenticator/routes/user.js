@@ -9,7 +9,7 @@ const auth = require('../auth/authenticated');
 
 /* GET users listing. */
 router
-	.get('/', function(req, res, next) {
+	.get('/', auth, function(req, res, next) {
 		if ( req.auth.role != 'ADMIN') {
 			return res.sendStatus(403);
 		}

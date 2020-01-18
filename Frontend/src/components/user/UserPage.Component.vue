@@ -90,7 +90,7 @@ export default {
                 banTime: this.banTime,
                 houseId: this.house.id,
             }
-            axios.post('http://localhost/api/banUser', {}, {data, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('/api/banUser', {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(() => {
                     this.flash('User banned for ' + this.banTime + ' seconds', 'success');
                 })

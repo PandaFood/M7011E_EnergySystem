@@ -37,6 +37,10 @@ localhost
 The tests on the simulator can be run by doing 
 ``` npm test ``` in the simulator folder.
 
+## Deployment
+
+For deploying in production, generate the new frontend by running ´´´ npm run build ´´´ in the Frontend folder.
+
 ## Authors
 
 * **Jonathan Brorsson** - [Time Report](docs/TIMEREPORT_JONATHAN) - Github user [PandaFood](https://github.com/PandaFood)

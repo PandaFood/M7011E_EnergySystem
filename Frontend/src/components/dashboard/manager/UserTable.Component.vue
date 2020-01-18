@@ -38,10 +38,10 @@ export default {
         
         setInterval(() => {
 
-            axios.get('http://localhost/auth/user/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.get('/auth/user/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
 
-                    axios.get('http://localhost/api/blackout/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    axios.get('/api/blackout/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                         .then(res => {                            
                             this.users = response.data;
                             

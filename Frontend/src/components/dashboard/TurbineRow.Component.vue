@@ -13,7 +13,7 @@ export default {
     props: ["turbine"],
     methods: {
         openTab: function() {
-            window.open('http://localhost/wind?id='+this.turbine.producerId, '_blank');
+            window.open('/wind?id='+this.turbine.producerId, '_blank');
         }
     }
 

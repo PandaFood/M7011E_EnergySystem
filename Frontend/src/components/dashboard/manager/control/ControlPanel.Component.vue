@@ -45,7 +45,7 @@ export default {
     mounted() {
         this.$nextTick(function () {
             setInterval(() => {
-                axios.get('http://localhost/api/coal/status', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/coal/status', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.coalPlant.currentCapacity = response.data.capacity;
                         this.coalPlant.maxCapacity = response.data.maxCapacity;
@@ -54,7 +54,7 @@ export default {
 
                     });
 
-                axios.get('http://localhost/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.price.currentPrice = response.data.price;
                         this.price.calculatedPrice = response.data.calculatedPrice;
@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         startCoalPlant: function() {
-            axios.post('http://localhost/api/coal/start',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('/api/coal/start',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })
@@ -74,7 +74,7 @@ export default {
                 });
         },
         stopCoalPlant: function() {
-            axios.post('http://localhost/api/coal/stop',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            axios.post('/api/coal/stop',{}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
                     this.flash(response.data, 'success');
                 })

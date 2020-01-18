@@ -38,7 +38,7 @@ export default {
     mounted () {
         this.$nextTick(function () {
             setInterval(() => {
-                axios.get('http://localhost/api/storage', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/storage', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => this.batteries = response.data)
                 .catch(err => {
                         this.flash(err, 'error');

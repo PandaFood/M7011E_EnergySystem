@@ -28,7 +28,7 @@ export default {
         this.$nextTick(function () {
             setInterval(() => {
                 
-                axios.get('http://localhost/api/allLatestProducerEvent', { params: {houseId: this.houseId,}, headers: {Authorization:'Bearer ' + localStorage.getItem('jwt') }})
+                axios.get('/api/allLatestProducerEvent', { params: {houseId: this.houseId,}, headers: {Authorization:'Bearer ' + localStorage.getItem('jwt') }})
                     .then(response => {
                         let currentProduction = 0;
                         response.data.forEach((producer) => {
@@ -39,7 +39,7 @@ export default {
                         this.flash(err, 'error');
                     });
                 
-                axios.get('http://localhost/api/house/'+this.houseId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/house/'+this.houseId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         if(response.data.length > 0){
                             this.currentConsumption = response.data[0].consumption;
@@ -49,7 +49,7 @@ export default {
                     }).catch(err => {
                         this.flash(err, 'error');
                     });
-                axios.get('http://localhost/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.get('/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.currentPrice = response.data.price;
                     }).catch(err => {
