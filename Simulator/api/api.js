@@ -41,6 +41,21 @@ router
 		Database.getHouse(id)
 			.then((v) => res.json(v.rows))
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not fetch House with given ID'));
+	})
+	.post('/house/:houseId', function(req, res, next) {
+		const id = req.params.houseId;
+
+		if (req.auth.house != id) {
+			if (req.auth.role != 'ADMIN') {
+				return res.sendStatus(403);
+			}
+		}
+
+		const consumption = req.body.data.consumption;
+		const batteryPercentage = req.body.data.batteryPercentage;
+		Database.updateHouse(id, consumption, batteryPercentage)
+			.then((v) => res.status(200).send('House Updated'))
+			.catch((err) => res.status(500).send('ERROR: Could not update House'));
 	});
 
 router
