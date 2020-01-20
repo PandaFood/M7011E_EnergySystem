@@ -6,6 +6,13 @@ This repository is for the course M7011E at Luleå tekniska universitet.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+### Admin on default site
+The admin credentials of the default site is 
+
+User: admin@gle.se
+
+Pass: 123
+
 ### Prerequisites
 
 The prerequisites for this project is
