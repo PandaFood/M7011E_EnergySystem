@@ -19,7 +19,7 @@ export default {
   },
   methods: {
         openTab: function() {
-            window.open('/manage/control', '_blank');
+            window.location.href = '/manage/control';
         }
     }
 }
