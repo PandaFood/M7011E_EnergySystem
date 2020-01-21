@@ -26,11 +26,12 @@ export default {
         return {
             currentConsumption: 0,
             currentPower: 0,
+            interval: {},
         }
     },
     mounted() {
         this.$nextTick(function () {
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 axios.get('/api/house', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.currentConsumption = response.data.reduce((accumulated, currentRow) => accumulated + parseInt(currentRow.consumption), 0);
@@ -42,6 +43,9 @@ export default {
                 
             }, 1000);
         });
+    },
+    destroyed() {
+        clearInterval(this.interval);
     }
 }
 

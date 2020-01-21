@@ -24,6 +24,7 @@ export default {
                 maxCapacity: 100,
             },
             batteryId: this.$route.query.id,
+            interval: {},
         }
     },
     mounted() {
@@ -36,7 +37,7 @@ export default {
                 .catch(err => {
                     this.flash(err, 'error');
                 });
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 axios.get('/api/storageEvent/latest', {params: {storageId: this.batteryId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.battery.currentCapacity = response.data[0].currentCapacity;
@@ -48,6 +49,9 @@ export default {
                     });
             }, 1000);
         });
+    },
+    destroyed() {
+        clearInterval(this.interval);
     }
 
 }

@@ -32,12 +32,13 @@ export default {
     props: ["houseId"],
     data() {
         return {
-            batteries: []
+            batteries: [],
+            interval: {},
         }
     },
     mounted () {
         this.$nextTick(function () {
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 axios.get('/api/storage', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => this.batteries = response.data)
                 .catch(err => {
@@ -46,6 +47,9 @@ export default {
             },1000);
         });
     },
+    destroyed() {
+        clearInterval(this.interval);
+    }
 }
 </script>
 

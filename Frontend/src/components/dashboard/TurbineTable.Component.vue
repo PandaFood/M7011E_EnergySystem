@@ -30,12 +30,13 @@ export default {
     props: ["houseId"],
     data() {
         return {
-            turbines: []
+            turbines: [],
+            interval: {},
         }
     },
     mounted () {
         this.$nextTick(function () {
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 axios.get('/api/allLatestProducerEvent', {params: {houseId: this.houseId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}} )
                     .then(response => {
                         this.turbines = response.data
@@ -47,6 +48,9 @@ export default {
             }, 1000);
         });
     },
+    destroyed() {
+        clearInterval(this.interval);
+    }
 }
 </script>
 
