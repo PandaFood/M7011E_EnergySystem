@@ -42,7 +42,9 @@ export default {
                     .then(response => {
                         this.battery.currentCapacity = response.data[0].currentCapacity;
 
-                        this.$refs.graph.addData(response.data[0].currentCapacity, Date.parse(response.data[0].timestamp));
+                        if(this.$refs.graph) {
+                            this.$refs.graph.addData(response.data[0].currentCapacity, Date.parse(response.data[0].timestamp));
+                        }
                     })
                     .catch(err => {
                         this.flash(err, 'error');

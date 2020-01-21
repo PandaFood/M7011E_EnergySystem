@@ -37,7 +37,9 @@ export default {
                         this.windData.power = response.data[0].energyProduced;
                         this.windData.status = response.data[0].status;
 
-                        this.$refs.graph.addData(response.data[0].windSpeed,response.data[0].energyProduced, Date.parse(response.data[0].timestamp));
+                        if(this.$refs.graph) {
+                            this.$refs.graph.addData(response.data[0].windSpeed,response.data[0].energyProduced, Date.parse(response.data[0].timestamp));
+                        }
                     })
                     .catch(err => {
                         this.flash(err, 'error');
