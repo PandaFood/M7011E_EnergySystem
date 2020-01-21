@@ -1,5 +1,5 @@
 <template>
-    <tr @click='openTab'>
+    <tr @click='openBattery'>
         <td>{{battery.id.split('-')[0]}}...</td>
         <td>{{battery.currentCapacity.toFixed(2)}}</td>
         <td>{{battery.maxCapacity.toFixed(2)}}</td>
@@ -13,8 +13,8 @@ export default {
     props: ["battery"],
 
     methods: {
-        openTab: function() {
-            window.open('/battery?id='+this.battery.id, '_blank');
+        openBattery: function() {
+            window.location.href = '/battery?id='+this.battery.id;
         }
     }
 }
