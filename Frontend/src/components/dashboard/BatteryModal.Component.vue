@@ -4,8 +4,9 @@
         <div id="form-div">
             Please enter Maximum Capacity betweeon <b>0</b> and <b>200</b> for the new battery:
             <form>  
-                <div class="input"> <b>Maximum Capacity:</b> <input v-model.number="capacity" type="number"><br> </div> 
-                <input class="button" type="button" v-on:click="submit" value="Create">
+                <div class="input"> <b>Maximum Capacity:</b> <input id="input" v-model.number="capacity" type="number"><br> </div> 
+                <input class="button" id="createButton" type="button" v-on:click="submit" value="Create">
+                <input class="button" id="closeButton" type="button" v-on:click="closeModal" value="Close">
             </form>
         </div>
     </modal>
@@ -33,11 +34,15 @@ export default {
                 axios.post('/api/storage', {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
+                        this.closeModal();
                     })
                     .catch(err => {
                         this.flash(err.response.data, 'error');
                     });
             }
+        },
+        closeModal: function() {
+            this.$modal.hide('battery-modal');
         }
     },
     data() {
@@ -64,7 +69,15 @@ export default {
         float: left;
     }
 
-    input {
+    #createButton, #closeButton {
+        float: right;
+    }
+
+    #closeButton {
+        margin-right: -25px;
+    }
+
+    #input {
         float: right;
     }
 
