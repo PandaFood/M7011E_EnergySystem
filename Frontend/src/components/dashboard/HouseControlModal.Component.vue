@@ -1,17 +1,21 @@
 <template>
-    <div id="house-control">
-        <h1> House Control </h1>
-        <p> Set how much of generated power should go to the battery: </p>
-        <div id="slider-div"> 
-            <input v-model="newPercentage" type="range" name="percent" min="0" max="100"> 
-            <h2> {{this.newPercentage}} % </h2>
-        </div>
+    <modal name="house-modal" :width="800" :height="550">
+        <div id="house-control">
+            <h1> House Control </h1>
+            <p> Set how much of generated power should go to the battery: </p>
+            <div id="slider-div"> 
+                <input v-model="newPercentage" type="range" name="percent" min="0" max="100"> 
+                <h2> {{this.newPercentage}} % </h2>
+            </div>
 
-        <p> Set how much power the house consumes: </p>
-        <div class="input"> <b>Consumption:</b> <input v-model.number="consumption" type="number"><br> </div> 
-      
-      <button class="button" v-on:click="updatePercentage">Update</button>
-    </div>
+            <br>
+
+            <p> Set how much power the house consumes: </p>
+            <div class="input"> <b>Consumption:</b> <input v-model.number="consumption" type="number"><br> </div> 
+
+            <button class="button" v-on:click="updatePercentage">Update</button>
+        </div>
+    </modal>
 </template>
 
 <script>
@@ -21,11 +25,11 @@ import axios from 'axios'
 
 export default {
     name: "HouseControl",
-    props: ['house'],
+    props: ['houseId'],
     data() {
         return {
-            newPercentage: this.house.batteryPercentage * 100,
-            consumption: this.house.consumption,
+            newPercentage: 0,
+            consumption: 0,
         }
     },
     methods: {
@@ -40,7 +44,7 @@ export default {
                     batteryPercentage: (this.newPercentage / 100).toFixed(2),
                     consumption: this.consumption,
                 }
-                axios.post('/api/house/'+this.house.id, {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                axios.post('/api/house/'+this.houseId, {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
                     })
@@ -49,6 +53,16 @@ export default {
                     });
             }
         }
+    },
+    mounted() {
+        axios.get('/api/house/'+this.houseId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            .then(response => {
+                this.newPercentage = response.data[0].batteryPercentage * 100;
+                this.consumption = response.data[0].consumption;
+            })
+            .catch(err => {
+                this.flash(err.response.data, 'error');
+            });
     }
 }
 </script>
@@ -56,9 +70,9 @@ export default {
 <style scoped>
 
     #house-control {
-        width: 50%;
+        /* width: 50%; */
         text-align: left;
-        float: right;
+        padding-top: 40px;
     }
 
     h1 {
@@ -93,7 +107,7 @@ export default {
     
     p {
         float: left;
-        width: 70%;
+        width: 100%;
         margin-left: 75px;
         font-size: 18px;
         text-align: left;

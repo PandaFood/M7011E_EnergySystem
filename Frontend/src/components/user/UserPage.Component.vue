@@ -2,7 +2,6 @@
     <div>
         <UserSettings v-bind:user="user"/>
         <HouseSettings v-bind:house="house"/>
-        <HouseControl v-bind:house="house"/>
         
         <span  v-if="isAdmin">
             <h1> Ban user from selling to market </h1>
@@ -22,7 +21,6 @@ import axios from 'axios';
 
 import UserSettings from '@/components/user/UserSettings.Component.vue'
 import HouseSettings from '@/components/user/HouseSettings.Component.vue';
-import HouseControl from '@/components/user/HouseControl.Component.vue';
 
 export default {
     name: 'UserPage',
@@ -50,7 +48,6 @@ export default {
     components: {
         UserSettings,
         HouseSettings,
-        HouseControl,
     },
     mounted() {
         const here = this;
@@ -117,10 +114,6 @@ span {
     float: left;
     width: 40%;
     margin-left: 50px;
-}
-
-.button {
-    float: right;
 }
 
 h2 {
