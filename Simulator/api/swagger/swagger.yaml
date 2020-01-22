@@ -1,10 +1,10 @@
 swagger: "2.0"
 info:
   description: "This is the API for Green Lean Electrics"
-  version: "0.0.1"
+  version: "1.0.0"
   title: "GLE API"
-host: "localhost:3000"
-basePath: "/"
+host: "simulator:3000"
+basePath: "/docs"
 schemes:
 - "https"
 - "http"
@@ -13,23 +13,13 @@ definitions:
     properties:
       id:
         type: "string"
-      name:
-        type: "string"
-      adress:
-        type: "string"
-  HouseInput:
-    properties:
-      name:
-        type: "string"
-      adress:
-        type: "string"
+      consumption:
+        type: "int"
+      batteryPercentage:
+        type: "float"
   HouseId:
     properties:
       houseId:
-        type: "string"
-  StorageId:
-    properties:
-      storageId:
         type: "string"
   Storage:
     properties:
@@ -42,12 +32,6 @@ definitions:
       currentCapacity:
         type: "float"
       fillPercentage:
-        type: "float"
-  StorageUpdate:
-    properties:
-      storageId:
-        type: "string"
-      currentCapacity:
         type: "float"
   StorageEvent:
     properties:
@@ -86,6 +70,13 @@ definitions:
       timestamp:
         type: "timestamp"
 
+  Price:
+    properties:
+      price:
+        type: integer
+      useCalculatedPrice:
+        type: boolean
+
 
 
 paths:
@@ -118,19 +109,23 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/HouseInput"
+          type: object
+          properties: 
+            id:
+              type: string
       responses:
-        400:
-          description: "Invalid input supplied"
-        405:
-          description: "Validation exception"
+        200:
+          description: "House Create"
+        500:
+          description: "Could not create house"
       
 
   /api/house/{houseID}:
     get:
       tags:
         - House
-      description: Returns house with given id
+      summary: "Returns house with given ID"
+      description: "Returns house with given ID"
       produces:
         - application/json
       parameters:
@@ -144,6 +139,43 @@ paths:
           description: A house object
           schema:
             $ref: '#/definitions/House'
+    post:
+      tags:
+        - House
+      summary: "Update house with given ID"
+      description: "Update house with given ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "houseID"
+        in: "path"
+        description: "ID of house to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: object
+          properties: 
+            id:
+              type: string
+            consumption:
+              type: integer
+              format: int64
+            batteryPercentage: 
+              type: number
+              minimum: 0
+              maximum: 1
+              format: float
+      responses:
+        200:
+          description: "House Updated"
+        500:
+          description: "Could not update house"
+    
   /api/storage:
     get:
       tags:
@@ -181,34 +213,44 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/Storage"
+          type: object
+          properties: 
+            id:
+              type: string
+            maxCapacity:
+              type: integer
+              format: int64
+            currentCapacity: 
+              type: integer
+              format: int64
       responses:
+        200:
+          description: "Storage Created"
         400:
           description: "Invalid input supplied"
         405:
           description: "Validation exception"
-  /api/storage/update:
-    post:
+
+  /api/storage/{storageId}:
+    get:
       tags:
-        - "Storage"
-      summary: "Update a storage with new values"
-      description: "Update a storage with new values"
-      consumes:
-      - "application/json"
+        - Storage
+      description: Returns storage with given id
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - in: "body"
-        name: "body"
+      - name: "storageId"
+        in: "path"
+        description: "ID of storage to return"
         required: true
-        schema:
-          $ref: "#/definitions/StorageUpdate"
+        type: "string"
       responses:
-        400:
-          description: "Invalid input supplied"
-        405:
-          description: "Validation exception"
-  /api/storage/storageEvent:
+        200:
+          description: A Storage object
+          schema:
+            $ref: '#/definitions/Storage'
+                      
+  /api/storageEvent:
     get:
       tags:
         - "Storage"
@@ -251,7 +293,29 @@ paths:
           description: "Invalid input supplied"
         405:
           description: "Validation exception"    
-  
+
+  /api/storageEvent/latest:
+    get:
+      tags:
+        - "Storage"
+      summary: "Returns the lastest storage events belonging to a storage"
+      description: "Returns the lastest storage events belonging to a storage"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/storageId"
+      responses:
+        200:
+          description: "An storage events"
+          schema:
+            $ref: '#/definitions/StorageEvent'
+
   /api/producer:
     get:
       tags:
@@ -296,7 +360,7 @@ paths:
         405:
           description: "Validation exception"
 
-  /api/producer/producerEvent:
+  /api/producerEvent:
     get:
       tags:
         - "Producer"
@@ -319,3 +383,239 @@ paths:
             type: "array"
             items:
               $ref: '#/definitions/StorageEvent'
+
+  /api/latestProducerEvent:
+    get:
+      tags:
+        - "Producer"
+      summary: "Returns the latest producer events belonging to a producer"
+      description: "Returns the latest producer events belonging to a producer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ProducerId"
+      responses:
+        200:
+          description: "A producer events"
+          schema:
+            $ref: '#/definitions/StorageEvent'
+  
+  /api/allLatestProducerEvent:
+    get:
+      tags:
+        - "Producer"
+      summary: "Returns all the latest producer events belonging to a house"
+      description: "Returns all the latest producer events belonging to a house"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ProducerId"
+      responses:
+        200:
+          description: "An array of producer events"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/StorageEvent'
+
+  /api/currentPrice:
+    get:
+      tags:
+        - "Price"
+      summary: "Returns the current price and the calculated price"
+      description: "Returns the current price and the calculated price"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "The current price and the if the system uses the calculated price"
+          schema:
+            type: "object"
+            items:
+              $ref: '#/definitions/Price'
+    post:
+      tags:
+        - "Price"
+      summary: "Sets the current price and if to use calculated price"
+      description: "Sets the current price and if to use calculated price"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Price"
+      responses:
+        200:
+          description: "Price set"
+        500:
+          description: "Could not set price"
+
+
+  /api/systemPower:
+    get:
+      tags:
+        - "Power"
+      summary: "Returns the current power in the system"
+      description: "Returns the current power in the system"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "The current price and the if the system uses the calculated price"
+          schema:
+            type: "object"
+            properties: 
+              power:
+                type: integer
+
+  /api/coal/battery:
+    post:
+      tags:
+        - "CoalPlant"
+      summary: "Sets the battery percentage of the power plant"
+      description: "Sets the battery percentage of the power plant"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              newPercentage:
+                type: number
+                minimum: 0
+                maximum: 1
+                format: float
+      responses:
+        200:
+          description: "Battery Percentage Updated"
+        500:
+          description: "Battery percentage could not be updated"
+              
+  /api/coal/status:
+    get:
+      tags:
+        - "CoalPlant"
+      summary: "Returns the coal plant status"
+      description: "Returns the coal plant status"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "The current status of the power plant"
+          schema:
+            type: "object"
+            properties: 
+              capacity:
+                type: integer
+              maxCapacity:
+                type: integer
+              status:
+                type: string
+              batteryPercentage:
+                type: float
+                minimum: 0
+                maximum: 1
+                format: float
+
+  /api/coal/start:
+    post:
+      tags:
+        - "CoalPlant"
+      summary: "Starts the coal plant"
+      description: "Starts the coal plant"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Starting coal plant"
+        500:
+          description: "Coal Plant is not turned off"
+  /api/coal/stop:
+    post:
+      tags:
+        - "CoalPlant"
+      summary: "Stops the coal plant"
+      description: "Stops the coal plant"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Stopping coal plant"
+        500:
+          description: "Coal Plant is not turned on"
+
+  /api/blackout:
+    get:
+      tags:
+        - "Blackout"
+      summary: "Get houses with blackout status"
+      description: "Get houses with blackout status"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "List of houses with blackout status"
+          schema:
+            type: "object"
+            properties: 
+              houseId:
+                type: boolean
+  /api/banUser:
+    post:
+      tags:
+        - "House"
+      summary: "Ban house form selling to market for a time"
+      description: "Ban house form selling to market for a time"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: object
+            properties: 
+              houseId:
+                type: string
+              banTime:
+                type: number
+                minimum: 10
+                maximum: 100
+      responses:
+        200:
+          description: "User banned"
