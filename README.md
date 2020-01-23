@@ -13,6 +13,9 @@ User: admin@gle.se
 
 Pass: 123
 
+### Simulation API Documentation
+The documantation for the Simulation REST API can be accessed at $hostname$/docs
+
 ### Prerequisites
 
 The prerequisites for this project is
