@@ -81,7 +81,6 @@ export default {
         this.chart.legend = new am4charts.Legend();
         this.chart.legend.labels.template.text = "[bold {color}]{name} ({unit})[/]";
 
-        this.dateAxis.start = 0.8;
         this.dateAxis.keepSelection = true;
 
         axios.get('/api/producerEvent', {params: {producerId: this.$attrs.turbineId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
@@ -96,6 +95,10 @@ export default {
 
                 let data = response.data.map(strip);
                 data.sort(function(a, b){return a.date - b.date}); 
+
+                if (data.length > 50) {
+                    this.dateAxis.start = 0.8;
+                }
                 this.chart.addData(data)
             })
             .catch(err => {

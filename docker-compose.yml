@@ -21,9 +21,9 @@ services:
   frontend:
     build: ./Frontend
     container_name: "frontend"
-    #command: >
-    #  sh -c "npm install &&
-    #        npm run serve"
+    command: >
+     sh -c "npm install &&
+           npm run serve"
     volumes:
       - ./Frontend:/usr/src/app/
     networks:

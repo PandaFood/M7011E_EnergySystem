@@ -92,7 +92,12 @@ export default {
                 }
 
                 let data = response.data.map(strip);
-                data.sort(function(a, b){return a.time - b.date}); 
+                data.sort(function(a, b){return a.date - b.date}); 
+
+                if (data.length > 50) {
+                    this.dateAxis.start = 0.8;
+                }
+                
                 this.chart.addData(data)
             })
             .catch(err => {
