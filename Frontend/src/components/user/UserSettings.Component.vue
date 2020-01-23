@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div id="user-settings">
+    <div id="settings-div">
       <h2>User settings</h2>
       <span> Name: {{user.name}} <br/></span>
       <span> Email: {{user.email}} <br/></span>
@@ -8,7 +8,7 @@
       <span> City: {{user.city}} <br/></span>
       <span> C/O: {{user.co != null ? user.co : "N/A" }} <br/></span>
     </div>
-    <div>
+    <div id="button-div">
       <input class="button" type="button" v-on:click="clicked(event)" value="Delete Account">
     </div>
   </div>
@@ -46,19 +46,36 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  div{
+  #user-settings{
     float: left;
     height: 300px;
     padding-top: 50px;
     padding-left: 100px;
     font-size: 20px;
     text-align: left;
+    width: 40%;
   }
 
   span {
     padding-left: 20px;
   }
 
+  #settings-div {
+    float: left;
+  }
+
+  #button-div {
+    margin-top: 170px;
+    float: right;
+    margin-left: 0;
+
+    margin-right: 10%;
+  }
     
+
+  .button {
+    margin-left: -100px;
+  }
+
 
 </style>

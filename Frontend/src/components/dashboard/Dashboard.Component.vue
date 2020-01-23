@@ -2,12 +2,14 @@
   <div id="dashboard">
     <WindModal v-bind:houseId="houseId"/>
     <BatteryModal v-bind:houseId="houseId"/>
+    <HouseControlModal v-bind:houseId="houseId"/>
 
     <CurrentState v-bind:houseId="houseId"/>
 
     <div v-if="isUser" id="button-div"> 
       <button class="button" v-on:click="openWindModal">Add Wind Turbine</button>
       <button class="button" v-on:click="openBatteryModal">Add Battery</button>
+      <button class="button" v-on:click="openHouseModal">Edit House</button>
     </div>
     <div id="table-div">
       <TurbineTable v-bind:houseId="houseId"/>
@@ -22,6 +24,7 @@ import TurbineTable from '@/components/dashboard/TurbineTable.Component.vue'
 import BatteryTable from '@/components/dashboard/BatteryTable.Component.vue'
 import WindModal from '@/components/dashboard/WindModal.Component.vue'
 import BatteryModal from '@/components/dashboard/BatteryModal.Component.vue'
+import HouseControlModal from '@/components/dashboard/HouseControlModal.Component.vue'
 
 export default {
   name: 'Dashboard',
@@ -31,6 +34,7 @@ export default {
     BatteryTable,
     WindModal,
     BatteryModal,
+    HouseControlModal
   },
   data() {
     return {
@@ -43,6 +47,9 @@ export default {
     },
     openBatteryModal: function () {
       this.$modal.show('battery-modal');
+    },
+    openHouseModal: function () {
+      this.$modal.show('house-modal');
     },
   },
   mounted() {
@@ -102,8 +109,11 @@ export default {
   
 
   #button-div {
-    margin-left: 50px;
+    margin-left: 30px;
   }
 
+  .button {
+    margin-left: 20px;
+  }
 
 </style>

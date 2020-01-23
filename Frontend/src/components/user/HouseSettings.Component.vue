@@ -1,13 +1,13 @@
 <template>
   <div id="house-settings">
-    <h2>House settings</h2>
     
     <div id="info"> 
+      <h2>House settings</h2>
       <span> Consumption: {{house.consumption}} kWh <br/></span>
       <span> Battery Percentage: {{house.batteryPercentage.toFixed(2) * 100}}% <br/></span>
     </div>
 
-    <div v-if="isAdmin">
+    <div v-if="isAdmin" id="button-div">
         <input class="button" type="button" v-on:click="openTab" value="Open Dashboard">
     </div>
   </div>
@@ -59,12 +59,16 @@ export default {
 
   #info {
     float: left;
-    width: 100%;
   }
 
-  .button {
+  #button-div {
     float: right;
-    margin-right: 50px;
+    margin-top: 170px;
+    margin-left: 0;
+    margin-right: 10%;
+  }
+  .button {
+    margin-left: -100px;
   }
 
 </style>

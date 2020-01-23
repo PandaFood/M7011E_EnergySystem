@@ -49,3 +49,4 @@ Date | Time spent (h) | Feature
 20-01-14 | 6h | Add slider for changing user battery percentage, update user settings page, wrote on report
 20-01-15 | 6h | Allow manager to ban a prosumer from selling to the market, fix routing, allow manager to see a users dashboard, fix admin check, wrote report
 20-01-17 | 3h | Wrote on report
+20-01-21 | 5h | Fix issues
