@@ -25,24 +25,30 @@ export default {
                 status: ""
             },
             turbineId: this.$route.query.id,
+            interval: {},
         }
     },
     mounted() {
         this.$nextTick(function () {
-            setInterval(() => {
-                axios.get('/api/latestProducerEvent', {params: {producerId: this.$route.query.id,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+            this.interval = setInterval(() => {
+                axios.get('/api/latestProducerEvent', {params: {producerId: this.turbineId,}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.windData.windSpeed = response.data[0].windSpeed;
                         this.windData.power = response.data[0].energyProduced;
                         this.windData.status = response.data[0].status;
 
-                        this.$refs.graph.addData(response.data[0].windSpeed,response.data[0].energyProduced, Date.parse(response.data[0].timestamp));
+                        if(this.$refs.graph) {
+                            this.$refs.graph.addData(response.data[0].windSpeed,response.data[0].energyProduced, Date.parse(response.data[0].timestamp));
+                        }
                     })
                     .catch(err => {
                         this.flash(err, 'error');
                     });
             }, 1000);
         });
+    },
+    destroyed() {
+        clearInterval(this.interval);
     }
 }
 

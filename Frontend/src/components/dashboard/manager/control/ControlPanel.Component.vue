@@ -39,12 +39,13 @@ export default {
             price: {
                 currentPrice: 0,
                 calculatedPrice: 0
-            }
+            },
+            interval: {}
         }
     },
     mounted() {
         this.$nextTick(function () {
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 axios.get('/api/coal/status', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.coalPlant.currentCapacity = response.data.capacity;
@@ -99,6 +100,9 @@ export default {
                 return true;
             }
         }
+    },
+    destroyed() {
+        clearInterval(this.interval);
     }
 }
 </script>

@@ -21,12 +21,13 @@ export default {
             currentProduction: 0,
             currentConsumption: 0,
             currentPrice: 0,
+            interval: {},
         }
     },
     props: ["houseId"],
     mounted() {
         this.$nextTick(function () {
-            setInterval(() => {
+            this.interval = setInterval(() => {
                 
                 axios.get('/api/allLatestProducerEvent', { params: {houseId: this.houseId,}, headers: {Authorization:'Bearer ' + localStorage.getItem('jwt') }})
                     .then(response => {
@@ -57,6 +58,9 @@ export default {
                     });
             }, 1000);
         });
+    },
+    destroyed() {
+        clearInterval(this.interval);
     }
 }
 

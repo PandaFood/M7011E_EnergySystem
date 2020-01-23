@@ -44,6 +44,7 @@ export default {
                 batteryPercentage: 0,
             },
             banTime: 10,
+            interval: {},
         }
     },
     components: {
@@ -69,7 +70,7 @@ export default {
                 this.flash(error, "error");
             });
 
-        setInterval(() => {
+        this.interval = setInterval(() => {
 
             axios.get('/api/house/' + here.user.houseId, {params: {storageId: here.user.houseId}, headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
             .then(function (response) {
@@ -104,8 +105,9 @@ export default {
             return localStorage.getItem("role") == "ADMIN" ? true : false;
         }
     },
-
-    
+    destroyed() {
+        clearInterval(this.interval);
+    }
 }
 </script>
 

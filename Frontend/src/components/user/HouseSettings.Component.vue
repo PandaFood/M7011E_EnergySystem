@@ -24,7 +24,7 @@ export default {
   props: ['house'],
   methods: {
       openTab: function() {
-          window.open('/dashboard/'+this.house.id, '_blank');
+          window.location.href = '/dashboard/'+this.house.id;
       }
   },
   computed: {

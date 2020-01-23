@@ -32,11 +32,12 @@ export default {
     data() {
         return {
             users: [],
+            interval: {}
         }
     },
     mounted () {
         
-        setInterval(() => {
+        this.interval = setInterval(() => {
 
             axios.get('/auth/user/', {params: {},headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
@@ -59,6 +60,9 @@ export default {
             
         }, 1000);
     },
+    destroyed() {
+        clearInterval(this.interval);
+    }
 }
 </script>
 
