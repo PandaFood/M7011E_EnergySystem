@@ -4,9 +4,10 @@
         <div id="form-div">
             Please enter coordinates between <b>0</b> and <b>200</b> for the new wind turbine:
             <form>  
-                <div class="input"> <b>Latitude:</b> <input v-model.number="lat" type="number"><br> </div> 
-                <div class="input"> <b>Longitude:</b> <input v-model.number="lon" type="number"><br> </div>
-                <input class="button" type="button" v-on:click="submit" value="Create">
+                <div class="input"> <b>Latitude:</b> <input v-model.number="lat" type="number"></div> 
+                <div class="input"> <b>Longitude:</b> <input v-model.number="lon" type="number"></div>
+                <input class="button" id="createButton" type="button" v-on:click="submit" value="Create">
+                <input class="button" id="closeButton" type="button" v-on:click="closeModal" value="Close">
             </form>
         </div>
     </modal>
@@ -34,11 +35,15 @@ export default {
                 axios.post('/api/producer', {data}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
+                        this.closeModal();
                     })
                     .catch(err => {
                         this.flash(err.response.data, 'error');
                     });
             }
+        },
+        closeModal: function() {
+            this.$modal.hide('wind-modal');
         }
     },
     data() {
@@ -66,8 +71,12 @@ export default {
         float: left;
     }
 
-    input {
+    #createButton, #closeButton {
         float: right;
+    }
+
+    #closeButton {
+        margin-right: -25px;
     }
 
     .button {
@@ -78,6 +87,13 @@ export default {
     }
 
     .input{
-        margin: 20px;
+        margin: 7px;
+        float: right;
+        margin-right: 50px;
+        width: 60%;
+    }
+
+    .input input {
+        float: right;
     }
 </style>
