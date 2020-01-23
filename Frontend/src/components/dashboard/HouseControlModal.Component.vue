@@ -13,7 +13,8 @@
             <p> Set how much power the house consumes: </p>
             <div class="input"> <b>Consumption:</b> <input v-model.number="consumption" type="number"><br> </div> 
 
-            <button class="button" v-on:click="updatePercentage">Update</button>
+            <input class="button" id="updateButton" type="button" v-on:click="update" value="Update">
+            <input class="button" id="closeButton" type="button" v-on:click="closeModal" value="Close">
         </div>
     </modal>
 </template>
@@ -33,7 +34,7 @@ export default {
         }
     },
     methods: {
-        updatePercentage: function() {
+        update: function() {
 
             if (typeof(this.consumption) == "string") {
                 this.flash("Input consumption is not number", 'warning');
@@ -47,11 +48,15 @@ export default {
                 axios.post('/api/house/'+this.houseId, {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                     .then(response => {
                         this.flash(response.data, 'success');
+                        this.closeModal();
                     })
                     .catch(err => {
                         this.flash(err.response.data, 'error');
                     });
             }
+        },
+        closeModal: function() {
+            this.$modal.hide('house-modal');
         }
     },
     mounted() {
@@ -114,12 +119,15 @@ export default {
         margin-bottom: 30px;
     }
 
-    button {
-        float: right;
+    .button {
         margin-right: 50px;
-        height: 60px;
+        width: 120px;
+        height: 70px;
+        margin-top: 20px;
     }
 
 
-    
+    #updateButton, #closeButton {
+        float: right;
+    }
 </style>
