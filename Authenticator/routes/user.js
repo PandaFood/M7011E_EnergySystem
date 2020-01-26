@@ -1,10 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const Database = require('../postgres/database');
+const fs = require('fs');
 const jwt = require('../auth/jwt');
 const hash = require('../auth/hashing');
 const axios = require('axios');
 const auth = require('../auth/authenticated');
+const multer = require('multer');
+const storage = multer.diskStorage({
+	destination: 'uploads/',
+	filename: function( req, file, cb ) {
+	//
+
+		cb( null, req.auth.userID);
+	}});
+const avatar = multer({storage: storage}).single('file');
 
 
 /* GET users listing. */
@@ -46,6 +56,22 @@ router
 				res.json(v.rows);
 			})
 			.catch((err) => console.log(err));
+	})
+	.post('/avatar', auth, avatar, function(req, res, next) {
+		res.send(200);
+	})
+	.get('/avatar/:id', function(req, res, next) {
+		const path = 'uploads/' + req.params.id;
+		console.log(path);
+		try {
+			if (fs.existsSync(path)) {
+				return res.sendfile(path);
+			} else {
+				return res.sendfile('static/user.png');
+			}
+		} catch (err) {
+			console.error(err);
+		}
 	});
 
 router
@@ -65,7 +91,7 @@ router
 /**
  *
  * @param {string} email
- * @param {string} tempToken
+ * @param {string} token
  * @param {Object} res
  */
 function createHouse(email, token, res) {

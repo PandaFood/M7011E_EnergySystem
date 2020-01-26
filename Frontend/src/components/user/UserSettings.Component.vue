@@ -1,6 +1,19 @@
 <template>
   <div id="user-settings">
     <div id="settings-div">
+  <div>
+    <div>
+        <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <label>Upload Picture</label><br/>
+              <input 
+                type="file"
+                ref="file"
+                @change="onSelect"
+              />
+              <button>Submit</button>
+              <h5>{{message}}</h5>
+        </form>
+
       <h2>User settings</h2>
       <span> Name: {{user.name}} <br/></span>
       <span> Email: {{user.email}} <br/></span>
@@ -25,6 +38,8 @@ export default {
   data() { 
   return {
       userId: localStorage.getItem("userID"),
+      file: null,
+      message: '',
     }
   },
   methods: {
@@ -32,10 +47,35 @@ export default {
         if(!confirm('Are you sure?')){
           e.preventDefault();
         } else {
-          Axios.delete('/auth/user/' + this.userId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
+          Axios.delete('/auth/user/' + this.userId, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
             localStorage.clear();
             window.location.href = "/";
           })
+        }
+     },
+     onSelect: function() {
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const file = this.$refs.file.files[0];
+      this.file = file;
+      console.log(file);
+      if(!allowedTypes.includes(file.type)){
+        this.message = "Filetype is wrong!!"
+      }
+      if(file.size>500000){
+        this.message = 'Too large, max size allowed is 500kb'
+      }
+    },
+      onSubmit: async function(){
+        const formData = new FormData();
+        formData.append('file',this.file);
+        console.log(formData);
+        try{
+          await Axios.post('/auth/user/avatar', formData , { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}});
+          this.message = 'Uploaded'
+        }
+        catch(err){
+          console.log(err);
+          this.message = err.response.data.error
         }
       }
   },
@@ -54,6 +94,7 @@ export default {
     font-size: 20px;
     text-align: left;
     width: 40%;
+    display: inline-block;
   }
 
   span {
