@@ -1,8 +1,6 @@
 <template>
   <div id="user-settings">
     <div id="settings-div">
-  <div>
-    <div>
         <form @submit.prevent="onSubmit" enctype="multipart/form-data">
               <label>Upload Picture</label><br/>
               <input 
