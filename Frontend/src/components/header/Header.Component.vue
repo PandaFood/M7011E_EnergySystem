@@ -13,7 +13,7 @@
     </div>
 
     <a id="profile" v-if="userId" v-bind:href="'/u/'+ this.userId" >
-        <img src='../../assets/img/user.png'/>
+        <img v-bind:src="userImg"/>
     </a>
    
   </div>
@@ -26,6 +26,7 @@ export default {
   return {
       userId: localStorage.getItem("userID"),
       houseId: localStorage.getItem("houseId"),
+      userImg: '/auth/user/avatar/' + localStorage.getItem("userID"),
     }
   },
   computed: {
@@ -39,7 +40,7 @@ export default {
   methods: {
     logout: function(){
       localStorage.clear();
-    }
+    },
   },
 }
 </script>
