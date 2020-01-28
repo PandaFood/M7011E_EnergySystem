@@ -18,15 +18,17 @@ The documantation for the Simulation REST API can be accessed at $hostname$/docs
 
 ### Prerequisites
 
-The prerequisites for this project is
-- NodeJS  - https://nodejs.org/en/
-- NPM     - https://www.npmjs.com/get-npm
-- Docker  - https://www.docker.com/
+The project is tested with
+- NodeJS - v13.5.0
+- NPM - v6.13.4
+- Docker - v19.03.5-ce
+- Docker-compose - v1.25.0
 
+Later versions should work, but we offer no guarantees.
 
 ### Installing
 
-To initiate all the dockers, use
+To initiate all the dockers, in the root folder, run in terminal:
 
 ```
 docker-compose up
@@ -49,7 +51,7 @@ The tests on the simulator can be run by doing
 
 ## Deployment
 
-For deploying in production, generate the new frontend by running ´´´ npm run build ´´´ in the Frontend folder.
+For deploying in production, generate the new frontend by running ``` npm run build ``` in the Frontend folder.
 
 ## Authors
 
