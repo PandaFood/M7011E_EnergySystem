@@ -3,7 +3,7 @@
         <td>{{battery.id.split('-')[0]}}...</td>
         <td>{{battery.currentCapacity.toFixed(2)}}</td>
         <td>{{battery.maxCapacity.toFixed(2)}}</td>
-        <td>{{(battery.currentCapacity/battery.maxCapacity).toFixed(2)*100}}</td>
+        <td>{{(battery.currentCapacity/battery.maxCapacity*100).toFixed(2)}}</td>
     </tr>
 </template>
 

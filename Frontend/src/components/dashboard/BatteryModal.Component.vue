@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            capacity: 0,
+            capacity: 1,
         }
     },
 }
