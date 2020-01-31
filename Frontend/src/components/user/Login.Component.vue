@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     getLogin: function() {
+      let self = this;
       if(this.form.email == null || this.form.password == null)
         return false;
 
@@ -58,15 +59,12 @@ export default {
           window.location.href = '/';
         })
         .catch(function () {
-          this.flash("ERROR: Could not log in", "error");
+          self.flash("ERROR: Email or Password is not correct", "error");
       });
     },
 
   }
 }
-
-
-
 
 </script>
 
