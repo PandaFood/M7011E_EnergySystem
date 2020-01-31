@@ -5,6 +5,7 @@
         <b> Current Consumption:  </b> <span>{{currentConsumption.toFixed(2)}} kWh </span><br> 
         <b> Net Production:  </b> <span>{{(currentProduction - currentConsumption).toFixed(2)}} kWh </span><br> 
         <b> Current Price:  </b> <span>{{currentPrice.toFixed(2)}} sek/kWh </span><br> 
+        <b> Status: </b> <span>{{status}}</span>
     </div>
 
   </div>
@@ -22,6 +23,7 @@ export default {
             currentConsumption: 0,
             currentPrice: 0,
             interval: {},
+            status: ""
         }
     },
     props: ["houseId"],
@@ -47,6 +49,12 @@ export default {
                         } else {
                             throw "ERROR: Could not fetch house, wrong ID";
                         }
+                    }).catch(err => {
+                        this.flash(err, 'error');
+                    });
+                axios.get('/api/blackout/' + this.houseId, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
+                    .then(response => {
+                        this.status = response.data;
                     }).catch(err => {
                         this.flash(err, 'error');
                     });

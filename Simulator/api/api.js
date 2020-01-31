@@ -289,6 +289,29 @@ router.get('/blackout', function(req, res, next) {
 	res.status(200).send(houseStatus);
 });
 
+router.get('/blackout/:houseId', function(req, res, next) {
+	const houseId = req.params.houseId;
+
+	if (req.auth.house != houseId) {
+		if (req.auth.role != 'ADMIN') {
+			return res.sendStatus(403);
+		}
+	}
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		if (house.id == houseId) {
+			if (house.blackout) {
+				res.status(200).send('BLACKOUT');
+			} else {
+				res.status(200).send('Running');
+			}
+		}
+	});
+
+	res.status(200).send(houseStatus);
+});
+
 router.post('/banUser', function(req, res, next) {
 	if (req.auth.role != 'ADMIN') {
 		return res.sendStatus(403);

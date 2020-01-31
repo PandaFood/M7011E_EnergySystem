@@ -130,6 +130,7 @@ class House {
 				this.storeBatteryData(battery);
 			});
 		}
+		this.blackout = false;
 		this.generatedPower = 0;
 		this.sellPower(storePower + sellPower);
 	}
