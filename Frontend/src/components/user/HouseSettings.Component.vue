@@ -7,7 +7,7 @@
       <span> Battery Percentage: {{house.batteryPercentage.toFixed(2) * 100}}% <br/></span>
     </div>
 
-    <div v-if="isAdmin" id="button-div">
+    <div v-if="notOneself" id="button-div">
         <input class="button" type="button" v-on:click="openTab" value="Open Dashboard">
     </div>
   </div>
@@ -21,16 +21,24 @@ export default {
   name: 'HouseSettings',
   components: {
   },
-  props: ['house'],
+  props: ['house', 'user'],
   methods: {
       openTab: function() {
           window.location.href = '/dashboard/'+this.house.id;
       }
   },
+  data() {
+    return {
+      userId: localStorage.getItem("userID"),
+    }
+  },
   computed: {
-    isAdmin () {
-      return localStorage.getItem("role") == "ADMIN" ? true : false;
-    },
+    notOneself() {
+      let admin = localStorage.getItem("role") == "ADMIN" ? true : false;
+      let isUser = this.userId == this.user.id ? true : false;
+      
+      return admin && !isUser;
+    }
   },
 }
 

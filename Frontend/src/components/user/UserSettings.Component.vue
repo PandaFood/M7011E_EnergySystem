@@ -19,7 +19,8 @@
       <span> City: {{user.city}} <br/></span>
       <span> C/O: {{user.co != null ? user.co : "N/A" }} <br/></span>
     </div>
-    <div id="button-div">
+
+    <div v-if="isUser" id="button-div">
       <input class="button" type="button" v-on:click="clicked(event)" value="Delete Account">
     </div>
   </div>
@@ -76,6 +77,11 @@ export default {
           this.message = err.response.data.error
         }
       }
+  },
+  computed: {
+    isUser () {
+      return this.userId == this.user.id ? false : true;
+    },
   },
   
 }
