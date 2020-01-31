@@ -5,7 +5,7 @@
         <b> Coal Plant Status:  </b> <span>{{coalPlant.status}} </span><br>
         <b> Current Coal Capacity: </b> <span>{{coalPlant.currentCapacity.toFixed(2)}} kWh </span><br>
         <b> Max Coal Capacity:  </b> <span>{{coalPlant.maxCapacity.toFixed(2)}} kWh </span><br>
-        <b> Buffer Percentage:  </b> <span>{{coalPlant.batteryPercentage}}% </span><br>
+        <b> Battery Percentage:  </b> <span>{{coalPlant.batteryPercentage}}% </span><br>
 
         <b> Current House Consumption:  </b> <span>{{currentConsumption.toFixed(2)}} kWh </span><br> 
         <b> System Power:  </b> <span>{{currentPower.toFixed(2)}} kWh </span><br> 
