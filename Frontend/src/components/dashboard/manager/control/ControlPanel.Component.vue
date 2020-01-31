@@ -7,7 +7,7 @@
         </div>
         <CurrentState v-bind:coalPlant="coalPlant" v-bind:price="price"/>
 
-        <BatteryControl v-bind:coalPlant="coalPlant" />
+        <BatteryControl v-bind:coalPlant="coalPlant" v-bind:batteryPercentage="batteryPercentage" />
         <PriceControl v-bind:price="price" />
     </div>
 </template>
@@ -36,6 +36,7 @@ export default {
                 maxCapacity: 0,
                 batteryPercentage: 0,
             },
+            batteryPercentage: 0,
             price: {
                 currentPrice: 0,
                 calculatedPrice: 0
@@ -51,8 +52,8 @@ export default {
                         this.coalPlant.currentCapacity = response.data.capacity;
                         this.coalPlant.maxCapacity = response.data.maxCapacity;
                         this.coalPlant.status = response.data.status;
-                        this.coalPlant.batteryPercentage = response.data.batteryPercentage;
-
+                        this.coalPlant.batteryPercentage = response.data.batteryPercentage * 100;
+                        this.batteryPercentage = response.data.batteryPercentage * 100;
                     });
 
                 axios.get('/api/currentPrice', {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})

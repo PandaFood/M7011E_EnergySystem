@@ -3,8 +3,8 @@
         <h1> Battery Control </h1>
         <p> Set how much of generated power should go to the battery: </p>
         <div id="slider-div"> 
-            <input v-model="newPercentage" type="range" name="percent" min="0" max="100"> 
-            <h2> {{this.newPercentage}} % </h2>
+            <input v-model="percentage" type="range" name="percent" min="0" max="100"> 
+            <h2> {{percentage}} % </h2>
         </div>
 
       <button class="button" v-on:click="updatePercentage">Update</button>
@@ -18,24 +18,35 @@ import axios from 'axios'
 
 export default {
     name: "BatteryControl",
-    props: ['coalPlant'],
+    props: ['coalPlant', 'batteryPercentage'],
     data() {
         return {
-            newPercentage: this.coalPlant.batteryPercentage * 100
+            percentage: this.batteryPercentage,
+            loadNew: true,
         }
     },
     methods: {
         updatePercentage: function() {
             const data = {
-                newPercentage: this.newPercentage/100
+                newPercentage: this.percentage/100
             }
             axios.post('/api/coal/battery', {data}, {headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}})
                 .then(response => {
+                    this.loadNew = true;
                     this.flash(response.data, 'success');
                 })
                 .catch(err => {
                     this.flash(err.response.data, 'error');
                 });
+        }
+    },
+    watch: {
+        batteryPercentage: function(percentage) {
+            if(this.loadNew){
+                this.percentage = percentage;
+                this.loadNew = false;
+            }
+
         }
     }
 }
