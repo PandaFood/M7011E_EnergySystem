@@ -46,9 +46,8 @@ export default {
         if(!confirm('Are you sure?')){
           e.preventDefault();
         } else {
-          Axios.delete('/auth/user/' + this.userId, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
-            localStorage.clear();
-            window.location.href = "/";
+          Axios.delete('/auth/user/' + this.user.id, { headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt')}}).then(() => {
+            this.$router.push('/');
           })
         }
      },
