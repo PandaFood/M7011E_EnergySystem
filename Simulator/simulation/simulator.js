@@ -13,6 +13,7 @@ Simulator = {
 	powerLoss: 0,
 	timestamp: 0,
 	pollTime: 1000,
+	updateHouses: false,
 	/**
 	 * Sell power to a house
 	 * @param {number} powerNeed
@@ -58,12 +59,12 @@ Simulator = {
 	refreshBatteries: async function(houseId) {
 		const batteries = await Database.getStorages(houseId);
 		const house = this.houses.find((house) => house.id === houseId);
-
 		if (house) {
 			house.refreshBatteries(batteries.rows);
 		}
 	},
 	initHouses: async function() {
+		this.houses = [];
 		const houses = await Database.getHouses();
 		houses.rows.forEach(async (house) => {
 			const batteries = await Database.getStorages(house.id);
@@ -77,6 +78,11 @@ Simulator = {
 		return house.banHouse(banTime);
 	},
 	simulationLoop: function(self) {
+		if (self.updateHouses) {
+			self.updateHouses = false;
+			self.initHouses();
+		}
+
 		Noise.updateWindMap(Math.random());
 
 		const currentTime = Date.now();
@@ -97,7 +103,7 @@ Simulator = {
 
 	runSimulation: async function() {
 		Noise.generateWindMap(Math.random());
-		await this.initHouses();
+		this.initHouses();
 		this.timestamp = Date.now();
 		setInterval(this.simulationLoop, this.pollTime, this);
 	},

@@ -1,7 +1,7 @@
 <template>
     <div>
         <UserSettings v-bind:user="user"/>
-        <HouseSettings v-bind:house="house"/>
+        <HouseSettings v-bind:house="house" v-bind:user="user"/>
         
         <span  v-if="isAdmin">
             <h1> Ban user from selling to market </h1>

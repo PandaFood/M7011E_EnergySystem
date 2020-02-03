@@ -8,8 +8,7 @@
     <div id="nav">
       <span v-if="isUser"><router-link :to="{path: '/dashboard/'+houseId}">Dashboard</router-link> | </span>
       <span v-if="isAdmin"><router-link to="/manage">Manage</router-link> | </span>
-      <router-link to="/about">About</router-link> 
-      <span  v-if="userId" > | <a @click="logout" href="/">Log out</a> </span>
+      <span  v-if="userId" > <a @click="logout" href="/">Log out</a> </span>
     </div>
 
     <a id="profile" v-if="userId" v-bind:href="'/u/'+ this.userId" >

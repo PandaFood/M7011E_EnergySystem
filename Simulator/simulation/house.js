@@ -20,18 +20,23 @@ class House {
 		this.batteries = [];
 		this.blackout = false;
 		this.banned = false;
-		batteries.forEach((battery) => {
-			this.haveBattery = true;
-			battery.currentCapacity = parseFloat(battery.currentCapacity);
-			battery.maxCapacity = parseFloat(battery.maxCapacity);
 
-			this.batteries.push(battery);
-		});
+		if (batteries) {
+			batteries.forEach((battery) => {
+				this.haveBattery = true;
+				battery.currentCapacity = parseFloat(battery.currentCapacity);
+				battery.maxCapacity = parseFloat(battery.maxCapacity);
+
+				this.batteries.push(battery);
+			});
+		}
 		this.windTurbines = [];
 
-		windTurbines.forEach((turbine) => {
-			this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
-		});
+		if (windTurbines) {
+			windTurbines.forEach((turbine) => {
+				this.windTurbines.push(new WindTurbine(turbine.id, turbine.coords.split(','), this.pollTime));
+			});
+		}
 
 		this.timestamp = Date.now();
 		this.generatedPower = 0;
@@ -125,6 +130,7 @@ class House {
 				this.storeBatteryData(battery);
 			});
 		}
+		this.blackout = false;
 		this.generatedPower = 0;
 		this.sellPower(storePower + sellPower);
 	}
@@ -159,12 +165,10 @@ class House {
 	 */
 	refreshBatteries(batteries) {
 		this.batteries = [];
-		this.haveBattery = false;
 		batteries.forEach((battery) => {
 			this.haveBattery = true;
-			battery.currentCapacity = parseInt(battery.currentCapacity);
-			battery.fillCapacity = parseFloat(battery.fillCapacity);
-			battery.maxCapacity = parseInt(battery.maxCapacity);
+			battery.currentCapacity = parseFloat(battery.currentCapacity);
+			battery.maxCapacity = parseFloat(battery.maxCapacity);
 
 			this.batteries.push(battery);
 		});

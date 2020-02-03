@@ -23,7 +23,7 @@ router
 		const batteryPercentage = 0.5;
 		Database.addHouse(id, consumption, batteryPercentage)
 			.then((v) => {
-				Simulation.initHouses();
+				Simulation.updateHouses = true;
 				res.status(200).send('House Created');
 			})
 			.catch((err) => res.status(500).send('ERROR: Could not create House'));
@@ -53,8 +53,12 @@ router
 
 		const consumption = req.body.data.consumption;
 		const batteryPercentage = req.body.data.batteryPercentage;
+
 		Database.updateHouse(id, consumption, batteryPercentage)
-			.then((v) => res.status(200).send('House Updated'))
+			.then((v) => {
+				Simulation.updateHouses = true;
+				res.status(200).send('House Updated');
+			})
 			.catch((err) => res.status(500).send('ERROR: Could not update House'));
 	});
 
@@ -72,7 +76,8 @@ router
 
 		Database.addStorage(owner, maxCapacity, currentCapacity)
 			.then((v) => {
-				Simulation.refreshBatteries(owner);
+				Simulation.updateHouses = true;
+
 				res.status(200).send('Storage Created');
 			})
 			.catch((err) => res.status(500).send('ERROR: Could not create Storage'));
@@ -135,7 +140,7 @@ router
 
 		Database.addProducer(houseId, coords, type)
 			.then((v) => {
-				Simulation.refreshWindTurbines(houseId);
+				Simulation.updateHouses = true;
 				res.status(200).send('Turbine Created');
 			})
 			.catch((err) => res.sendStatus(500).send('ERROR: Could not create Producer'));
@@ -279,6 +284,29 @@ router.get('/blackout', function(req, res, next) {
 
 	Simulation.houses.forEach((house) => {
 		houseStatus[house.id] = house.blackout;
+	});
+
+	res.status(200).send(houseStatus);
+});
+
+router.get('/blackout/:houseId', function(req, res, next) {
+	const houseId = req.params.houseId;
+
+	if (req.auth.house != houseId) {
+		if (req.auth.role != 'ADMIN') {
+			return res.sendStatus(403);
+		}
+	}
+	const houseStatus = {};
+
+	Simulation.houses.forEach((house) => {
+		if (house.id == houseId) {
+			if (house.blackout) {
+				res.status(200).send('BLACKOUT');
+			} else {
+				res.status(200).send('Running');
+			}
+		}
 	});
 
 	res.status(200).send(houseStatus);

@@ -37,6 +37,12 @@ class WindTurbine {
 	generateWind() {
 		const noiseValue = Noise.noiseMap[this.coords[1]][this.coords[0]];
 		this.windSpeed = 7*(Math.pow(noiseValue, 5) + Math.pow(noiseValue, 3)/3 + 2*noiseValue) + 3.5;
+
+		if (this.windSpeed < 0) {
+			this.windSpeed = 0;
+		} else if (this.windSpeed > 35) {
+			this.windSpeed = 35;
+		}
 	}
 
 	/**

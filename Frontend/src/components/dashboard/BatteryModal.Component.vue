@@ -2,7 +2,7 @@
     <modal name="battery-modal" class="battery-modal">
         <h3>Create new Battery</h3>
         <div id="form-div">
-            Please enter Maximum Capacity betweeon <b>0</b> and <b>200</b> for the new battery:
+            Please enter Maximum Capacity betweeon <b>1</b> and <b>200</b> for the new battery:
             <form>  
                 <div class="input"> <b>Maximum Capacity:</b> <input id="input" v-model.number="capacity" type="number"><br> </div> 
                 <input class="button" id="createButton" type="button" v-on:click="submit" value="Create">
@@ -21,7 +21,7 @@ export default {
     methods: {
         submit: function(){
 
-            if(this.capacity > 200 || this.capacity < 0) {
+            if(this.capacity > 200 || this.capacity <= 0) {
                 this.flash("Size out of bounds", 'warning');
             } else if(typeof(this.capacity) == "string") {
                 this.flash("Size is not a number", 'warning');
@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            capacity: 0,
+            capacity: 1,
         }
     },
 }
