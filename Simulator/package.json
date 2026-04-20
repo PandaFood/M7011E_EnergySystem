@@ -17,7 +17,7 @@
     "axios": "^0.19.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.22.1",
     "gaussian": "1.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
